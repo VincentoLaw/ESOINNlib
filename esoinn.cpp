@@ -1,8 +1,8 @@
 #include "neuron.h"
 #include "esoinn.h"
 
-Esoinn::Esoinn(int inputSize, double learningRate, int maximalConnectionAge, int lambda, double (*distanceFunction)(double *,double *)){//= &commonDistanceFunction
-    this->inputSize = inputSize;
+Esoinn::Esoinn(int dimensionSize, double learningRate, int maximalConnectionAge, int lambda, double (*distanceFunction)(double *,double *)){//= &commonDistanceFunction
+    this->dimensionSize = dimensionSize;
     neuronsList = new std::list<Neuron>();
 }
 

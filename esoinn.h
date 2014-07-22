@@ -2,6 +2,7 @@
 #include "neuron.h"
 #include "connection.h"
 #include <list>
+#include <string>
 
 /*
 Neuron can be changed to Node
@@ -16,7 +17,7 @@ variables names starting with small letter
 class Esoinn{
     private:
         //variables
-        int inputSize;
+        int dimensionSize;
         std::list<Neuron> * neuronsList;
         std::list<Connection> * connectionsList;
         //store Neurons, that represent classes
@@ -39,9 +40,9 @@ class Esoinn{
         double distance(Neuron * first, Neuron * second);
     public:
         //Constructor for ESOINN
-        //inputSize means the size of learning vectors
+        //dimensionSize means the size of learning vectors
         //distanceFunction can not be set, it means the function, that calculate distance between vectors
-        Esoinn(int inputSize, double learningRate, int maximalConnectionAge, int lambda, double (*distanceFunction)(double *,double *));
+        Esoinn(int dimensionSize, double learningRate, int maximalConnectionAge, int lambda, double (*distanceFunction)(double *,double *));
         //method for input learning vectors as double values
         void inputSignal(double * inputVector);
         void inputSignal(Neuron * inputVector);
@@ -60,8 +61,8 @@ class Esoinn{
         int getConnectionAge(int connectionIndex);
         int getConnectionAge(Connection * connection);
 
-        bool saveNetworkData(string fileName);
-        bool loadNetworkData(string fileName);
+        bool saveNetworkData(std::string fileName);
+        bool loadNetworkData(std::string fileName);
 
 };
 
