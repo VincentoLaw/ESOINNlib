@@ -1,6 +1,8 @@
 #pragma once
 #include "neuron.h"
 
+class Neuron;
+
 //Also can be called as edge
 class Connection{
     private:
