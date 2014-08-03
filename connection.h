@@ -7,10 +7,14 @@ class Neuron;
 class Connection{
     private:
         int age;
+        int id;
+        static int count = 0;
     public:
         Neuron * first, * second;
 
         Connection(Neuron * first, Neuron * second);
-        //increasing age of connection by 1
-        void increaseAge();
+        //increasing age of connection by n
+        void increaseAge(int n = 1);
+        void setAge();
+        int getId();
 };
