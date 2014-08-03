@@ -2,13 +2,18 @@
 #include <stdlib.h>
 #include <time.h>
 
-Neuron::Neuron(int dimentionSize, double * values = NULL){
+Neuron::Neuron(int dimentionSize, double * weights = NULL){
         srand(time(NULL));
         this->dimentionSize = dimentionSize;
-        if (values == NULL){
+        if (weights == NULL){
             for (int i = 0; i < dimentionSize; i++){
                 //TODO: in what borders random values?
-                this->values[i] = rand() % 1000;
+                this->weights[i] = rand() % 1000;
             }
         }
+}
+
+
+Neuron::incSignal(int n = 1){
+	this.winnerTimesCount += n;
 }
