@@ -19,3 +19,7 @@ void Connection::setAge(int age){
 int Connection::getId(){
 	return this.age;
 }
+
+ Neuron* Connection::getNeighbourNeuron(){
+	return this->first == this ? this->second : this->first; 
+}
