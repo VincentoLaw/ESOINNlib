@@ -22,4 +22,5 @@ class Neuron{
 		Neuron(int dimentionSize, double * values);
     	void updateDensity();
     	void incSignal(int n = 1);
+    	void setDensity(int data);
 };
