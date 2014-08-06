@@ -41,7 +41,7 @@ class Esoinn{
         
 		//TODO another params?
         void removeNeuron(Neuron * neuronToRemove);
-        void addConnection(Neuron* first, Neuron * second);
+        void addConnection(Neuron * first, Neuron * second);
         void removeConnection(Neuron * first, Neuron * second);
         bool connectionExist(Neuron * first, Neuron * second);
         bool keytoConnect(Neuron * first, Neuron * second);
@@ -50,7 +50,7 @@ class Esoinn{
         
 		double calcMeanDistance(Neuron * neuron);
         double calcPoint(Neuron * neuron);
-       	double calcEuclidNorm(int * vector); 
+       	double calcEuclidNorm(double * vector1, double * vector2, int n); 
 		//TODO: params and implementation
         void separateToSubclasses();
         Neuron* findWiner(double inputVector);
