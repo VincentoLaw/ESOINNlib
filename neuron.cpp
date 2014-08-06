@@ -14,6 +14,10 @@ Neuron::Neuron(int dimentionSize, double * weights = NULL){
 }
 
 
-Neuron::incSignal(int n = 1){
+void Neuron::incSignal(int n = 1){
 	this.winnerTimesCount += n;
+}
+
+void Neuron::setDensity(int data){
+	this.density = data;
 }
