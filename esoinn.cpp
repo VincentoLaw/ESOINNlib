@@ -1,5 +1,6 @@
 #include "neuron.h"
 #include "esoinn.h"
+#include "cluster.h"
 
 Esoinn::Esoinn(int dimensionSize, double learningRate, int maximalConnectionAge, int lambda, double (*distanceFunction)(double *,double *)){//= &commonDistanceFunction
     this->dimensionSize = dimensionSize;
@@ -19,7 +20,7 @@ double Esoinn::calcMeanDistance(Neuron * neuron){
 	Neuron * tmp;
 	for(int i = 0; i < neuron->neighboursList->size(); i++){
 		tmp = neuron->neighboursList[i].getNeighbourNeuron();
-		res += calcEucludNorm(neuron->weights, tmp->weight, this->dimensionSize);
+		res += calcEucludNorm(neuron->weights, tmp->weights, this->dimensionSize);
 	}
 	res /= neuron->neighboursList->size();
 	
@@ -27,10 +28,46 @@ double Esoinn::calcMeanDistance(Neuron * neuron){
 }
 
 double Esoinn::calcPoint(Neuron * neuron){
-	return 1 / pow(1 + calcMeanDistance(neuron), 2);
+	return 1 / pow(1 + this->calcMeanDistance(neuron), 2);
 }
 
+bool Esoinn::keytoConnect(Neuron * first, Neuron * second){
+	double a;
+	Cluster * buf;
+	if (first->classId < 0 || second->classId < 0) return true;
+	if (first->classId == second->classId) return true;
+	
+	Cluster * A = first->getCluster();
+	Cluster * B = second->getCluster();
+	
+	if(2.0 * A->getDensity() >= A->getApex()->getDensity()){
+		a = 0.0;
+	}
+	else if ((3.0 * A->getDensity() >= A->getApex()->getDensity())
+		&&	 (A->getApex->getDensity() > 2.0 * A->getDensity())){
+		a = 0.5;	
+	}
+	else if(A->getApex()->getDensity() > 3.0 * A->getDensity()){
+		a = 1.0;
+	}
+	
+	if(min(first->getDensity(), second->getDensity()) > a * buf->getApex()->getDensity()){
+		Cluster::unite(A, B);
+		return true;
+	}
+	
+	return false;
+}
 
+bool Esoinn::connectionExist(Neuron * first, Neuron *second){
+	for(int i = 0; i < this->connectionsList->size(); i++){
+		if((connectionsList[i]->first == first) && (connectionsList[i]->second == second)
+	    ||((connectionsList[i]->first == second) && (connectionsList[i]->second == first))){
+	    	return true;
+	    }
+	}
+	return false;
+}
 //TODO: implement this function
 void Esoinn::inputSignal(double * inputVector){
 
@@ -47,20 +84,20 @@ void Esoinn::inputSignal(double * inputVector){
 /*-----------------5-end.----------------------------------------------------------*/
 
 /*-----------------6.To-create-connections-between-a1-and-a2-if necessary----------*/
-	bool exist = connectionExist(a1, a2);
-	bool key = keytoConnect(a1, a2)
+	bool exist = this->connectionExist(a1, a2);
+	bool key = this->keytoConnect(a1, a2)
 	if(key){
 		if(!exist){
-			addConnection(a1, a2);
-			int n = getConnectionCount();
-			connectionsList[n - 1]->setAge(0);
+			this->addConnection(a1, a2);
+			int n = this->connectionsList->size();
+			this->connectionsList[n - 1]->setAge(0);
 		}
 		else{
-			setConnectionAge(a1, a2);
+			this->setConnectionAge(a1, a2);
 		}
 	}
 	else{
-		if(exist) removeConnection(a1, a2);
+		if(exist) this->removeConnection(a1, a2);
 	}
 /*-----------------6.end.----------------------------------------------------------*/
 
@@ -77,7 +114,7 @@ void Esoinn::inputSignal(double * inputVector){
 /*-----------------9.Find-old-edges-and-remove-them--------------------------------*/
 	for(int i = 0; i < connectionsList.size(); i++){
 		if (connectionsList[i]->age > this.maximalConnectionAge){
-			connectionsList->remove(connectionList[i]);
+			this->removeConnection(connectionsList[i]);
 		}
 	}
 /*-----------------9-end.----------------------------------------------------------*/
