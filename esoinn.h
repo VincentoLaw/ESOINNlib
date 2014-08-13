@@ -2,10 +2,9 @@
 #include "neuron.h"
 #include "connection.h"
 #include <list>
+#include <stdlib.h>
 #include <math.h>
 #include <string>
-#include <vector>
-#include <stack>
 
 using namespace std;
 /*
@@ -25,13 +24,12 @@ class Esoinn{
 		//variables
         int dimensionSize;
         int maximalConnectionAge;
-        
-        
+        double lambda;
+        double c1;
+        double c2;
         list<Neuron> * neuronsList;
         list<Connection> * connectionsList;
-        
-		//store Neurons, that represent classes
-        list<Neuron> classesList;
+        list<Cluster> classesList;
         
 		//methods
         double commonDistanceFunction(double * inputVector, double * checkDistanceVector);
@@ -43,6 +41,7 @@ class Esoinn{
         void removeNeuron(Neuron * neuronToRemove);
         void addConnection(Neuron * first, Neuron * second);
         void removeConnection(Neuron * first, Neuron * second);
+        void removeConnection(Connection * edge);
         bool connectionExist(Neuron * first, Neuron * second);
         bool keytoConnect(Neuron * first, Neuron * second);
         
@@ -84,7 +83,7 @@ class Esoinn{
         //dimensionSize means the size of learning vectors
         //distanceFunction can not be set, it means the function, that calculate distance between vectors
         
-		Esoinn(int dimensionSize, double learningRate, int maximalConnectionAge, int lambda, double (*distanceFunction)(double *,double *));
+		Esoinn(int dimensionSize, double learningRate, int maximalConnectionAge, int lambda, double c1, double c2, double (*distanceFunction)(double *,double *));
         
 		//method for input learning vectors as double values
         void inputSignal(double * inputVector);
@@ -94,8 +93,6 @@ class Esoinn{
         Neuron * classify(double * inputVector);
         
 		int neuronClassId(double * inputVector);
-        int getNodesCount();
-        int getConnectionsCount();
         
 		bool saveNetworkData(string fileName);
         bool loadNetworkData(string fileName);
