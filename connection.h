@@ -3,7 +3,7 @@
 
 
 //Also can be called as edge
-class Connection{
+class Connection {
     
 	private:
         
