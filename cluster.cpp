@@ -6,7 +6,7 @@ int Cluster::getId(){
 }
 
 double Cluster::getDensity(){
-	return this->density;
+	return this->meanDensity;
 }
 
 Neuron * Cluster::getApex(){
@@ -15,9 +15,9 @@ Neuron * Cluster::getApex(){
 
 void Cluster::calcMeanDensity(){
 	double res = 0.0;
-	for(int i = 0; i < this->neuronsList.size(); i++){
+	for(int i = 0; i < this->neuronsList->size(); i++){
 		res += this->neuronsList[i]->getDensity();
 	}
-	res /= this->neuronsList.size();
-	return res;
+	res /= this->neuronsList->size();
+	this->meanDensity = res;
 }
