@@ -1,8 +1,9 @@
 #pragma once
 #include "connection.h"
+#include "cluster.h"
 #include <list>
 
-class Connection;
+using namespace std;
 
 class Neuron{
 	
@@ -12,16 +13,18 @@ class Neuron{
     	double similarityThreshold;
     	int dimentionSize;
     	int classId;
-    	double * weights;
-    	std::list<Connection> * neighboursList;
-    	int winnerTimesCount = 0;
+    	int winerTimesCount;
     	static int acount;
 	
 	public:
-    	
+		
+		double * weights;
+    	list<Connection> * neighboursList;
 		Neuron(int dimentionSize, double * values);
-    	void incSignal(int n = 1);
+    	void incSignal();
     	Cluster * getCluster();
     	double getDensity();
+    	int getId();
+    	int getCountSignals();
     	void setDensity(int data);
 };
