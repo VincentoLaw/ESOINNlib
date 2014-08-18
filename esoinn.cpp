@@ -1,8 +1,9 @@
 #include "neuron.h"
+#include "connection.h"
 #include "esoinn.h"
 #include "cluster.h"
 
-Esoinn::Esoinn(int dimensionSize, double learningRate, int maximalConnectionAge, int lambda, double (*distanceFunction)(double *,double *)){//= &commonDistanceFunction
+Esoinn::Esoinn(int dimensionSize, double learningRate, int maximalConnectionAge, int lambda, double c1, double c2, double (*distanceFunction)(double *,double *)){//= &commonDistanceFunction
     this->dimensionSize = dimensionSize;
     neuronsList = new std::list<Neuron>();
 }
@@ -18,12 +19,16 @@ double Esoinn::calcEuclidNorm(double * vector1, double * vector2, int n){
 double Esoinn::calcMeanDistance(Neuron * neuron){
 	double res = 0.0;
 	Neuron * tmp;
-	for(int i = 0; i < neuron->neighboursList->size(); i++){
-		tmp = neuron->neighboursList[i]->getNeighbourNeuron(neuron);
+    for (std::list<Connection>::iterator it=neuron->neighboursList->begin(); it != neuron->neighboursList->end(); ++it){
+        tmp = (*it).getNeighbourNeuron(neuron);
+        res += calcEuclidNorm(neuron->weights, tmp->weights, this->dimensionSize);
+    }
+	/*for(int i = 0; i < neuron->neighboursList->size(); i++){
+		tmp = neuron->neighboursList.at(i).getNeighbourNeuron(neuron);
 		res += calcEuclidNorm(neuron->weights, tmp->weights, this->dimensionSize);
-	}
+	}*/
 	res /= neuron->neighboursList->size();
-	
+
 	return res;
 }
 
@@ -36,36 +41,42 @@ bool Esoinn::keytoConnect(Neuron * first, Neuron * second){
 	Cluster * buf;
 	if (first->getId() < 0 || second->getId() < 0) return true;
 	if (first->getId() == second->getId()) return true;
-	
+
 	Cluster * A = first->getCluster();
 	Cluster * B = second->getCluster();
-	
+
 	if(2.0 * A->getDensity() >= A->getApex()->getDensity()){
 		a = 0.0;
 	}
 	else if ((3.0 * A->getDensity() >= A->getApex()->getDensity())
 		&&	 (A->getApex()->getDensity() > 2.0 * A->getDensity())){
-		a = 0.5;	
+		a = 0.5;
 	}
 	else if(A->getApex()->getDensity() > 3.0 * A->getDensity()){
 		a = 1.0;
 	}
-	
+
 	if(min(first->getDensity(), second->getDensity()) > a * buf->getApex()->getDensity()){
 		Cluster::unite(A, B);
 		return true;
 	}
-	
+
 	return false;
 }
 
 bool Esoinn::connectionExist(Neuron * first, Neuron *second){
-	for(int i = 0; i < this->connectionsList->size(); i++){
+    for (std::list<Connection>::iterator it=this->connectionsList->begin(); it != this->connectionsList->end(); ++it){
+		if(((*it).first == first) && ((*it).second == second)
+	    ||(((*it).first == second) && ((*it).second == first))){
+	    	return true;
+	    }
+    }
+	/*for(int i = 0; i < this->connectionsList->size(); i++){
 		if((connectionsList[i]->first == first) && (connectionsList[i]->second == second)
 	    ||((connectionsList[i]->first == second) && (connectionsList[i]->second == first))){
 	    	return true;
 	    }
-	}
+	}*/
 	return false;
 }
 //TODO: implement this function
@@ -73,12 +84,12 @@ void Esoinn::inputSignal(double * inputVector){
 
 /*-----------------5.increase-age-of-connection,-which-belongs-to-a1-winner-------*/
 	Neuron *a1, *a2;
-	
+
 	a1 = findFirstWiner(inputVector);
 	a2 = findSecondWiner(inputVector, a1);
-	
-	for(int i = 0; i < a1->neighboursList->size(); i++){
-			a1->neighboursList[i]->incAge();
+
+    for (std::list<Connection>::iterator it=a1->neighboursList->begin(); it != a1->neighboursList->end(); ++it){
+			(*it).incAge();
 	}
 /*-----------------5-end.----------------------------------------------------------*/
 
@@ -89,7 +100,7 @@ void Esoinn::inputSignal(double * inputVector){
 		if(!exist){
 			this->addConnection(a1, a2);
 			int n = this->connectionsList->size();
-			this->connectionsList[n - 1]->setAge(0);
+			(*(this->connectionsList->end())).setAge(0);
 		}
 		else{
 			this->setConnectionAge(a1, a2);
@@ -111,9 +122,9 @@ void Esoinn::inputSignal(double * inputVector){
 /*-----------------8-end.----------------------------------------------------------*/
 
 /*-----------------9.Find-old-edges-and-remove-them--------------------------------*/
-	for(int i = 0; i < connectionsList->size(); i++){
-		if (connectionsList[i]->getAge() > this->maximalConnectionAge){
-			this->removeConnection(this->connectionsList[i]);
+    for (std::list<Connection>::iterator it=this->connectionsList->begin(); it != this->connectionsList->end(); ++it){
+		if ((*it).getAge() > this->maximalConnectionAge){
+			this->removeConnection(*it);
 		}
 	}
 /*-----------------9-end.----------------------------------------------------------*/

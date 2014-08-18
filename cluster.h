@@ -1,15 +1,16 @@
 #pragma once
 #include "neuron.h"
+#include <list>
 using namespace std;
 
 class Cluster{
-	
+
 	private:
-		
+
 		int id;
 		double meanDensity;
 		Neuron * apex;
-		
+
 	public:
 		list<Neuron> * neuronsList;
 		int getId();
