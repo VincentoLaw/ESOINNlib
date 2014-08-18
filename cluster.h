@@ -1,5 +1,6 @@
 #pragma once
 #include "neuron.h"
+using namespace std;
 
 class Cluster{
 	
