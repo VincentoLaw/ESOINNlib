@@ -13,7 +13,6 @@ Neuron::Neuron(int dimentionSize, double * weights = NULL){
         }
 }
 
-
 void Neuron::incSignal(){
 	this->winerTimesCount++;
 }

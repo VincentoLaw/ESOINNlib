@@ -1,5 +1,5 @@
+#include "neuron.h"
 #include "cluster.h"
-
 
 int Cluster::getId(){
 	return this->id;
@@ -15,9 +15,10 @@ Neuron * Cluster::getApex(){
 
 void Cluster::calcMeanDensity(){
 	double res = 0.0;
-	for(int i = 0; i < this->neuronsList->size(); i++){
-		res += this->neuronsList[i]->getDensity();
-	}
+    for (std::list<Neuron>::iterator it=this->neuronsList->begin(); it != this->neuronsList->end(); ++it){
+        res += (*it).getDensity();
+    }
 	res /= this->neuronsList->size();
 	this->meanDensity = res;
 }
+

@@ -3,6 +3,8 @@
 #include <list>
 using namespace std;
 
+class Neuron;
+
 class Cluster{
 
 	private:

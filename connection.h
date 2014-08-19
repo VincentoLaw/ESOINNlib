@@ -10,7 +10,7 @@ class Connection {
 
 		int age;
         int id;
-        static int count;
+        int count;
 
 	public:
 
