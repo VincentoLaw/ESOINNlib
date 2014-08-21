@@ -70,7 +70,7 @@ bool Esoinn::connectionExist(Neuron * first, Neuron *second){
 	return false;
 }
 //TODO: implement this function
-void Esoinn::inputSignal(double * inputVector){
+void Esoinn::inputSignal(double* inputVector){
 
 /*-----------------5.increase-age-of-connection,-which-belongs-to-a1-winner-------*/
 	Neuron *a1, *a2;
@@ -116,9 +116,9 @@ void Esoinn::inputSignal(double * inputVector){
 	for(int i = 0; i < a1->getDim(); i++){
 		a1->weights[i] = e1 * (inputSignal[i] - a1->weights[i]);
 	}
-	for (std::list<Connection>::iterator it=a1->neighboursList->begin(); it != a1->->neighboursList->end(); ++it){
+	for(std::list<Connection>::iterator it=a1->neighboursList->begin(); it != a1->neighboursList->end(); ++it){
 		for(int i = 0; i < a1->getDim(); i++){
-			(*it).weights[i] = e2 * (inputSignal[i] - (*it).weights[i]);
+			(*it).getNeighbourNeuron(a1)->weights[i] = e2 * (inputSignal[i] - (*it).getNeighbourNeuron(a1)->weights[i]);
 		}
 	}
 /*-----------------9.end.----------------------------------------------------------------*/
