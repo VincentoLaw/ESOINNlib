@@ -23,10 +23,6 @@ double Esoinn::calcMeanDistance(Neuron * neuron){
         tmp = (*it).getNeighbourNeuron(neuron);
         res += calcEuclidNorm(neuron->weights, tmp->weights, this->dimensionSize);
     }
-	/*for(int i = 0; i < neuron->neighboursList->size(); i++){
-		tmp = neuron->neighboursList.at(i).getNeighbourNeuron(neuron);
-		res += calcEuclidNorm(neuron->weights, tmp->weights, this->dimensionSize);
-	}*/
 	res /= neuron->neighboursList->size();
 
 	return res;
@@ -71,12 +67,6 @@ bool Esoinn::connectionExist(Neuron * first, Neuron *second){
 	    	return true;
 	    }
     }
-	/*for(int i = 0; i < this->connectionsList->size(); i++){
-		if((connectionsList[i]->first == first) && (connectionsList[i]->second == second)
-	    ||((connectionsList[i]->first == second) && (connectionsList[i]->second == first))){
-	    	return true;
-	    }
-	}*/
 	return false;
 }
 //TODO: implement this function
@@ -91,7 +81,7 @@ void Esoinn::inputSignal(double * inputVector){
     for (std::list<Connection>::iterator it=a1->neighboursList->begin(); it != a1->neighboursList->end(); ++it){
 			(*it).incAge();
 	}
-/*-----------------5-end.----------------------------------------------------------*/
+/*-----------------5.end.----------------------------------------------------------*/
 
 /*-----------------6.To-create-connections-between-a1-and-a2-if necessary----------*/
 	bool exist = this->connectionExist(a1, a2);
@@ -99,7 +89,6 @@ void Esoinn::inputSignal(double * inputVector){
 	if(key){
 		if(!exist){
 			this->addConnection(a1, a2);
-			int n = this->connectionsList->size();
 			(*(this->connectionsList->end())).setAge(0);
 		}
 		else{
@@ -111,23 +100,36 @@ void Esoinn::inputSignal(double * inputVector){
 	}
 /*-----------------6.end.----------------------------------------------------------*/
 
-/*-----------------7.Increase-signals-of--neuron-winner----------------------------*/
-	a1->incSignal();
-/*-----------------7-end.----------------------------------------------------------*/
-
-/*-----------------8.Update the density of winner----------------------------------*/
+/*-----------------7.Update the density of winner----------------------------------*/
 	double point = calcPoint(a1);
 	double density = point / a1->getCountSignals();
 	a1->setDensity(density);
-/*-----------------8-end.----------------------------------------------------------*/
+/*-----------------7.end.----------------------------------------------------------*/
 
-/*-----------------9.Find-old-edges-and-remove-them--------------------------------*/
+/*-----------------8.Increase-signals-of--neuron-winner----------------------------*/
+	a1->incSignal();
+/*-----------------8.end.----------------------------------------------------------*/
+
+/*-----------------9.Adapt weight vectors of winner and it's neighbors-------------*/
+	double e1 = 1.0 / a1->getCountSignals();
+	double e2 = 1.0 / (100 * a1->getCountSignals());
+	for(int i = 0; i < a1->getDim(); i++){
+		a1->weights[i] = e1 * (inputSignal[i] - a1->weights[i]);
+	}
+	for (std::list<Connection>::iterator it=a1->neighboursList->begin(); it != a1->->neighboursList->end(); ++it){
+		for(int i = 0; i < a1->getDim(); i++){
+			(*it).weights[i] = e2 * (inputSignal[i] - (*it).weights[i]);
+		}
+	}
+/*-----------------9.end.----------------------------------------------------------------*/
+
+/*-----------------10.Find-old-edges-and-remove-them--------------------------------*/
     for (std::list<Connection>::iterator it=this->connectionsList->begin(); it != this->connectionsList->end(); ++it){
 		if ((*it).getAge() > this->maximalConnectionAge){
 			this->removeConnection(*it);
 		}
 	}
-/*-----------------9-end.----------------------------------------------------------*/
+/*-----------------10.end.----------------------------------------------------------*/
 
 /*----------------------------------------------------------------------------------*/
 
