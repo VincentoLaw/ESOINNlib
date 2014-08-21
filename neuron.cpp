@@ -32,3 +32,7 @@ int Neuron::getId(){
 int Neuron::getCountSignals(){
 	return this->winerTimesCount;
 }
+
+int Neuron::getDim(){
+	return this->dimentionSize;
+}
