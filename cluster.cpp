@@ -22,13 +22,14 @@ void Cluster::calcMeanDensity(){
 	this->meanDensity = res;
 }
 void Cluster::findApex(){
-	for (std::list<Neuron>::iterator it=this->neuronsList->begin(); it != this->neuronsList->end(); ++it)
-		this->apex = (*it).getDensity() > this->apex->getDensity() ? it : apex;
+	for (std::list<Neuron>::iterator it=this->neuronsList->begin(); it != this->neuronsList->end(); ++it){
+		if ((*it).getDensity() > this->apex->getDensity()) this->apex = it;
+		//this->apex = (*it).getDensity() > this->apex->getDensity() ? it : this->apex;
 	}
 }
 
 void Cluster::unite(Cluster* A, Cluster* B){
-	it = A->neuronsList->end();
+	std::list<Neuron>::iterator it = A->neuronsList->end();
 	A->neuronsList->splice(it, B->neuronsList);
 	A->calcMeanDensity();
 	A->findApex();
