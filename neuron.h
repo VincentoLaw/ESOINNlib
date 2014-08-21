@@ -27,6 +27,7 @@ class Neuron{
     	void incSignal();
     	Cluster * getCluster();
     	double getDensity();
+		int getDim();
     	int getId();
     	int getCountSignals();
     	void setDensity(int data);
