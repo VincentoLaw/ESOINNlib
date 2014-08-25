@@ -5,6 +5,7 @@
 
 Esoinn::Esoinn(int dimensionSize, double learningRate, int maximalConnectionAge, int lambda, double c1, double c2, double (*distanceFunction)(double *,double *)){//= &commonDistanceFunction
     this->dimensionSize = dimensionSize;
+    clustersCnt = 0;
     neuronsList = new std::list<Neuron *>();
 }
 
@@ -96,21 +97,30 @@ bool Esoinn::findFirstWiner(double * inputVector, Neuron * winner, Neuron * seco
     return true;
 }
 
-void Esoinn::addNeuron(double * weights){
-    neuronsList->push_back(new Neuron(dimensionSize, weights));
+Neuron * Esoinn::addNeuron(double * weights){
+    Neuron * neuron = new Neuron(dimensionSize, weights);
+    neuronsList->push_back(neuron);
+    return neuron;
 }
 
-void Esoinn::addNeuron(double * weights, double threshold){
+Neuron * Esoinn::addNeuron(double * weights, double threshold){
     Neuron * neuron = new Neuron(dimensionSize, weights);
     neuronsList->push_back(neuron);
     neuron->similarityThreshold = threshold;
+    return neuron;
+}
+
+void Esoinn::addCluster(Neuron * delegatorOfCluster){
+    clustersList.push_back(new Cluster(delegatorOfCluster, clustersCnt));
+    clustersCnt++;
 }
 
 //TODO: implement this function
 void Esoinn::inputSignal(double* inputVector){
 /*-----------------1.Initialize-set-of-2-neurons-with-2-first-weights-taken-from-input-------*/
     if (neuronsList->size() < 2){//better count of all input signals
-        addNeuron(inputVector);
+        Neuron * neuron = addNeuron(inputVector);
+        addCluster(neuron);
         return;
     }
 /*-----------------1.end-------*/

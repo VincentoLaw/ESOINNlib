@@ -33,15 +33,18 @@ class Esoinn{
         double c2;
         list<Neuron *> * neuronsList;
         list<Connection> * connectionsList;
-        list<Cluster> classesList;
+        list<Cluster *> clustersList;
+        int clustersCnt; // do we need cluster id?
 
 		//methods
         double commonDistanceFunction(double * inputVector, double * checkDistanceVector);
 
 		//TODO another params?
         void addNeuron(Neuron * neuronToAdd);
-        void addNeuron(double * weights);
-        void addNeuron(double * weights, double threshold);
+        Neuron * addNeuron(double * weights);
+        Neuron * addNeuron(double * weights, double threshold);
+
+        void addCluster(Neuron * delegatorOfCluster);
 
 		//TODO another params?
         void removeNeuron(Neuron * neuronToRemove);
