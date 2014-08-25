@@ -15,6 +15,7 @@ class Cluster{
 		Neuron * apex;
 
 	public:
+        Cluster(Neuron * delegatorOfCluster, int clusterId);
 		list<Neuron> * neuronsList;
 		int getId();
 		double getDensity();

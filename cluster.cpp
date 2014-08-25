@@ -1,6 +1,11 @@
 #include "neuron.h"
 #include "cluster.h"
 
+Cluster::Cluster(Neuron * delegatorOfCluster, int clusterId){
+    apex = delegatorOfCluster;
+    id = clusterId;
+}
+
 int Cluster::getId(){
 	return this->id;
 }
