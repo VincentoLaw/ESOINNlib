@@ -7,6 +7,8 @@
 #include <string>
 
 using namespace std;
+
+#define INFINITY 1e15
 /*
 Neuron can be changed to Node
 Connection can be changed to Edge
@@ -27,7 +29,7 @@ class Esoinn{
         double lambda;
         double c1;
         double c2;
-        list<Neuron> * neuronsList;
+        list<Neuron *> * neuronsList;
         list<Connection> * connectionsList;
         list<Cluster> classesList;
 
@@ -36,6 +38,8 @@ class Esoinn{
 
 		//TODO another params?
         void addNeuron(Neuron * neuronToAdd);
+        void addNeuron(double * weights);
+        void addNeuron(double * weights, double threshold);
 
 		//TODO another params?
         void removeNeuron(Neuron * neuronToRemove);
@@ -45,11 +49,11 @@ class Esoinn{
         bool connectionExist(Neuron * first, Neuron * second);
         bool keytoConnect(Neuron * first, Neuron * second);
 
-        Neuron * findFirstWiner(double * inputVector);
-        Neuron * findSecondWiner(double * inputVector, Neuron * firstWinner);
+        bool findFirstWiner(double * inputVector, Neuron * winner, Neuron * secondWinner, int & threshold);
 
 		list<Neuron> getNeighbors(Neuron * neuron);
 
+        double calcDistance(double * weight1, double * weight2);
 		double calcMeanDistance(Neuron * neuron);
         double calcPoint(Neuron * neuron);
        	double calcEuclidNorm(double * vector1, double * vector2, int n);

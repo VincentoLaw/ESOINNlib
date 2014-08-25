@@ -5,7 +5,7 @@
 
 Esoinn::Esoinn(int dimensionSize, double learningRate, int maximalConnectionAge, int lambda, double c1, double c2, double (*distanceFunction)(double *,double *)){//= &commonDistanceFunction
     this->dimensionSize = dimensionSize;
-    neuronsList = new std::list<Neuron>();
+    neuronsList = new std::list<Neuron *>();
 }
 
 double Esoinn::calcEuclidNorm(double * vector1, double * vector2, int n){
@@ -69,71 +69,124 @@ bool Esoinn::connectionExist(Neuron * first, Neuron *second){
     }
 	return false;
 }
+
+bool Esoinn::findFirstWiner(double * inputVector, Neuron * winner, Neuron * secondWinner, int & threshold){
+    winner = NULL; secondWinner = NULL;
+    double minDist = INFINITY, secondMinDist = INFINITY;//TODO: make values INFINITY
+    int neuronsCnt = neuronsList->size();
+
+    if (neuronsCnt < 2)
+        return false;
+
+    for (std::list<Neuron *>::iterator it=this->neuronsList->begin(); it != this->neuronsList->end(); ++it){
+        minDist = calcDistance((*it)->weights, inputVector);
+        if (threshold > minDist)
+        {
+            secondMinDist = threshold;
+            threshold = minDist;
+            secondWinner = winner;
+            winner = *it;
+        }
+        else if (secondMinDist > minDist)
+        {
+            secondMinDist = minDist;
+            secondWinner = *it;
+        }
+    }
+    return true;
+}
+
+void Esoinn::addNeuron(double * weights){
+    neuronsList->push_back(new Neuron(dimensionSize, weights));
+}
+
+void Esoinn::addNeuron(double * weights, double threshold){
+    Neuron * neuron = new Neuron(dimensionSize, weights);
+    neuronsList->push_back(neuron);
+    neuron->similarityThreshold = threshold;
+}
+
 //TODO: implement this function
 void Esoinn::inputSignal(double* inputVector){
+/*-----------------1.Initialize-set-of-2-neurons-with-2-first-weights-taken-from-input-------*/
+    if (neuronsList->size() < 2){//better count of all input signals
+        addNeuron(inputVector);
+        return;
+    }
+/*-----------------1.end-------*/
+/*-----------------2.Finding-first-and-second-winner-for-input-signal-------*/
+    Neuron *winner, *secondWinner;
+    int threshold;
+    findFirstWiner(inputVector, winner, secondWinner, threshold);
+/*-----------------2.end-------*/
+/*-----------------3.add-neuron-if-the-distance-between-inputVector-and-winner-or-secondWinner-is-greater-than-threshold-------*/
+    if (winner || secondWinner
+        || calcDistance(winner->weights, inputVector) > winner->similarityThreshold
+        || calcDistance(secondWinner->weights, inputVector) > secondWinner->similarityThreshold)
+    {
+        addNeuron(inputVector, threshold);
+        winner->similarityThreshold = threshold;
+    }
+/*-----------------3.end-------*/
+    else {
+    /*-----------------4.increase-age-of-connection,-which-belongs-to-winner-------*/
 
-/*-----------------5.increase-age-of-connection,-which-belongs-to-a1-winner-------*/
-	Neuron *a1, *a2;
+        for (std::list<Connection>::iterator it=winner->neighboursList->begin(); it != winner->neighboursList->end(); ++it){
+                (*it).incAge();
+        }
+    /*-----------------4.end.----------------------------------------------------------*/
+    /*-----------------5.To-create-connections-between-winner-and-secondWinner-if necessary----------*/
+        bool exist = this->connectionExist(winner, secondWinner);
+        bool key = this->keytoConnect(winner, secondWinner);
+        if(key){
+            if(!exist){
+                this->addConnection(winner, secondWinner);
+                (*(this->connectionsList->end())).setAge(0);
+            }
+            else{
+                this->setConnectionAge(winner, secondWinner);
+            }
+        }
+        else{
+            if(exist) this->removeConnection(winner, secondWinner);
+        }
+    /*-----------------5.end.----------------------------------------------------------*/
 
-	a1 = findFirstWiner(inputVector);
-	a2 = findSecondWiner(inputVector, a1);
+    /*-----------------6.Update the density of winner----------------------------------*/
+        double point = calcPoint(winner);
+        double density = point / winner->getCountSignals();
+        winner->setDensity(density);
+    /*-----------------6.end.----------------------------------------------------------*/
 
-    for (std::list<Connection>::iterator it=a1->neighboursList->begin(); it != a1->neighboursList->end(); ++it){
-			(*it).incAge();
-	}
-/*-----------------5.end.----------------------------------------------------------*/
+    /*-----------------7.Increase-signals-of--neuron-winner----------------------------*/
+        winner->incSignal();
+    /*-----------------7.end.----------------------------------------------------------*/
 
-/*-----------------6.To-create-connections-between-a1-and-a2-if necessary----------*/
-	bool exist = this->connectionExist(a1, a2);
-	bool key = this->keytoConnect(a1, a2);
-	if(key){
-		if(!exist){
-			this->addConnection(a1, a2);
-			(*(this->connectionsList->end())).setAge(0);
-		}
-		else{
-			this->setConnectionAge(a1, a2);
-		}
-	}
-	else{
-		if(exist) this->removeConnection(a1, a2);
-	}
-/*-----------------6.end.----------------------------------------------------------*/
+    /*-----------------8.Adapt weight vectors of winner and it's neighbors-------------*/
+        double e1 = 1.0 / winner->getCountSignals();
+        double e2 = 1.0 / (100 * winner->getCountSignals());
+        for(int i = 0; i < winner->getDim(); i++){
+            winner->weights[i] = e1 * (inputVector[i] - winner->weights[i]);
+        }
+        for(std::list<Connection>::iterator it=winner->neighboursList->begin(); it != winner->neighboursList->end(); ++it){
+            for(int i = 0; i < winner->getDim(); i++){
+                (*it).getNeighbourNeuron(winner)->weights[i] = e2 * (inputVector[i] - (*it).getNeighbourNeuron(winner)->weights[i]);
+            }
+        }
+    /*-----------------8.end.----------------------------------------------------------------*/
 
-/*-----------------7.Update the density of winner----------------------------------*/
-	double point = calcPoint(a1);
-	double density = point / a1->getCountSignals();
-	a1->setDensity(density);
-/*-----------------7.end.----------------------------------------------------------*/
+    /*-----------------9.Find-old-edges-and-remove-them--------------------------------*/
+        for (std::list<Connection>::iterator it=this->connectionsList->begin(); it != this->connectionsList->end(); ++it){
+            if ((*it).getAge() > this->maximalConnectionAge){
+                this->removeConnection(*it);
+            }
+        }
+    /*-----------------9.end.----------------------------------------------------------*/
 
-/*-----------------8.Increase-signals-of--neuron-winner----------------------------*/
-	a1->incSignal();
-/*-----------------8.end.----------------------------------------------------------*/
+    /*----------------------------------------------------------------------------------*/
 
-/*-----------------9.Adapt weight vectors of winner and it's neighbors-------------*/
-	double e1 = 1.0 / a1->getCountSignals();
-	double e2 = 1.0 / (100 * a1->getCountSignals());
-	for(int i = 0; i < a1->getDim(); i++){
-		a1->weights[i] = e1 * (inputSignal[i] - a1->weights[i]);
-	}
-	for(std::list<Connection>::iterator it=a1->neighboursList->begin(); it != a1->neighboursList->end(); ++it){
-		for(int i = 0; i < a1->getDim(); i++){
-			(*it).getNeighbourNeuron(a1)->weights[i] = e2 * (inputSignal[i] - (*it).getNeighbourNeuron(a1)->weights[i]);
-		}
-	}
-/*-----------------9.end.----------------------------------------------------------------*/
-
-/*-----------------10.Find-old-edges-and-remove-them--------------------------------*/
-    for (std::list<Connection>::iterator it=this->connectionsList->begin(); it != this->connectionsList->end(); ++it){
-		if ((*it).getAge() > this->maximalConnectionAge){
-			this->removeConnection(*it);
-		}
-	}
-/*-----------------10.end.----------------------------------------------------------*/
-
-/*----------------------------------------------------------------------------------*/
-
-/*-----------------------------------------------------------------------------------*/
+    /*-----------------------------------------------------------------------------------*/
+    }
 }
 
 int main(){
