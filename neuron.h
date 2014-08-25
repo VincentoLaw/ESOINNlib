@@ -13,14 +13,14 @@ class Neuron{
 	private:
 
 		double density;
-    	double similarityThreshold;
+
     	int dimentionSize;
     	int classId;
     	int winerTimesCount;
     	static int acount;
 
 	public:
-
+        double similarityThreshold;
 		double * weights;
     	list<Connection> * neighboursList;
 		Neuron(int dimentionSize, double * values);
