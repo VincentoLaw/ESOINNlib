@@ -9,6 +9,8 @@
 using namespace std;
 
 #define INFINITY 1e15
+//TODO change name or put in class constants
+
 /*
 Neuron can be changed to Node
 Connection can be changed to Edge
