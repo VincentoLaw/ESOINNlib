@@ -7,28 +7,28 @@ Cluster::Cluster(Neuron * delegatorOfCluster, int clusterId){
 }
 
 int Cluster::getId(){
-	return this->id;
+	return id;
 }
 
 double Cluster::getDensity(){
-	return this->meanDensity;
+	return meanDensity;
 }
 
 Neuron * Cluster::getApex(){
-	return this->apex;
+	return apex;
 }
 
 void Cluster::calcMeanDensity(){
 	double res = 0.0;
-    for (std::list<Neuron*>::iterator it=this->neuronsList->begin(); it != this->neuronsList->end(); ++it){
+    for (list<Neuron*>::iterator it = neuronsList->begin(); it != neuronsList->end(); ++it){
         res += (*it)->getDensity();
     }
-	res /= this->neuronsList->size();
-	this->meanDensity = res;
+	res /= neuronsList->size();
+	meanDensity = res;
 }
 void Cluster::findApex(){
-	for (std::list<Neuron*>::iterator it = this->neuronsList->begin(); it != this->neuronsList->end(); ++it){
-		if ((*it)->getDensity() > this->apex->getDensity()) this->apex = (*it);
+	for (list<Neuron*>::iterator it = neuronsList->begin(); it != neuronsList->end(); ++it){
+		if ((*it)->getDensity() > apex->getDensity()) apex = (*it);
 		//this->apex = (*it).getDensity() > this->apex->getDensity() ? it : this->apex;
 	}
 }
@@ -38,7 +38,7 @@ void Cluster::remove(){
 }
 
 void Cluster::unite(Cluster* A, Cluster* B){
-	std::list<Neuron*>::iterator it = A->neuronsList->end();
+	list<Neuron*>::iterator it = A->neuronsList->end();
 	A->neuronsList->splice(it, (*B->neuronsList));
 	A->calcMeanDensity();
 	A->findApex();
