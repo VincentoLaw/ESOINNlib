@@ -16,7 +16,7 @@ class Cluster{
 
 	public:
         Cluster(Neuron * delegatorOfCluster, int clusterId);
-		list<Neuron> * neuronsList;
+		list<Neuron*> * neuronsList;
 		int getId();
 		double getDensity();
 		void findApex();
