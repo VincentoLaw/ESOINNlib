@@ -54,7 +54,6 @@ class Esoinn{
         void removeConnection(Connection * edge);
         Connection * connectionExist(Neuron * first, Neuron * second);
         bool keytoConnect(Neuron * first, Neuron * second);
-
         bool findWiner(double * inputVector, Neuron * winner, Neuron * secondWinner, int & threshold);
 
         double calcDistance(double * weight1, double * weight2);
@@ -65,7 +64,7 @@ class Esoinn{
         void separateToSubclasses();
 
 		double distance(Neuron * first, Neuron * second);
-
+		
         Neuron * getNeuron(int neuronIndex);
 
 		Connection * getConnection(Neuron * first, Neuron * second);
@@ -85,7 +84,7 @@ class Esoinn{
         void inputSignal(Neuron * inputVector);
 
 		//returns main neuron that represent this input vector
-        Neuron * classify(double * inputVector);
+        void classify();
 
 		int neuronClassId(double * inputVector);
 
