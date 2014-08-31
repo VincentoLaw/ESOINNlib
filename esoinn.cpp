@@ -84,7 +84,7 @@ bool Esoinn::findWiner(double * inputVector, Neuron * winner, Neuron * secondWin
     if (neuronsCnt < 2)
         return false;
 
-    for (list<Neuron *>::iterator it = neuronsList->begin(); it != neuronsList->end(); ++it){
+    for(list<Neuron*>::iterator it = neuronsList->begin(); it != neuronsList->end(); ++it){
         minDist = calcDistance((*it)->weights, inputVector);
         if (threshold > minDist){
             secondMinDist = threshold;
@@ -185,7 +185,7 @@ Connection * Esoinn::addConnection(Neuron * first, Neuron * second){
 void Esoinn::removeConnection(Neuron * first, Neuron * second){
 	for(list<Connection*>::iterator it = connectionsList->begin(); it != connectionsList->end(); ++it){
 		if(((*it)->first == first) && ((*it)->second == second) ||
-		   ((*it)->first == second) && ((*it)->second == first)){
+		  ((*it)->first == second) && ((*it)->second == first)){
 			(*it)->remove();
 			for(list<Connection*>::iterator j = first->neighboursList->begin(); j != first->neighboursList->end(); ++j){
 				if (j == it){ 
@@ -226,8 +226,26 @@ void Esoinn::removeConnection(Connection * edge){
 		}
 	}
 }
+
+void Esoinn::separateToSubclasses(){
+	
+}
+void Esoinn::path(Neuron * top, Cluster * bag){
+	top->setId(bag->getId());
+	bag->neuronsList->push_back(top);
+	for(list<Connection*>::iterator it = top->neighboursList->begin(); it != top->neighboursList->end(); ++it){
+		if((*it)->getNeighbourNeuron(top)->getId() == -1){
+			path((*it)->getNeighbourNeuron(top), bag);
+		}
+	}
+}
+
+void Esoinn::classify(){
+	
+}
 //TODO: implement this function
 void Esoinn::inputSignal(double* inputVector){
+
 /*-----------------1.Initialize-set-of-2-neurons-with-2-first-weights-taken-from-input*/
     if (neuronsList->size() < 2){//better count of all input signals
         Neuron * neuron = addNeuron(inputVector);
@@ -235,11 +253,13 @@ void Esoinn::inputSignal(double* inputVector){
         return;
     }
 /*-----------------1.end--------------------------------------------------------------*/
+
 /*-----------------2.Finding-first-and-second-winner-for-input-signal-----------------*/
     Neuron *winner, *secondWinner;
     int threshold;
     findWiner(inputVector, winner, secondWinner, threshold);
 /*-----------------2.end-------------------------------------------------------------*/
+
 /*-----------------3.add-neuron-if-the-distance-between-inputVector-and-winner-or-secondWinner-is-greater-than-threshold-------*/
     if (winner || secondWinner
         || calcDistance(winner->weights, inputVector) > winner->similarityThreshold
@@ -256,6 +276,7 @@ void Esoinn::inputSignal(double* inputVector){
                 (*it)->incAge();
         }
 /*----------------4.end.--------------------------------------------------------------*/
+
 /*----------------5.To-create-connections-between-winner-and-secondWinner-if necessary*/
     	Connection* edge = getConnection(winner, secondWinner);
         bool key = keytoConnect(winner, secondWinner);
@@ -303,9 +324,11 @@ void Esoinn::inputSignal(double* inputVector){
         }
     /*-----------------9.end.-----------------------------------------------------------*/
 
-    /*-----------------10.-Delete-nodes-polluted-by-noise-------  ----------------------*/
+    /*---------------- 10.Separate-all-classes-on--subclasses---------------------------*/
 		separateToSubclasses();
-		
+	/*---------------- 10.end.----------------------------------------------------------*/
+	
+	/*-----------------11.-Delete-nodes-polluted-by-noise-------  ----------------------*/	
 		double meanDensityA = 0.0;
     	for (list<Neuron*>::iterator it = neuronsList->begin(); it != neuronsList->end(); ++it){
         	meanDensityA += (*it)->getDensity();
@@ -323,7 +346,31 @@ void Esoinn::inputSignal(double* inputVector){
 				removeNeuron(it);
 			}
 		}
-    /*-----------------10.end.----------------------------------------------------------*/
+    /*-----------------11.end.----------------------------------------------------------*/
+    
+    /*-----------------12.Classify-all-nodes-by-the-labels(not-for-life-long-learning)--*/
+    	int count = 0;
+		for(list<Neuron*>::iterator it = neuronsList->begin(); it != neuronsList->end(); ++it){
+			(*it)->setId(-1);
+		}
+		list<Cluster*>::iterator j = clustersList->begin();
+		(*j)->neuronsList->clear();
+		for(list<Neuron*>::iterator it = neuronsList->begin(); it != neuronsList->end(); ++it){
+			if((*it)->getId() == -1){
+				count++;
+				if(j == clustersList->end()){
+					clustersList->push_back(new Cluster(*it, count));
+					j++;
+					path((*it), (*j));
+				}
+				else {
+					j++;
+					path((*it), (*j));
+				}
+			}
+		}
+	//Maybe a little count of clusters left unchanged? But it cant be happend in theory
+    /*-----------------12.end.----------------------------------------------------------*/
     }
 }
 
