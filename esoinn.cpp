@@ -20,9 +20,9 @@ double Esoinn::calcEuclidNorm(double * vector1, double * vector2, int n){
 double Esoinn::calcMeanDistance(Neuron * neuron){
 	double res = 0.0;
 	Neuron * tmp;
-    for (std::list<Connection>::iterator it=neuron->neighboursList->begin(); it != neuron->neighboursList->end(); ++it){
-        tmp = (*it).getNeighbourNeuron(neuron);
-        res += calcEuclidNorm(neuron->weights, tmp->weights, this->dimensionSize);
+    for (list<Connection*>::iterator it = neuron->neighboursList->begin(); it != neuron->neighboursList->end(); ++it){
+        tmp = (*it)->getNeighbourNeuron(neuron);
+        res += calcEuclidNorm(neuron->weights, tmp->weights, dimensionSize);
     }
 	res /= neuron->neighboursList->size();
 
@@ -30,7 +30,7 @@ double Esoinn::calcMeanDistance(Neuron * neuron){
 }
 
 double Esoinn::calcPoint(Neuron * neuron){
-	return 1 / pow(1 + this->calcMeanDistance(neuron), 2);
+	return 1 / pow(1 + calcMeanDistance(neuron), 2);
 }
 
 bool Esoinn::keytoConnect(Neuron * first, Neuron * second){
@@ -54,42 +54,45 @@ bool Esoinn::keytoConnect(Neuron * first, Neuron * second){
 	}
 
 	if(min(first->getDensity(), second->getDensity()) > a * buf->getApex()->getDensity()){
+		for(list<Cluster*>::iterator it = clustersList->begin(); it != clustersList->end(); ++it){
+			if((*it) == B) clustersList->erase(it);
+			break;
+		}
 		Cluster::unite(A, B);
+		
 		return true;
 	}
 
 	return false;
 }
 
-bool Esoinn::connectionExist(Neuron * first, Neuron *second){
-    for (std::list<Connection>::iterator it=this->connectionsList->begin(); it != this->connectionsList->end(); ++it){
-		if(((*it).first == first) && ((*it).second == second)
-	    ||(((*it).first == second) && ((*it).second == first))){
-	    	return true;
+Connection * Esoinn::getConnection(Neuron * first, Neuron * second){
+	for (list<Connection*>::iterator it = connectionsList->begin(); it != connectionsList->end(); ++it){
+		if(((*it)->first == first) && ((*it)->second == second)
+	    ||(((*it)->first == second) && ((*it)->second == first))){
+	    	return (*it);
 	    }
-    }
-	return false;
+	}
+	return NULL;
 }
 
-bool Esoinn::findFirstWiner(double * inputVector, Neuron * winner, Neuron * secondWinner, int & threshold){
+bool Esoinn::findWiner(double * inputVector, Neuron * winner, Neuron * secondWinner, int & threshold){
     winner = NULL; secondWinner = NULL;
-    double minDist = INFINITY, secondMinDist = INFINITY;//TODO: make values INFINITY
+    double minDist = INF, secondMinDist = INF;//TODO: make values INF
     int neuronsCnt = neuronsList->size();
 
     if (neuronsCnt < 2)
         return false;
 
-    for (std::list<Neuron *>::iterator it=this->neuronsList->begin(); it != this->neuronsList->end(); ++it){
+    for (list<Neuron *>::iterator it = neuronsList->begin(); it != neuronsList->end(); ++it){
         minDist = calcDistance((*it)->weights, inputVector);
-        if (threshold > minDist)
-        {
+        if (threshold > minDist){
             secondMinDist = threshold;
             threshold = minDist;
             secondWinner = winner;
             winner = *it;
         }
-        else if (secondMinDist > minDist)
-        {
+        else if (secondMinDist > minDist){
             secondMinDist = minDist;
             secondWinner = *it;
         }
@@ -103,6 +106,8 @@ Neuron * Esoinn::addNeuron(double * weights){
     return neuron;
 }
 
+
+
 Neuron * Esoinn::addNeuron(double * weights, double threshold){
     Neuron * neuron = new Neuron(dimensionSize, weights);
     neuronsList->push_back(neuron);
@@ -110,25 +115,131 @@ Neuron * Esoinn::addNeuron(double * weights, double threshold){
     return neuron;
 }
 
+void Esoinn::removeNeuron(Neuron * neuronToRemove){
+	
+	for(list<Neuron*>::iterator it = neuronsList->begin(); it != neuronsList->end(); ++it){
+		if((*it) == neuronToRemove){
+			neuronsList->erase(it);
+		}	
+	}
+	for(list<Connection*>::iterator it = connectionsList->begin(); it != connectionsList->end(); ++it){
+		if(((*it)->first == neuronToRemove) || ((*it)->second == neuronToRemove)){
+			connectionsList->erase(it);
+		}	
+	}
+	for(list<Cluster*>::iterator it = clustersList->begin(); it != clustersList->end(); ++it){
+		for(list<Neuron*>::iterator j = (*it)->neuronsList->begin(); j != (*it)->neuronsList->end(); ++j){
+			if((*j) == neuronToRemove){
+				(*it)->neuronsList->erase(j);
+			}		
+		}	
+	}
+	for(list<Connection*>::iterator it = neuronToRemove->neighboursList->begin(); it != neuronToRemove->neighboursList->end(); ++it){
+		for(list<Connection*>::iterator j = (*it)->getNeighbourNeuron(neuronToRemove)->neighboursList->begin(); j != (*it)->getNeighbourNeuron(neuronToRemove)->neighboursList->end(); ++j){
+			if((*j) == (*it)){
+				(*it)->getNeighbourNeuron(neuronToRemove)->neighboursList->erase(j);
+			}	
+		}
+	}
+	neuronToRemove->remove();
+}
+
+void Esoinn::removeNeuron(list<Neuron*>::iterator neuronToRemove){	
+	neuronsList->erase(neuronToRemove);	
+
+	for(list<Connection*>::iterator it = connectionsList->begin(); it != connectionsList->end(); ++it){
+		if(((*it)->first == *neuronToRemove) || ((*it)->second == *neuronToRemove)){
+			connectionsList->erase(it);
+		}	
+	}
+	for(list<Cluster*>::iterator it = clustersList->begin(); it != clustersList->end(); ++it){
+		for(list<Neuron*>::iterator j = (*it)->neuronsList->begin(); j != (*it)->neuronsList->end(); ++j){
+			if((*j) == *neuronToRemove){
+				(*it)->neuronsList->erase(j);
+			}		
+		}	
+	}
+	for(list<Connection*>::iterator it = (*neuronToRemove)->neighboursList->begin(); it != (*neuronToRemove)->neighboursList->end(); ++it){
+		for(list<Connection*>::iterator j = (*it)->getNeighbourNeuron(*neuronToRemove)->neighboursList->begin(); j != (*it)->getNeighbourNeuron(*neuronToRemove)->neighboursList->end(); ++j){
+			if((*j) == (*it)){
+				(*it)->getNeighbourNeuron(*neuronToRemove)->neighboursList->erase(j);
+			}	
+		}
+	}
+	(*neuronToRemove)->remove();
+}
+
 void Esoinn::addCluster(Neuron * delegatorOfCluster){
-    clustersList.push_back(new Cluster(delegatorOfCluster, clustersCnt));
+    clustersList->push_back(new Cluster(delegatorOfCluster, clustersCnt));
     clustersCnt++;
 }
 
+Connection * Esoinn::addConnection(Neuron * first, Neuron * second){
+	Connection * connection = new Connection(first, second);
+	this->connectionsList->push_back(connection);
+	first->neighboursList->push_back(connection);
+	second->neighboursList->push_back(connection);
+	return connection;
+}
+
+void Esoinn::removeConnection(Neuron * first, Neuron * second){
+	for(list<Connection*>::iterator it = connectionsList->begin(); it != connectionsList->end(); ++it){
+		if(((*it)->first == first) && ((*it)->second == second) ||
+		   ((*it)->first == second) && ((*it)->second == first)){
+			(*it)->remove();
+			for(list<Connection*>::iterator j = first->neighboursList->begin(); j != first->neighboursList->end(); ++j){
+				if (j == it){ 
+					first->neighboursList->erase(j);
+					break;
+				}
+			}
+			for(list<Connection*>::iterator j = second->neighboursList->begin(); j != second->neighboursList->end(); ++j){
+				if(j == it){ 
+					second->neighboursList->erase(j);
+					break;
+				}
+			}
+			connectionsList->erase(it);
+			
+		}
+	}
+}
+
+void Esoinn::removeConnection(Connection * edge){
+	edge->remove();
+	for(list<Connection*>::iterator it = connectionsList->begin(); it != connectionsList->end(); ++it){
+		if(edge == (*it)){
+			connectionsList->erase(it);
+			for(list<Connection*>::iterator j = edge->first->neighboursList->begin(); j != edge->first->neighboursList->end(); ++j){
+				if((*j) == edge){
+					edge->first->neighboursList->erase(j);
+					break;
+				}
+			}
+			for(list<Connection*>::iterator j = edge->second->neighboursList->begin(); j != edge->second->neighboursList->end(); ++j){
+				if((*j) == edge){
+					edge->second->neighboursList->erase(j);
+					break;
+				}
+			}
+			break;
+		}
+	}
+}
 //TODO: implement this function
 void Esoinn::inputSignal(double* inputVector){
-/*-----------------1.Initialize-set-of-2-neurons-with-2-first-weights-taken-from-input-------*/
+/*-----------------1.Initialize-set-of-2-neurons-with-2-first-weights-taken-from-input*/
     if (neuronsList->size() < 2){//better count of all input signals
         Neuron * neuron = addNeuron(inputVector);
         addCluster(neuron);
         return;
     }
-/*-----------------1.end-------*/
-/*-----------------2.Finding-first-and-second-winner-for-input-signal-------*/
+/*-----------------1.end--------------------------------------------------------------*/
+/*-----------------2.Finding-first-and-second-winner-for-input-signal-----------------*/
     Neuron *winner, *secondWinner;
     int threshold;
-    findFirstWiner(inputVector, winner, secondWinner, threshold);
-/*-----------------2.end-------*/
+    findWiner(inputVector, winner, secondWinner, threshold);
+/*-----------------2.end-------------------------------------------------------------*/
 /*-----------------3.add-neuron-if-the-distance-between-inputVector-and-winner-or-secondWinner-is-greater-than-threshold-------*/
     if (winner || secondWinner
         || calcDistance(winner->weights, inputVector) > winner->similarityThreshold
@@ -137,28 +248,27 @@ void Esoinn::inputSignal(double* inputVector){
         addNeuron(inputVector, threshold);
         winner->similarityThreshold = threshold;
     }
-/*-----------------3.end-------*/
+/*-----------------3.end--------------------------------------------------------------*/
     else {
-    /*-----------------4.increase-age-of-connection,-which-belongs-to-winner-------*/
+/*-----------------4.increase-age-of-connection,-which-belongs-to-winner--------------*/
 
-        for (std::list<Connection>::iterator it=winner->neighboursList->begin(); it != winner->neighboursList->end(); ++it){
-                (*it).incAge();
+        for (list<Connection*>::iterator it = winner->neighboursList->begin(); it != winner->neighboursList->end(); ++it){
+                (*it)->incAge();
         }
-    /*-----------------4.end.----------------------------------------------------------*/
-    /*-----------------5.To-create-connections-between-winner-and-secondWinner-if necessary----------*/
-        bool exist = this->connectionExist(winner, secondWinner);
-        bool key = this->keytoConnect(winner, secondWinner);
+/*----------------4.end.--------------------------------------------------------------*/
+/*----------------5.To-create-connections-between-winner-and-secondWinner-if necessary*/
+    	Connection* edge = getConnection(winner, secondWinner);
+        bool key = keytoConnect(winner, secondWinner);
         if(key){
-            if(!exist){
-                this->addConnection(winner, secondWinner);
-                (*(this->connectionsList->end())).setAge(0);
+            if(!edge){
+                addConnection(winner, secondWinner);
             }
             else{
-                this->setConnectionAge(winner, secondWinner);
+                edge->setAge(0);
             }
         }
         else{
-            if(exist) this->removeConnection(winner, secondWinner);
+             removeConnection(edge);
         }
     /*-----------------5.end.----------------------------------------------------------*/
 
@@ -172,30 +282,48 @@ void Esoinn::inputSignal(double* inputVector){
         winner->incSignal();
     /*-----------------7.end.----------------------------------------------------------*/
 
-    /*-----------------8.Adapt weight vectors of winner and it's neighbors-------------*/
+    /*-----------------8.Adapt weight vectors of winner and it's neighbours------------*/
         double e1 = 1.0 / winner->getCountSignals();
         double e2 = 1.0 / (100 * winner->getCountSignals());
         for(int i = 0; i < winner->getDim(); i++){
             winner->weights[i] = e1 * (inputVector[i] - winner->weights[i]);
         }
-        for(std::list<Connection>::iterator it=winner->neighboursList->begin(); it != winner->neighboursList->end(); ++it){
+        for(list<Connection*>::iterator it = winner->neighboursList->begin(); it != winner->neighboursList->end(); ++it){
             for(int i = 0; i < winner->getDim(); i++){
-                (*it).getNeighbourNeuron(winner)->weights[i] = e2 * (inputVector[i] - (*it).getNeighbourNeuron(winner)->weights[i]);
+                (*it)->getNeighbourNeuron(winner)->weights[i] = e2 * (inputVector[i] - (*it)->getNeighbourNeuron(winner)->weights[i]);
             }
         }
-    /*-----------------8.end.----------------------------------------------------------------*/
+    /*-----------------8.end.-----------------------------------------------------------*/
 
-    /*-----------------9.Find-old-edges-and-remove-them--------------------------------*/
-        for (std::list<Connection>::iterator it=this->connectionsList->begin(); it != this->connectionsList->end(); ++it){
-            if ((*it).getAge() > this->maximalConnectionAge){
-                this->removeConnection(*it);
+    /*-----------------9.Find-old-edges-and-remove-them---------------------------------*/
+        for (list<Connection*>::iterator it = connectionsList->begin(); it != connectionsList->end(); ++it){
+            if ((*it)->getAge() > maximalConnectionAge){
+                removeConnection(*it);
             }
         }
-    /*-----------------9.end.----------------------------------------------------------*/
+    /*-----------------9.end.-----------------------------------------------------------*/
 
-    /*----------------------------------------------------------------------------------*/
-
-    /*-----------------------------------------------------------------------------------*/
+    /*-----------------10.-Delete-nodes-polluted-by-noise-------  ----------------------*/
+		separateToSubclasses();
+		
+		double meanDensityA = 0.0;
+    	for (list<Neuron*>::iterator it = neuronsList->begin(); it != neuronsList->end(); ++it){
+        	meanDensityA += (*it)->getDensity();
+    	}
+		meanDensityA /= neuronsList->size();
+		
+		for(list<Neuron*>::iterator it = neuronsList->begin(); it != neuronsList->end(); ++it){
+			if(((*it)->neighboursList->size() == 2) && ((*it)->getDensity() < c1 * meanDensityA)){
+				removeNeuron(it);
+			}
+			if(((*it)->neighboursList->size() == 1) && ((*it)->getDensity() < c2 * meanDensityA)){
+				removeNeuron(it);
+			}
+			if(!(*it)->neighboursList->size()){
+				removeNeuron(it);
+			}
+		}
+    /*-----------------10.end.----------------------------------------------------------*/
     }
 }
 
