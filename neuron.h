@@ -22,7 +22,7 @@ class Neuron{
 	public:
         double similarityThreshold;
 		double * weights;
-    	list<Connection> * neighboursList;
+    	list<Connection*> * neighboursList;
 		Neuron(int dimentionSize, double * values);
     	void incSignal();
     	Cluster * getCluster();
@@ -31,4 +31,5 @@ class Neuron{
     	int getId();
     	int getCountSignals();
     	void setDensity(int data);
+    	void remove();
 };
