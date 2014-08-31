@@ -8,31 +8,31 @@ Neuron::Neuron(int dimentionSize, double * weights = NULL){
         if (weights == NULL){
             for (int i = 0; i < dimentionSize; i++){
                 //TODO: in what borders random values?
-                this->weights[i] = rand() % 1000;
+                weights[i] = rand() % 1000;
             }
         }
 }
 
 void Neuron::incSignal(){
-	this->winerTimesCount++;
+	winerTimesCount++;
 }
 
 void Neuron::setDensity(int data){
-	this->density = data;
+	density = data;
 }
 
 double Neuron::getDensity(){
-	return this->density;
+	return density;
 }
 
 int Neuron::getId(){
-	return this->classId;
+	return classId;
 }
 
 int Neuron::getCountSignals(){
-	return this->winerTimesCount;
+	return winerTimesCount;
 }
 
 int Neuron::getDim(){
-	return this->dimentionSize;
+	return dimentionSize;
 }
