@@ -5,10 +5,11 @@ Connection::Connection(Neuron * first, Neuron * second){
     this->first = first;
     this->second = second;
     count++;
-    this->id = count;
+    id = count;
+    age = 0;
 }
 void Connection::incAge(){
-	this->age++;
+	age++;
 }
 
 void Connection::setAge(int age){
@@ -16,13 +17,17 @@ void Connection::setAge(int age){
 }
 
 int Connection::getId(){
-	return this->id;
+	return id;
 }
 
 int Connection::getAge(){
-	return this->age;
+	return age;
 }
 
 Neuron* Connection::getNeighbourNeuron(Neuron *node){
-	return this->first == node ? this->second : this->first;
+	return first == node ? second : first;
+}
+
+void Connection::remove(){
+	delete this;
 }
