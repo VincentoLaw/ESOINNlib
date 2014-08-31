@@ -8,7 +8,7 @@
 
 using namespace std;
 
-#define INFINITY 1e15
+#define INF 1e15
 //TODO change name or put in class constants
 
 /*
@@ -32,8 +32,8 @@ class Esoinn{
         double c1;
         double c2;
         list<Neuron *> * neuronsList;
-        list<Connection> * connectionsList;
-        list<Cluster *> clustersList;
+        list<Connection *> * connectionsList;
+        list<Cluster *> * clustersList;
         int clustersCnt; // do we need cluster id?
 
 		//methods
@@ -48,15 +48,14 @@ class Esoinn{
 
 		//TODO another params?
         void removeNeuron(Neuron * neuronToRemove);
-        void addConnection(Neuron * first, Neuron * second);
+        void removeNeuron(list<Neuron*>::iterator neuronToRemove);
+        Connection * addConnection(Neuron * first, Neuron * second);
         void removeConnection(Neuron * first, Neuron * second);
-        void removeConnection(Connection edge);
-        bool connectionExist(Neuron * first, Neuron * second);
+        void removeConnection(Connection * edge);
+        Connection * connectionExist(Neuron * first, Neuron * second);
         bool keytoConnect(Neuron * first, Neuron * second);
 
-        bool findFirstWiner(double * inputVector, Neuron * winner, Neuron * secondWinner, int & threshold);
-
-		list<Neuron> getNeighbors(Neuron * neuron);
+        bool findWiner(double * inputVector, Neuron * winner, Neuron * secondWinner, int & threshold);
 
         double calcDistance(double * weight1, double * weight2);
 		double calcMeanDistance(Neuron * neuron);
@@ -64,29 +63,13 @@ class Esoinn{
        	double calcEuclidNorm(double * vector1, double * vector2, int n);
 		//TODO: params and implementation
         void separateToSubclasses();
-        Neuron* findWiner(double inputVector);
-        Neuron* findSecondWiner(double inputVector, Neuron * firstWiner);
 
 		double distance(Neuron * first, Neuron * second);
 
         Neuron * getNeuron(int neuronIndex);
 
-		int getNeuronIndex(Neuron * neuron);
-
-		int getConnectionIndex(Connection * connection);
-        int getConnectionIndex(Neuron * first, Neuron * second);
-
 		Connection * getConnection(Neuron * first, Neuron * second);
         Connection * getConnection(int connectionIndex);
-
-		int getConnectionAge(int connectionIndex);
-        int getConnectionAge(Connection * connection);
-        int getConnectionAge(Neuron * first, Neuron * second);
-
-        int setConnectionAge(int connectionIndex, int age = 0);
-        int setConnectionAge(Connection * connection, int age = 0);
-        int setConnectionAge(Neuron * first, Neuron * second, int age = 0);
-
 
 
     public:
