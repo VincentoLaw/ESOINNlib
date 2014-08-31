@@ -22,4 +22,5 @@ class Connection {
         void setAge(int age);
         int getId();
         int getAge();
+		void remove();
 };
