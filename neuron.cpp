@@ -17,6 +17,10 @@ void Neuron::incSignal(){
 	winerTimesCount++;
 }
 
+void Neuron::setId(int data){
+	classId = data;
+}
+
 void Neuron::setDensity(int data){
 	density = data;
 }
