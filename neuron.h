@@ -31,5 +31,6 @@ class Neuron{
     	int getId();
     	int getCountSignals();
     	void setDensity(int data);
+    	void setId(int data);
     	void remove();
 };
