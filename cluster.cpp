@@ -26,6 +26,7 @@ void Cluster::calcMeanDensity(){
 	res /= neuronsList->size();
 	meanDensity = res;
 }
+
 void Cluster::findApex(){
 	for (list<Neuron*>::iterator it = neuronsList->begin(); it != neuronsList->end(); ++it){
 		if ((*it)->getDensity() > apex->getDensity()) apex = (*it);
