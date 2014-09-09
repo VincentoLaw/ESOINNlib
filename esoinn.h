@@ -55,13 +55,15 @@ class Esoinn{
         Connection * connectionExist(Neuron * first, Neuron * second);
         bool keytoConnect(Neuron * first, Neuron * second);
         bool findWiner(double * inputVector, Neuron * winner, Neuron * secondWinner, int & threshold);
-		void path(Neuron * top, Cluster * bag);
+
         double calcDistance(double * weight1, double * weight2);
 		double calcMeanDistance(Neuron * neuron);
         double calcPoint(Neuron * neuron);
        	double calcEuclidNorm(double * vector1, double * vector2, int n);
+		
 		//TODO: params and implementation
-        void separateToSubclasses();
+        void markClasses();
+		void separateToSubclasses();
 
 		double distance(Neuron * first, Neuron * second);
 		
