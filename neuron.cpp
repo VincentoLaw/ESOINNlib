@@ -40,3 +40,9 @@ int Neuron::getCountSignals(){
 int Neuron::getDim(){
 	return dimentionSize;
 }
+
+Cluster * Neuron::getCluster(){
+}
+
+void Neuron::remove(){
+}
