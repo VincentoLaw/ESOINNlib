@@ -1,0 +1,12 @@
+C:\Users\ergov_000\Desktop\ESOINNLIB\ESOINNlib\TestInputGenerator\InputDataGenerator\InputDataGenerator\bin\Debug\InputDataGenerator.exe.config
+C:\Users\ergov_000\Desktop\ESOINNLIB\ESOINNlib\TestInputGenerator\InputDataGenerator\InputDataGenerator\obj\Debug\MainWindow.baml
+C:\Users\ergov_000\Desktop\ESOINNLIB\ESOINNlib\TestInputGenerator\InputDataGenerator\InputDataGenerator\obj\Debug\MainWindow.g.cs
+C:\Users\ergov_000\Desktop\ESOINNLIB\ESOINNlib\TestInputGenerator\InputDataGenerator\InputDataGenerator\obj\Debug\App.g.cs
+C:\Users\ergov_000\Desktop\ESOINNLIB\ESOINNlib\TestInputGenerator\InputDataGenerator\InputDataGenerator\obj\Debug\InputDataGenerator_MarkupCompile.cache
+C:\Users\ergov_000\Desktop\ESOINNLIB\ESOINNlib\TestInputGenerator\InputDataGenerator\InputDataGenerator\obj\Debug\InputDataGenerator.g.resources
+C:\Users\ergov_000\Desktop\ESOINNLIB\ESOINNlib\TestInputGenerator\InputDataGenerator\InputDataGenerator\obj\Debug\InputDataGenerator.Properties.Resources.resources
+C:\Users\ergov_000\Desktop\ESOINNLIB\ESOINNlib\TestInputGenerator\InputDataGenerator\InputDataGenerator\obj\Debug\InputDataGenerator.csproj.GenerateResource.Cache
+C:\Users\ergov_000\Desktop\ESOINNLIB\ESOINNlib\TestInputGenerator\InputDataGenerator\InputDataGenerator\bin\Debug\InputDataGenerator.exe
+C:\Users\ergov_000\Desktop\ESOINNLIB\ESOINNlib\TestInputGenerator\InputDataGenerator\InputDataGenerator\bin\Debug\InputDataGenerator.pdb
+C:\Users\ergov_000\Desktop\ESOINNLIB\ESOINNlib\TestInputGenerator\InputDataGenerator\InputDataGenerator\obj\Debug\InputDataGenerator.exe
+C:\Users\ergov_000\Desktop\ESOINNLIB\ESOINNlib\TestInputGenerator\InputDataGenerator\InputDataGenerator\obj\Debug\InputDataGenerator.pdb
