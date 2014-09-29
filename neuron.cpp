@@ -1,9 +1,12 @@
 #include "neuron.h"
+#include "cluster.h"
+#include "connection.h"
 #include <stdlib.h>
 #include <time.h>
 
 Neuron::Neuron(int dimentionSize, double * weights = NULL){
         srand(time(NULL));
+        this->neighboursList = new list<Connection *>();
         this->dimentionSize = dimentionSize;
         if (weights == NULL){
             for (int i = 0; i < dimentionSize; i++){
@@ -11,6 +14,16 @@ Neuron::Neuron(int dimentionSize, double * weights = NULL){
                 weights[i] = rand() % 1000;
             }
         }
+        this->area = NULL;
+        this->classId = -1;
+        this->density = 0;
+        this->winerTimesCount = 0;
+}
+
+Neuron::~Neuron(){
+	for(list<Connection *>::iterator it = neighboursList->begin(); it != neighboursList->end(); ++it) delete (*it);
+	delete neighboursList;
+	delete area;
 }
 
 void Neuron::incSignal(){
@@ -23,6 +36,11 @@ void Neuron::setId(int data){
 
 void Neuron::setDensity(int data){
 	density = data;
+}
+
+void Neuron::setArea(Cluster* buf){
+	this->area = buf;
+	this->classId = area->getId();
 }
 
 double Neuron::getDensity(){
@@ -42,7 +60,10 @@ int Neuron::getDim(){
 }
 
 Cluster * Neuron::getCluster(){
+	return area;
 }
 
 void Neuron::remove(){
+	delete area;
+	delete this;
 }
