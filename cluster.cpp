@@ -6,6 +6,12 @@ Cluster::Cluster(Neuron * delegatorOfCluster, int clusterId){
     id = clusterId;
 }
 
+Cluster::~Cluster(){
+	for(list<Neuron *>::iterator it = neuronsList->begin(); it != neuronsList->end(); ++it) delete (*it);
+	delete neuronsList;
+	delete apex;
+}
+
 int Cluster::getId(){
 	return id;
 }
@@ -41,8 +47,6 @@ void Cluster::remove(){
 void Cluster::unite(Cluster* A, Cluster* B){
 	list<Neuron*>::iterator it = A->neuronsList->end();
 	A->neuronsList->splice(it, (*B->neuronsList));
-	A->calcMeanDensity();
-	A->findApex();
 	B->remove();
 }
 
