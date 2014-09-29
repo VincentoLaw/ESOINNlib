@@ -1,8 +1,5 @@
-#pragma once
-#include "neuron.h"
 
 class Neuron;
-
 //Also can be called as edge
 class Connection {
 
@@ -15,6 +12,7 @@ class Connection {
 	public:
 
 		Connection(Neuron * first, Neuron * second);
+		~Connection();
 		Neuron * first, * second;
         //increasing age of connection by n
         void incAge();
