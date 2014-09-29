@@ -8,6 +8,11 @@ Connection::Connection(Neuron * first, Neuron * second){
     id = count;
     age = 0;
 }
+
+Connection::~Connection(){
+	delete first;
+	delete second;
+}
 void Connection::incAge(){
 	age++;
 }
