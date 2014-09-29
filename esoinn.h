@@ -1,6 +1,4 @@
 #pragma once
-#include "neuron.h"
-#include "connection.h"
 #include <list>
 #include <stdlib.h>
 #include <math.h>
@@ -20,6 +18,9 @@ The rules of naming:
 class, structures names  starting with big letter
 variables names starting with small letter
 */
+class Cluster;
+class Neuron;
+class Connection;
 
 class Esoinn{
 
@@ -28,13 +29,13 @@ class Esoinn{
 		//variables
         int dimensionSize;
         int maximalConnectionAge;
-        double lambda;
+        int LT;
+        int lambda;
         double c1;
         double c2;
         list<Neuron *> * neuronsList;
         list<Connection *> * connectionsList;
         list<Cluster *> * clustersList;
-        int clustersCnt; // do we need cluster id?
 
 		//methods
         double commonDistanceFunction(double * inputVector, double * checkDistanceVector);
@@ -44,7 +45,7 @@ class Esoinn{
         Neuron * addNeuron(double * weights);
         Neuron * addNeuron(double * weights, double threshold);
 
-        void addCluster(Neuron * delegatorOfCluster);
+        Cluster* addCluster(Neuron * delegatorOfCluster);
 
 		//TODO another params?
         void removeNeuron(Neuron * neuronToRemove);
@@ -60,6 +61,7 @@ class Esoinn{
 		double calcMeanDistance(Neuron * neuron);
         double calcPoint(Neuron * neuron);
        	double calcEuclidNorm(double * vector1, double * vector2, int n);
+		int calcHemmingNorm(double * vector1, double * vector2, int n);
 		
 		//TODO: params and implementation
         void markClasses();
@@ -79,8 +81,8 @@ class Esoinn{
         //dimensionSize means the size of learning vectors
         //distanceFunction can not be set, it means the function, that calculate distance between vectors
 
-		Esoinn(int dimensionSize, double learningRate, int maximalConnectionAge, int lambda, double c1, double c2, double (*distanceFunction)(double *,double *));
-
+		Esoinn(int dimensionSize, int maximalConnectionAge, int lambda, double c1, double c2, double (*distanceFunction)(double *,double *));
+		~Esoinn();
 		//method for input learning vectors as double values
         void inputSignal(double * inputVector);
         void inputSignal(Neuron * inputVector);
