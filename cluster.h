@@ -1,5 +1,4 @@
 #pragma once
-#include "neuron.h"
 #include <list>
 
 using namespace std;
@@ -16,6 +15,7 @@ class Cluster{
 
 	public:
         Cluster(Neuron * delegatorOfCluster, int clusterId);
+		~Cluster();
 		list<Neuron*> * neuronsList;
 		int getId();
 		double getDensity();
