@@ -10,3 +10,4 @@ C:\Users\ergov_000\Desktop\ESOINNLIB\ESOINNlib\TestInputGenerator\InputDataGener
 C:\Users\ergov_000\Desktop\ESOINNLIB\ESOINNlib\TestInputGenerator\InputDataGenerator\InputDataGenerator\bin\Debug\InputDataGenerator.pdb
 C:\Users\ergov_000\Desktop\ESOINNLIB\ESOINNlib\TestInputGenerator\InputDataGenerator\InputDataGenerator\obj\Debug\InputDataGenerator.exe
 C:\Users\ergov_000\Desktop\ESOINNLIB\ESOINNlib\TestInputGenerator\InputDataGenerator\InputDataGenerator\obj\Debug\InputDataGenerator.pdb
+C:\Users\ergov_000\Desktop\ESOINNLIB\ESOINNlib\TestInputGenerator\InputDataGenerator\InputDataGenerator\obj\Debug\InputDataGenerator.csprojResolveAssemblyReference.cache
