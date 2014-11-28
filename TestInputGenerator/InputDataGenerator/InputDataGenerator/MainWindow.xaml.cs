@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.IO;
 using Microsoft.Win32;
 
 namespace InputDataGenerator
@@ -157,7 +158,9 @@ namespace InputDataGenerator
                     }
                 }
             }
+
             var bit_val = 1;
+            string coords_result = "";
             for (var i = 0; i < pixels.GetLength(0); i++)
             {
                 for (var j = 0; j < pixels.GetLength(1); j++)
@@ -173,34 +176,36 @@ namespace InputDataGenerator
                         cur_text = ((int)pixels[i, j].Blue + ((int)pixels[i, j].Green + 1) * 256 + ((int)pixels[i, j].Red + 1) * 256 * 256).ToString() + separator;
                     }
                     else
-                    {                     
-                       byte val = (byte)((b + g + r) / 3);
-                       byte bit_summond = 0;
-                       if (bit_val == 1)
-                           pixels_for_result_img[arr_counter] = 0;
-                       switch (GrayScaleColorsCountCmb.SelectedIndex) {
-                           case 0: bit_summond = (byte)(val / 128);  break;
-                           case 1: bit_summond = (byte)(val / 64);  break;
-                           case 2: bit_summond = (byte)(val / 16);  break;
-                           case 3: bit_summond = val; break;
-                           default: cur_text =""; break;
+                    {
+                        byte val = (byte)((b + g + r) / 3);
+                        byte bit_summond = 0;
+                        if (bit_val == 1)
+                            pixels_for_result_img[arr_counter] = 0;
+                        switch (GrayScaleColorsCountCmb.SelectedIndex)
+                        {
+                            case 0: bit_summond = (byte)(val / 128); break;
+                            case 1: bit_summond = (byte)(val / 64); break;
+                            case 2: bit_summond = (byte)(val / 16); break;
+                            case 3: bit_summond = val; break;
+                            default: cur_text = ""; break;
                         }
-                       cur_text = "" + bit_summond.ToString() + separator;
-                       if (GrayScaleColorsCountCmb.SelectedIndex == 0)
-                           bit_summond *= 3;
-                       pixels_for_result_img[arr_counter] += (byte)(bit_summond * bit_val);
-                       switch (GrayScaleColorsCountCmb.SelectedIndex)
-                       {
-                           case 0: bit_val *= 4; break;
-                           case 1: bit_val *= 4; break;
-                           case 2: bit_val *= 16; break;
-                           case 3: bit_val *= 256; break;
-                           default: cur_text = ""; break;
-                       }
-                       if (bit_val >= 256){
-                           arr_counter++;
-                           bit_val = 1;
-                       }
+                        cur_text = "" + bit_summond.ToString() + separator;
+                        if (GrayScaleColorsCountCmb.SelectedIndex == 0)
+                            bit_summond *= 3;
+                        pixels_for_result_img[arr_counter] += (byte)(bit_summond * bit_val);
+                        switch (GrayScaleColorsCountCmb.SelectedIndex)
+                        {
+                            case 0: bit_val *= 4; break;
+                            case 1: bit_val *= 4; break;
+                            case 2: bit_val *= 16; break;
+                            case 3: bit_val *= 256; break;
+                            default: cur_text = ""; break;
+                        }
+                        if (bit_val >= 256)
+                        {
+                            arr_counter++;
+                            bit_val = 1;
+                        }
                         /*pixels_for_result_img[arr_counter++] = (byte)((b + g + r) / 3);
                         switch (GrayScaleColorsCountCmb.SelectedIndex) {
                             case 0: cur_text = (byte)(pixels_for_result_img[arr_counter - 1] / 128) + ""; break;
@@ -210,19 +215,31 @@ namespace InputDataGenerator
                             default: cur_text =""; break;
                         }*/
                     }
-                    if (arr_counter < 120 && ShowOutputChb.IsChecked == true)
+                    if (CoordinatesOutput.IsChecked == true)
+                    {
+                        if (r > 5 || g > 5 || b > 5)
+                        {
+                            cur_text = "(" + j + "," + i + ")" + separator;
+                        }
+                        else cur_text = "";
+
+                    }
+                    if (arr_counter < 120 && ShowOutputChb.IsChecked == true && cur_text.Length > 0)
                     {
                         OutputText.Inlines.Add(new Run(cur_text));
                         OutputText.Inlines.Add(new LineBreak());
                     }
+
                     res += cur_text;
 
                 }
             }
-
             text = res;
             resultImg = BitmapSource.Create(result_width, result_height, dpiX, dpiY, pixelFormat, null, pixels_for_result_img, stride);
             ImgResult.Source = resultImg;
+           
+
+
 
             if (ShowOutputChb.IsChecked == true)
             {
@@ -288,6 +305,23 @@ namespace InputDataGenerator
             else {
                 GrayScaleColorsCount.Visibility = System.Windows.Visibility.Hidden;
                 GrayScaleColorsCountCmb.Visibility = System.Windows.Visibility.Hidden;
+            }
+        }
+
+        private void SaveImage_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "images (*.jpg)|*.jpg";
+            Nullable<bool> result = sfd.ShowDialog();
+            if (result == true && sfd.FileName != "")
+            {
+                if (resultImg != null)
+                {
+                    var encoder = new PngBitmapEncoder();//тут может быть не только пнг ведь...
+                    encoder.Frames.Add(BitmapFrame.Create((BitmapSource)ImgResult.Source));
+                    using (FileStream stream = new FileStream(sfd.FileName, FileMode.Create))
+                        encoder.Save(stream);
+                }
             }
         }
     }

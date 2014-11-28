@@ -11,3 +11,16 @@ C:\Users\ergov_000\Desktop\ESOINNLIB\ESOINNlib\TestInputGenerator\InputDataGener
 C:\Users\ergov_000\Desktop\ESOINNLIB\ESOINNlib\TestInputGenerator\InputDataGenerator\InputDataGenerator\obj\Debug\InputDataGenerator.exe
 C:\Users\ergov_000\Desktop\ESOINNLIB\ESOINNlib\TestInputGenerator\InputDataGenerator\InputDataGenerator\obj\Debug\InputDataGenerator.pdb
 C:\Users\ergov_000\Desktop\ESOINNLIB\ESOINNlib\TestInputGenerator\InputDataGenerator\InputDataGenerator\obj\Debug\InputDataGenerator.csprojResolveAssemblyReference.cache
+C:\Ivan\Programming\NeuralNetworks\ESOINN\ESOINNlib\TestInputGenerator\InputDataGenerator\InputDataGenerator\bin\Debug\InputDataGenerator.exe.config
+C:\Ivan\Programming\NeuralNetworks\ESOINN\ESOINNlib\TestInputGenerator\InputDataGenerator\InputDataGenerator\obj\Debug\InputDataGenerator.exe
+C:\Ivan\Programming\NeuralNetworks\ESOINN\ESOINNlib\TestInputGenerator\InputDataGenerator\InputDataGenerator\obj\Debug\InputDataGenerator.pdb
+C:\Ivan\Programming\NeuralNetworks\ESOINN\ESOINNlib\TestInputGenerator\InputDataGenerator\InputDataGenerator\bin\Debug\InputDataGenerator.exe
+C:\Ivan\Programming\NeuralNetworks\ESOINN\ESOINNlib\TestInputGenerator\InputDataGenerator\InputDataGenerator\bin\Debug\InputDataGenerator.pdb
+C:\Ivan\Programming\NeuralNetworks\ESOINN\ESOINNlib\TestInputGenerator\InputDataGenerator\InputDataGenerator\obj\Debug\InputDataGenerator.csprojResolveAssemblyReference.cache
+C:\Ivan\Programming\NeuralNetworks\ESOINN\ESOINNlib\TestInputGenerator\InputDataGenerator\InputDataGenerator\obj\Debug\MainWindow.baml
+C:\Ivan\Programming\NeuralNetworks\ESOINN\ESOINNlib\TestInputGenerator\InputDataGenerator\InputDataGenerator\obj\Debug\MainWindow.g.cs
+C:\Ivan\Programming\NeuralNetworks\ESOINN\ESOINNlib\TestInputGenerator\InputDataGenerator\InputDataGenerator\obj\Debug\App.g.cs
+C:\Ivan\Programming\NeuralNetworks\ESOINN\ESOINNlib\TestInputGenerator\InputDataGenerator\InputDataGenerator\obj\Debug\InputDataGenerator_MarkupCompile.cache
+C:\Ivan\Programming\NeuralNetworks\ESOINN\ESOINNlib\TestInputGenerator\InputDataGenerator\InputDataGenerator\obj\Debug\InputDataGenerator.g.resources
+C:\Ivan\Programming\NeuralNetworks\ESOINN\ESOINNlib\TestInputGenerator\InputDataGenerator\InputDataGenerator\obj\Debug\InputDataGenerator.Properties.Resources.resources
+C:\Ivan\Programming\NeuralNetworks\ESOINN\ESOINNlib\TestInputGenerator\InputDataGenerator\InputDataGenerator\obj\Debug\InputDataGenerator.csproj.GenerateResource.Cache

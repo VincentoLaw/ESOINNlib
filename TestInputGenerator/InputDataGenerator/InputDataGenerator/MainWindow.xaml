@@ -63,5 +63,6 @@
         <Button Name="SaveOutput" Content="Сохранить &#xD;&#xA;output в файл" HorizontalAlignment="Left" Height="44" Margin="834,65,0,0" VerticalAlignment="Top" Width="150" Click="Button_Click"/>
 
         <Button Name="UpdateImage" Content="Обновить результат" HorizontalAlignment="Left" Height="44" Margin="834,10,0,0" VerticalAlignment="Top" Width="150" Click="UpdateImage_Click"/>
+        <Button Name="SaveImage" Content="Сохранить &#xD;&#xA;конечное изображение" HorizontalAlignment="Left" Height="44" Margin="10,60,0,0" VerticalAlignment="Top" Width="150" Click="SaveImage_Click"/>
     </Grid>
 </Window>
