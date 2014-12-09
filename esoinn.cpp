@@ -17,7 +17,6 @@ Esoinn::Esoinn(int dimensionSize, int maximalConnectionAge, int lambda, double c
     this->c1 = c1;
     this->c2 = c2;
     this->LT = 0;
-<<<<<<< HEAD
     //this->externalCalcDistance = distanceFunction;
 }
 
@@ -38,15 +37,6 @@ Esoinn::~Esoinn(){
 	for(list<Connection *>::iterator it = connectionsList->begin(); it != connectionsList->end(); ++it) delete(*it);
 	for(list<Cluster *>::iterator it = clustersList->begin(); it != clustersList->end(); ++it) delete(*it);
 	delete neuronsList, connectionsList, clustersList;
-=======
-}
-
-Esoinn::~Esoinn(){
-	for(list<Neuron *>::iterator it = neuronsList->begin(); it != neuronsList->end(); ++it) delete (*it);	
-	for(list<Connection *>::iterator it = connectionsList->begin(); it != connectionsList->end(); ++it) delete(*it);
-	for(list<Cluster *>::iterator it = clustersList->begin(); it != clustersList->end(); ++it) delete(*it);
-	delete neuronsList, connectionsList, clustersList; 
->>>>>>> origin/master
 }
 double Esoinn::calcEuclidNorm(double * vector1, double * vector2, int n){
 	double res = 0.0;
@@ -57,11 +47,7 @@ double Esoinn::calcEuclidNorm(double * vector1, double * vector2, int n){
 }
 
 int Esoinn::calcHemmingNorm(double * vector1, double * vector2, int n){
-<<<<<<< HEAD
 
-=======
-	
->>>>>>> origin/master
 }
 
 double Esoinn::calcMeanDistance(Neuron * neuron){
@@ -87,17 +73,10 @@ bool Esoinn::keytoConnect(Neuron * first, Neuron * second){
 
 	Cluster * A = first->getCluster();
 	Cluster * B = second->getCluster();
-<<<<<<< HEAD
 
 	A->findApex(), B->findApex();
 	A->calcMeanDensity(), B->calcMeanDensity();
 
-=======
-	
-	A->findApex(), B->findApex();
-	A->calcMeanDensity(), B->calcMeanDensity();
-	
->>>>>>> origin/master
 	if(2.0 * A->getDensity() >= A->getApex()->getDensity()){
 		a = 0.0;
 	}
@@ -320,11 +299,7 @@ void Esoinn::separateToSubclasses(){
 		a = (*it)->first, b = (*it)->second;
 		if(keytoConnect(a, b)){
 			for(list<Cluster *>::iterator j = clustersList->begin(); j != clustersList->end(); ++j)
-<<<<<<< HEAD
 				if((*j) == b->getCluster()){
-=======
-				if((*j) == b->getCluster()){		
->>>>>>> origin/master
 					clustersList->erase(j);
 					break;
 				}
@@ -442,11 +417,7 @@ void Esoinn::inputSignal(double* inputVector){
 				if(((*it)->neighboursList->size() == 1) && ((*it)->getDensity() < c2 * meanDensityA)) removeNeuron(it);
 				if(!(*it)->neighboursList->size()) removeNeuron(it);
 			}
-<<<<<<< HEAD
 
-=======
-			
->>>>>>> origin/master
 		}
 		this->LT++;
     /*-----------------11.end.----------------------------------------------------------*/
@@ -509,7 +480,6 @@ double Esoinn::calcDistance(double * a, double * b){
     return sqrt(sum);
 }
 
-<<<<<<< HEAD
 int main(){
     srand(0);
     Esoinn * e = new Esoinn(2, 20, 2, 1, 2);
@@ -529,5 +499,3 @@ int main(){
 
 
 
-=======
->>>>>>> origin/master

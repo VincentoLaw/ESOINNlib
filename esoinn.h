@@ -61,15 +61,10 @@ class Esoinn{
 		double calcMeanDistance(Neuron * neuron);
         double calcPoint(Neuron * neuron);
        	double calcEuclidNorm(double * vector1, double * vector2, int n);
-<<<<<<< HEAD
        	double externalCalcDistance(double * weight1, double * weight2);
 		int calcHemmingNorm(double * vector1, double * vector2, int n);
 
 
-=======
-		int calcHemmingNorm(double * vector1, double * vector2, int n);
-		
->>>>>>> origin/master
 		//TODO: params and implementation
         void markClasses();
 		void separateToSubclasses();
@@ -89,10 +84,7 @@ class Esoinn{
         //distanceFunction can not be set, it means the function, that calculate distance between vectors
 
 		Esoinn(int dimensionSize, int maximalConnectionAge, int lambda, double c1, double c2, double (*distanceFunction)(double *,double *));
-<<<<<<< HEAD
 		Esoinn(int dimensionSize, int maximalConnectionAge, int lambda, double c1, double c2);
-=======
->>>>>>> origin/master
 		~Esoinn();
 		//method for input learning vectors as double values
         void inputSignal(double * inputVector);
