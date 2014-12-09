@@ -55,20 +55,27 @@ class Esoinn{
         void removeConnection(Connection * edge);
         Connection * connectionExist(Neuron * first, Neuron * second);
         bool keytoConnect(Neuron * first, Neuron * second);
-        bool findWiner(double * inputVector, Neuron * winner, Neuron * secondWinner, int & threshold);
+        bool findWiner(double * inputVector, Neuron * &winner, Neuron * &secondWinner, int & threshold);
 
         double calcDistance(double * weight1, double * weight2);
 		double calcMeanDistance(Neuron * neuron);
         double calcPoint(Neuron * neuron);
        	double calcEuclidNorm(double * vector1, double * vector2, int n);
+<<<<<<< HEAD
+       	double externalCalcDistance(double * weight1, double * weight2);
+		int calcHemmingNorm(double * vector1, double * vector2, int n);
+
+
+=======
 		int calcHemmingNorm(double * vector1, double * vector2, int n);
 		
+>>>>>>> origin/master
 		//TODO: params and implementation
         void markClasses();
 		void separateToSubclasses();
 
 		double distance(Neuron * first, Neuron * second);
-		
+
         Neuron * getNeuron(int neuronIndex);
 
 		Connection * getConnection(Neuron * first, Neuron * second);
@@ -82,10 +89,15 @@ class Esoinn{
         //distanceFunction can not be set, it means the function, that calculate distance between vectors
 
 		Esoinn(int dimensionSize, int maximalConnectionAge, int lambda, double c1, double c2, double (*distanceFunction)(double *,double *));
+<<<<<<< HEAD
+		Esoinn(int dimensionSize, int maximalConnectionAge, int lambda, double c1, double c2);
+=======
+>>>>>>> origin/master
 		~Esoinn();
 		//method for input learning vectors as double values
         void inputSignal(double * inputVector);
         void inputSignal(Neuron * inputVector);
+        void writeStructureToFile(string fileName);
 
 		//returns main neuron that represent this input vector
         void classify();

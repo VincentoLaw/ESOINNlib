@@ -4,15 +4,18 @@
 #include <stdlib.h>
 #include <time.h>
 
+#include <iostream>
+
 Neuron::Neuron(int dimentionSize, double * weights = NULL){
         srand(time(NULL));
         this->neighboursList = new list<Connection *>();
         this->dimentionSize = dimentionSize;
-        if (weights == NULL){
-            for (int i = 0; i < dimentionSize; i++){
-                //TODO: in what borders random values?
-                weights[i] = rand() % 1000;
-            }
+        this->weights = new double[dimentionSize];
+        for (int i = 0; i < dimentionSize; i++){
+            //TODO: in what borders random values?
+            if (weights == NULL)
+                this->weights[i] = rand() % 1000;
+            else this->weights[i] = weights[i];
         }
         this->area = NULL;
         this->classId = -1;
