@@ -480,7 +480,7 @@ double Esoinn::calcDistance(double * a, double * b){
     return sqrt(sum);
 }
 
-int main(){
+/*int main(){
     srand(0);
     Esoinn * e = new Esoinn(2, 20, 2, 1, 2);
     for (int i = 0; i < 1000; i++){
@@ -490,7 +490,7 @@ int main(){
         e->inputSignal(d);
     }
     e->writeStructureToFile("out");
-}
+}*/
 
 
 
