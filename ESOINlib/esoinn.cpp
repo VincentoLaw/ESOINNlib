@@ -7,7 +7,7 @@
 #include <fstream>
 
 #define NeuronIterator list<Neuron*>::iterator
-Esoinn::Esoinn(int dimensionSize, int maximalConnectionAge, int lambda, double c1, double c2, double (*distanceFunction)(double *,double *)){//= &commonDistanceFunction
+/*Esoinn::Esoinn(int dimensionSize, int maximalConnectionAge, int lambda, double c1, double c2, double (*distanceFunction)(double *,double *)){//= &commonDistanceFunction
     this->dimensionSize = dimensionSize;
     neuronsList = new list<Neuron *>();
     connectionsList = new list<Connection *>();
@@ -18,7 +18,7 @@ Esoinn::Esoinn(int dimensionSize, int maximalConnectionAge, int lambda, double c
     this->c2 = c2;
     this->LT = 0;
     //this->externalCalcDistance = distanceFunction;
-}
+}*/
 
 Esoinn::Esoinn(int dimensionSize, int maximalConnectionAge, int lambda, double c1, double c2){//= &commonDistanceFunction
     this->dimensionSize = dimensionSize;
@@ -44,10 +44,11 @@ double Esoinn::calcEuclidNorm(double * vector1, double * vector2, int n){
 		res += pow(vector1[i] - vector2[i], 2);
 	}
 	res = pow(res, 0.5);
+    return res;
 }
 
 int Esoinn::calcHemmingNorm(double * vector1, double * vector2, int n){
-
+    return 1;
 }
 
 double Esoinn::calcMeanDistance(Neuron * neuron){
@@ -471,6 +472,43 @@ void Esoinn::writeStructureToFile(string fileName){
             }
         }
     }
+}
+
+double ** Esoinn::getStructure(){
+    //std::ofstream out(fileName.c_str(),  std::ofstream::out);
+    //std::ofstream ofs ("test.txt"
+    double ** structure = new double * [neuronsList->size() + 1];
+    structure[0] = new double[1];
+    structure[0][0] = neuronsList->size();
+    int i = 1;
+    for(list<Neuron*>::iterator it = neuronsList->begin(); it != neuronsList->end(); ++it){
+        structure[i] = new double[neuronsList->size() + 2];
+        structure[i][0] = (*it)->weights[0];
+        structure[i][1] = (*it)->weights[1];
+        if ((*it)->neighboursList->size() == 0){
+            structure[i][2] = -1;
+            i++;
+        }
+        int j = 2;
+        for(list<Connection*>::iterator it2 = (*it)->neighboursList->begin(); it2 != (*it)->neighboursList->end(); ++it2){
+            Neuron * n;
+            if ((*it2)->first != (*it))
+                n = (*it2)->first;
+            else n = (*it2)->second;
+            int cnt = 0;
+            for(list<Neuron*>::iterator it3 = neuronsList->begin(); it3 != neuronsList->end(); ++it3){
+                cout << n << " " << *it3 << endl;
+                if (n == (*it3)){
+                    structure[i][j] = cnt;
+                    structure[i][j + 1] = -1;
+                    j++;
+                    break;
+                }
+                cnt++;
+            }
+        }
+    }
+    return structure;
 }
 
 double Esoinn::calcDistance(double * a, double * b){

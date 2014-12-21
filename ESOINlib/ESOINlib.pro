@@ -2,11 +2,11 @@ TEMPLATE = app
 
 QT += qml quick
 
-SOURCES += main.cpp \
-    ../cluster.cpp \
-    ../connection.cpp \
-    ../esoinn.cpp \
-    ../neuron.cpp
+SOURCES +=  neuron.cpp\
+    cluster.cpp \
+    connection.cpp \
+    esoinn.cpp \
+    main.cpp
 
 RESOURCES += qml.qrc
 
@@ -17,7 +17,7 @@ QML_IMPORT_PATH =
 include(deployment.pri)
 
 HEADERS += \
-    ../cluster.h \
-    ../connection.h \
-    ../esoinn.h \
-    ../neuron.h
+    cluster.h \
+    connection.h \
+    neuron.h \
+    esoinn.h

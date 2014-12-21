@@ -18,12 +18,12 @@ Window {
             onPaint: {
                 // get context to draw with
                 var ctx = getContext("2d")
-                ctx.lineWidth = 4
+                ctx.lineWidth = 10
                 ctx.strokeStyle = "blue"
                 ctx.fillStyle = "steelblue"
                 ctx.beginPath()
                 ctx.moveTo(10,10)
-                ctx.lineTo(11,11)
+                ctx.lineTo(50,50)
                 ctx.stroke()
 
 

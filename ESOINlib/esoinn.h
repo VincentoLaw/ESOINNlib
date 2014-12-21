@@ -83,13 +83,14 @@ class Esoinn{
         //dimensionSize means the size of learning vectors
         //distanceFunction can not be set, it means the function, that calculate distance between vectors
 
-		Esoinn(int dimensionSize, int maximalConnectionAge, int lambda, double c1, double c2, double (*distanceFunction)(double *,double *));
+        //Esoinn(int dimensionSize, int maximalConnectionAge, int lambda, double c1, double c2, double (*distanceFunction)(double *,double *));
 		Esoinn(int dimensionSize, int maximalConnectionAge, int lambda, double c1, double c2);
 		~Esoinn();
 		//method for input learning vectors as double values
         void inputSignal(double * inputVector);
         void inputSignal(Neuron * inputVector);
         void writeStructureToFile(string fileName);
+        double ** getStructure();
 
 		//returns main neuron that represent this input vector
         void classify();
