@@ -29,15 +29,22 @@ int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
 
-
+//RANDOM ON LINUX-------------
     QTime time = QTime::currentTime();
     qsrand((uint)time.msec());
+//----------------
+
     QString qs = "";
     Esoinn * es = new Esoinn(2, 20, 2, 1, 2);
     //generating random data for esoinn
     for (int j = 0; j < 4; j++)
         for (int i = 0; i < 1000; i++){
             double * w = new double[2];
+
+//RANDOM ON WINDOWS
+            //QTime time = QTime::currentTime();
+            //qsrand((uint)time.msec());
+//----------------
 
             w[0] = (qrand() % 150) + (j < 2 ? 30 : -180);
             w[1] = (qrand() % 150) + (j % 2 == 1 ? 30 : -180);
