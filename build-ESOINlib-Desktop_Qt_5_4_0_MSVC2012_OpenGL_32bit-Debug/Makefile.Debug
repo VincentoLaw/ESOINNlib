@@ -304,6 +304,74 @@ debug\main.obj: ..\ESOINlib\main.cpp C:\Qt\5.4\msvc2012_opengl\include\QtGui\QGu
 		C:\Qt\5.4\msvc2012_opengl\include\QtQml\qtqmlglobal.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtQml\qqmlerror.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtQml\qqmldebug.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\QtDebug \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\QTime \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qdatetime.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\QtGlobal \
+		C:\Qt\5.4\msvc2012_opengl\include\QtQuick\QQuickView \
+		C:\Qt\5.4\msvc2012_opengl\include\QtQuick\qquickview.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtQuick\qquickwindow.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtQuick\qtquickglobal.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtGui\qopengl.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qt_windows.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtGui\qopengles2ext.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtGui\qopenglext.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtGui\qwindow.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\QObject \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\QEvent \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\QMargins \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qmargins.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\QRect \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qrect.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtGui\qsurface.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtGui\qsurfaceformat.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtGui\qicon.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtGui\qpixmap.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtGui\qpaintdevice.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtGui\qcolor.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtGui\qrgb.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtGui\qimage.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtGui\qtransform.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtGui\qmatrix.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtGui\qpolygon.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtGui\qregion.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qline.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtGui\qpainterpath.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtGui\qpixelformat.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtGui\qcursor.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtGui\qevent.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtGui\qkeysequence.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qfile.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qfiledevice.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtGui\qvector2d.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtGui\qtouchdevice.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtQml\qqml.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtQml\qqmlprivate.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtQml\qqmlparserstatus.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtQml\qqmlpropertyvaluesource.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtQml\qqmllist.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qmetaobject.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\QVariantList \
+		C:\Qt\5.4\msvc2012_opengl\include\QtDeclarative\QDeclarativeView \
+		C:\Qt\5.4\msvc2012_opengl\include\QtDeclarative\qdeclarativeview.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\qgraphicssceneevent.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\qgraphicsview.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtGui\qpainter.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtGui\qtextoption.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtGui\qpen.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtGui\qbrush.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtGui\qfontinfo.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtGui\qfont.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtGui\qfontmetrics.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\qscrollarea.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\qabstractscrollarea.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\qframe.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\qwidget.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtGui\qpalette.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\qsizepolicy.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\qgraphicsscene.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtDeclarative\qdeclarativedebug.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtDeclarative\qtdeclarativeglobal.h \
 		..\ESOINlib\esoinn.h
 
 debug\qrc_qml.obj: debug\qrc_qml.cpp 

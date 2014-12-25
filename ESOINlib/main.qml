@@ -1,7 +1,9 @@
 import QtQuick 2.4
 import QtQuick.Window 2.2
+//import People 1.0
 
 Window {
+
     visible: true
     width:500
     height:500
@@ -9,9 +11,18 @@ Window {
         color:"#FF0000"
         anchors.fill: parent
         mouseArea.onClicked: {
+            console.log(msg.author)
             Qt.quit();
         }
-        Canvas{
+        /*Person {
+            name: "Bob Jones"
+            shoeSize: 12
+        }*/
+        VisualStructure{
+
+        }
+
+        /*Canvas{
             anchors.top: parent.top + 50
             anchors.fill: parent
             // handler to override for drawing
@@ -35,6 +46,6 @@ Window {
                   ctx.fill();
                   ctx.stroke();
             }
-        }
+        }*/
     }
 }

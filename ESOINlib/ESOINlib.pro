@@ -6,7 +6,8 @@ SOURCES +=  neuron.cpp\
     cluster.cpp \
     connection.cpp \
     esoinn.cpp \
-    main.cpp
+    main.cpp \
+    person.cpp
 
 RESOURCES += qml.qrc
 
@@ -20,4 +21,5 @@ HEADERS += \
     cluster.h \
     connection.h \
     neuron.h \
-    esoinn.h
+    esoinn.h \
+    person.h
