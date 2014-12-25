@@ -14,8 +14,6 @@ Canvas{
         ctx.moveTo(10,10)
         ctx.lineTo(50,50)
         ctx.stroke()
-
-
         ctx.beginPath();
           ctx.fillStyle = "orange"
           ctx.strokeStyle = "red"

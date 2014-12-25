@@ -47,22 +47,28 @@ SOURCES       = ..\ESOINlib\neuron.cpp \
 		..\ESOINlib\cluster.cpp \
 		..\ESOINlib\connection.cpp \
 		..\ESOINlib\esoinn.cpp \
-		..\ESOINlib\main.cpp debug\qrc_qml.cpp
+		..\ESOINlib\main.cpp \
+		..\ESOINlib\person.cpp debug\qrc_qml.cpp \
+		debug\moc_person.cpp
 OBJECTS       = debug\neuron.obj \
 		debug\cluster.obj \
 		debug\connection.obj \
 		debug\esoinn.obj \
 		debug\main.obj \
-		debug\qrc_qml.obj
+		debug\person.obj \
+		debug\qrc_qml.obj \
+		debug\moc_person.obj
 
 DIST          =  ..\ESOINlib\cluster.h \
 		..\ESOINlib\connection.h \
 		..\ESOINlib\neuron.h \
-		..\ESOINlib\esoinn.h ..\ESOINlib\neuron.cpp \
+		..\ESOINlib\esoinn.h \
+		..\ESOINlib\person.h ..\ESOINlib\neuron.cpp \
 		..\ESOINlib\cluster.cpp \
 		..\ESOINlib\connection.cpp \
 		..\ESOINlib\esoinn.cpp \
-		..\ESOINlib\main.cpp
+		..\ESOINlib\main.cpp \
+		..\ESOINlib\person.cpp
 QMAKE_TARGET  = ESOINlib
 DESTDIR        = debug\ #avoid trailing-slash linebreak
 TARGET         = ESOINlib.exe
@@ -163,7 +169,7 @@ dist:
 	$(ZIP) ESOINlib.zip $(SOURCES) $(DIST) ..\ESOINlib\ESOINlib.pro C:\Qt\5.4\msvc2012_opengl\mkspecs\features\spec_pre.prf C:\Qt\5.4\msvc2012_opengl\mkspecs\common\shell-win32.conf C:\Qt\5.4\msvc2012_opengl\mkspecs\qconfig.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_axbase.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_axbase_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_axcontainer.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_axcontainer_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_axserver.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_axserver_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_bluetooth.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_bluetooth_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_bootstrap_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_clucene_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_concurrent.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_concurrent_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_core.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_core_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_declarative.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_declarative_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_designer.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_designer_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_designercomponents_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_enginio.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_enginio_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_gui.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_gui_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_help.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_help_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_location.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_location_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_multimedia.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_multimedia_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_multimediawidgets.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_multimediawidgets_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_network.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_network_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_nfc.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_nfc_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_opengl.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_opengl_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_openglextensions.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_openglextensions_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_platformsupport_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_positioning.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_positioning_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_printsupport.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_printsupport_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_qml.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_qml_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_qmldevtools_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_qmltest.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_qmltest_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_qtmultimediaquicktools_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_quick.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_quick_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_quickparticles_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_quickwidgets.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_quickwidgets_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_script.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_script_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_scripttools.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_scripttools_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_sensors.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_sensors_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_serialport.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_serialport_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_sql.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_sql_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_svg.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_svg_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_testlib.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_testlib_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_uitools.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_uitools_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_webchannel.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_webchannel_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_webkit.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_webkit_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_webkitwidgets.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_webkitwidgets_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_websockets.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_websockets_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_webview.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_webview_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_widgets.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_widgets_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_winextras.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_winextras_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_xml.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_xml_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_xmlpatterns.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_xmlpatterns_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\features\qt_functions.prf C:\Qt\5.4\msvc2012_opengl\mkspecs\features\qt_config.prf C:\Qt\5.4\msvc2012_opengl\mkspecs\features\win32\qt_config.prf C:\Qt\5.4\msvc2012_opengl\mkspecs\win32-msvc2012\qmake.conf C:\Qt\5.4\msvc2012_opengl\mkspecs\features\spec_post.prf C:\Qt\5.4\msvc2012_opengl\mkspecs\features\exclusive_builds.prf C:\Qt\5.4\msvc2012_opengl\mkspecs\features\default_pre.prf C:\Qt\5.4\msvc2012_opengl\mkspecs\features\win32\default_pre.prf ..\ESOINlib\deployment.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\features\resolve_config.prf C:\Qt\5.4\msvc2012_opengl\mkspecs\features\exclusive_builds_post.prf C:\Qt\5.4\msvc2012_opengl\mkspecs\features\default_post.prf C:\Qt\5.4\msvc2012_opengl\mkspecs\features\build_pass.prf C:\Qt\5.4\msvc2012_opengl\mkspecs\features\qml_debug.prf C:\Qt\5.4\msvc2012_opengl\mkspecs\features\declarative_debug.prf C:\Qt\5.4\msvc2012_opengl\mkspecs\features\win32\rtti.prf C:\Qt\5.4\msvc2012_opengl\mkspecs\features\precompile_header.prf C:\Qt\5.4\msvc2012_opengl\mkspecs\features\warn_on.prf C:\Qt\5.4\msvc2012_opengl\mkspecs\features\qt.prf C:\Qt\5.4\msvc2012_opengl\mkspecs\features\resources.prf C:\Qt\5.4\msvc2012_opengl\mkspecs\features\moc.prf C:\Qt\5.4\msvc2012_opengl\mkspecs\features\win32\opengl.prf C:\Qt\5.4\msvc2012_opengl\mkspecs\features\win32\windows.prf C:\Qt\5.4\msvc2012_opengl\mkspecs\features\testcase_targets.prf C:\Qt\5.4\msvc2012_opengl\mkspecs\features\exceptions.prf C:\Qt\5.4\msvc2012_opengl\mkspecs\features\yacc.prf C:\Qt\5.4\msvc2012_opengl\mkspecs\features\lex.prf ..\ESOINlib\ESOINlib.pro ..\ESOINlib\qml.qrc C:/Qt/5.4/msvc2012_opengl/lib/qtmaind.prl C:/Qt/5.4/msvc2012_opengl/lib/Qt5Cored.prl C:/Qt/5.4/msvc2012_opengl/lib/Qt5Quickd.prl C:/Qt/5.4/msvc2012_opengl/lib/Qt5Guid.prl C:/Qt/5.4/msvc2012_opengl/lib/Qt5Qmld.prl C:/Qt/5.4/msvc2012_opengl/lib/Qt5Networkd.prl  NO_PCH_SOURCES RESOURCES HEADERS SOURCES OBJECTIVE_SOURCES YACCSOURCES YACCSOURCES LEXSOURCES 
 
 clean: compiler_clean 
-	-$(DEL_FILE) debug\neuron.obj debug\cluster.obj debug\connection.obj debug\esoinn.obj debug\main.obj debug\qrc_qml.obj
+	-$(DEL_FILE) debug\neuron.obj debug\cluster.obj debug\connection.obj debug\esoinn.obj debug\main.obj debug\person.obj debug\qrc_qml.obj debug\moc_person.obj
 	-$(DEL_FILE) debug\ESOINlib.exp debug\ESOINlib.ilk debug\ESOINlib.idb debug\ESOINlib.exe.embed.manifest debug\ESOINlib.exe_manifest.rc debug\ESOINlib.exe_manifest.res
 
 distclean: clean 
@@ -184,11 +190,66 @@ compiler_rcc_clean:
 	-$(DEL_FILE) debug\qrc_qml.cpp
 debug\qrc_qml.cpp: ..\ESOINlib\qml.qrc \
 		..\ESOINlib\MainForm.ui.qml \
+		..\ESOINlib\VisualStructure.qml \
 		..\ESOINlib\main.qml
 	C:\Qt\5.4\msvc2012_opengl\bin\rcc.exe -name qml ..\ESOINlib\qml.qrc -o debug\qrc_qml.cpp
 
-compiler_moc_header_make_all:
+compiler_moc_header_make_all: debug\moc_person.cpp
 compiler_moc_header_clean:
+	-$(DEL_FILE) debug\moc_person.cpp
+debug\moc_person.cpp: C:\Qt\5.4\msvc2012_opengl\include\QtCore\QObject \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qobject.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qobjectdefs.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qnamespace.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qglobal.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qconfig.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qfeatures.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qsystemdetection.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qprocessordetection.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qcompilerdetection.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qtypeinfo.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qtypetraits.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qsysinfo.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qlogging.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qflags.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qatomic.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qbasicatomic.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qatomic_bootstrap.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qgenericatomic.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qatomic_msvc.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qatomic_armv7.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qatomic_armv6.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qatomic_armv5.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qatomic_ia64.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qatomic_mips.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qatomic_x86.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qatomic_cxx11.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qatomic_gcc.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qatomic_unix.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qglobalstatic.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qmutex.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qnumeric.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qobjectdefs_impl.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qstring.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qchar.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qbytearray.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qrefcount.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qarraydata.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qstringbuilder.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qlist.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qalgorithms.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qiterator.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qbytearraylist.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qcoreevent.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qscopedpointer.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qmetatype.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qvarlengtharray.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qcontainerfwd.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qisenum.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qobject_impl.h \
+		..\ESOINlib\person.h
+	C:\Qt\5.4\msvc2012_opengl\bin\moc.exe $(DEFINES) -D_MSC_VER=1700 -D_WIN32 -IC:/Qt/5.4/msvc2012_opengl/mkspecs/win32-msvc2012 -IC:/Ivan/Programming/NeuralNetworks/ESOINN/ESOINNlib/ESOINlib -IC:/Qt/5.4/msvc2012_opengl/include -IC:/Qt/5.4/msvc2012_opengl/include/QtQuick -IC:/Qt/5.4/msvc2012_opengl/include/QtGui -IC:/Qt/5.4/msvc2012_opengl/include/QtQml -IC:/Qt/5.4/msvc2012_opengl/include/QtNetwork -IC:/Qt/5.4/msvc2012_opengl/include/QtCore -I. ..\ESOINlib\person.h -o debug\moc_person.cpp
+
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
 compiler_yacc_decl_make_all:
@@ -197,7 +258,7 @@ compiler_yacc_impl_make_all:
 compiler_yacc_impl_clean:
 compiler_lex_make_all:
 compiler_lex_clean:
-compiler_clean: compiler_rcc_clean 
+compiler_clean: compiler_rcc_clean compiler_moc_header_clean 
 
 
 
@@ -305,9 +366,6 @@ debug\main.obj: ..\ESOINlib\main.cpp C:\Qt\5.4\msvc2012_opengl\include\QtGui\QGu
 		C:\Qt\5.4\msvc2012_opengl\include\QtQml\qqmlerror.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtQml\qqmldebug.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtCore\QtDebug \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\QTime \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qdatetime.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\QtGlobal \
 		C:\Qt\5.4\msvc2012_opengl\include\QtQuick\QQuickView \
 		C:\Qt\5.4\msvc2012_opengl\include\QtQuick\qquickview.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtQuick\qquickwindow.h \
@@ -352,29 +410,75 @@ debug\main.obj: ..\ESOINlib\main.cpp C:\Qt\5.4\msvc2012_opengl\include\QtGui\QGu
 		C:\Qt\5.4\msvc2012_opengl\include\QtQml\qqmllist.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qmetaobject.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtCore\QVariantList \
-		C:\Qt\5.4\msvc2012_opengl\include\QtDeclarative\QDeclarativeView \
-		C:\Qt\5.4\msvc2012_opengl\include\QtDeclarative\qdeclarativeview.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\qgraphicssceneevent.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\qgraphicsview.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtGui\qpainter.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtGui\qtextoption.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtGui\qpen.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtGui\qbrush.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtGui\qfontinfo.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtGui\qfont.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtGui\qfontmetrics.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\qscrollarea.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\qabstractscrollarea.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\qframe.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\qwidget.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtGui\qpalette.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\qsizepolicy.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\qgraphicsscene.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtDeclarative\qdeclarativedebug.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtDeclarative\qtdeclarativeglobal.h \
-		..\ESOINlib\esoinn.h
+		C:\Qt\5.4\msvc2012_opengl\include\QtQml\QQmlComponent \
+		C:\Qt\5.4\msvc2012_opengl\include\QtQml\qqmlcomponent.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\QCoreApplication \
+		C:\Qt\5.4\msvc2012_opengl\include\QtQml\QQmlEngine \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\QDebug \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\QtGlobal \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\QTime \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qdatetime.h \
+		..\ESOINlib\esoinn.h \
+		..\ESOINlib\person.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtQml\QQmlContext \
+		C:\Qt\5.4\msvc2012_opengl\include\QtQml\qqmlcontext.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\QVariant
+
+debug\person.obj: ..\ESOINlib\person.cpp ..\ESOINlib\person.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\QObject \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qobject.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qobjectdefs.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qnamespace.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qglobal.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qconfig.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qfeatures.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qsystemdetection.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qprocessordetection.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qcompilerdetection.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qtypeinfo.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qtypetraits.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qsysinfo.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qlogging.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qflags.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qatomic.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qbasicatomic.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qatomic_bootstrap.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qgenericatomic.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qatomic_msvc.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qatomic_armv7.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qatomic_armv6.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qatomic_armv5.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qatomic_ia64.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qatomic_mips.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qatomic_x86.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qatomic_cxx11.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qatomic_gcc.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qatomic_unix.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qglobalstatic.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qmutex.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qnumeric.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qobjectdefs_impl.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qstring.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qchar.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qbytearray.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qrefcount.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qarraydata.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qstringbuilder.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qlist.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qalgorithms.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qiterator.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qbytearraylist.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qcoreevent.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qscopedpointer.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qmetatype.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qvarlengtharray.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qcontainerfwd.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qisenum.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qobject_impl.h
 
 debug\qrc_qml.obj: debug\qrc_qml.cpp 
+
+debug\moc_person.obj: debug\moc_person.cpp 
 
 ####### Install
 

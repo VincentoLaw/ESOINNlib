@@ -40,7 +40,7 @@
 #include "person.h"
 
 // ![0]
-Person::Person(QObjecst *parent)
+Person::Person(QObject *parent)
 : QObject(parent), m_shoeSize(0)
 {
 }

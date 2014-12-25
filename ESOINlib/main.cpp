@@ -19,27 +19,6 @@
 #include <QQmlContext>
 #include <QVariant>
 
-class Message : public QObject
-{
-    Q_OBJECT
-    Q_PROPERTY(QString author READ author WRITE setAuthor NOTIFY authorChanged)
-public:
-    void setAuthor(const QString &a) {
-        if (a != m_author) {
-            m_author = a;
-            emit authorChanged();
-        }
-    }
-    QString author() const {
-        return m_author;
-    }
-signals:
-    void authorChanged();
-private:
-    QString m_author;
-};
-
-
 int randInt(int low, int high)
 {
 // Random number between low and high
@@ -48,98 +27,47 @@ int randInt(int low, int high)
 
 int main(int argc, char *argv[])
 {
-    /*QGuiApplication app(argc, argv);
-    QQmlApplicationEngine engine;
-    //Message msg();
-    //engine.rootContext()->setContextProperty("msg", &msg);
-
-    //Person ppl();
-    //engine.rootContext()->setContextProperty("Person", &ppl);
-    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));*/
+    QGuiApplication app(argc, argv);
 
 
-
-    /*QCoreApplication app(argc, argv);
-//![0]
-    qmlRegisterType<Person>("People", 1,0, "Person");
-//![0]
-
-    QQmlEngine engine;
-    QQmlComponent component(&engine, QUrl("qrc:main.qml"));
-    Person *person = qobject_cast<Person *>(component.create());
-    if (person) {
-        qWarning() << "The person's name is" << person->name();
-        qWarning() << "They wear a" << person->shoeSize() << "sized shoe";
-    } else {
-        qWarning() << component.errors();
-    }*/
-
-    QCoreApplication app(argc, argv);
-    QQmlEngine engine;
-    Message msg();
-    engine.rootContext()->setContextProperty("msg",qvariant_cast<QObject *>(msg));
-    QQmlComponent component(&engine, QUrl::fromLocalFile("qrc:/main.qml"));
-    component.create();
-
-
-
+    QTime time = QTime::currentTime();
+    qsrand((uint)time.msec());
+    QString qs = "";
     Esoinn * es = new Esoinn(2, 20, 2, 1, 2);
+    //generating random data for esoinn
     for (int j = 0; j < 4; j++)
-        for (int i = 0; i < 100; i++){
+        for (int i = 0; i < 1000; i++){
             double * w = new double[2];
-            QTime time = QTime::currentTime();
-            qsrand((uint)time.msec());
-            w[0] = (qrand() % 100) + (j < 2 ? 50 : -150);
-            w[1] = (qrand() % 100) + (j % 2 == 1 ? 50 : -150);
-            //qDebug() << j << " " << i << "   " << w[0] << " " << w[1] << " " << randInt(5, 100) << endl;
+
+            w[0] = (qrand() % 150) + (j < 2 ? 30 : -180);
+            w[1] = (qrand() % 150) + (j % 2 == 1 ? 30 : -180);
+            //qDebug() << j << " " << i << "   " << w[0] << " " << w[1] << " " << randInt(5, 150) << endl;
             es->inputSignal(w);
         }
+    //getting esoinn structure from double array
     double ** str = es->getStructure();
     for (int i = 1; i < str[0][0] + 1; i++){
         for (int j = 0; j < str[0][0] + 2; j++){
             if (j > 1 && str[i][j] == -1)
                 break;
-            qDebug() << str[i][j] << " ";
+            //qDebug() << str[i][j] << " ";
+            qs += QString::number(str[i][j]);
+            qs += " " ;
         }
-        qDebug() << endl;
+        qs += ",";
+        //qDebug() << endl;
 
     }
 
-    //QObject *rect = engine.findChild<QObject*>("VisualStructure");
-    //qDebug() << rect;
-    //if (rect)
-    //    rect->setProperty("width",100);
+    QQmlApplicationEngine engine;
+    Person person;
+    //adding data into exemplar person
+    person.setName(qs);
+    //adding exemplar person to qml object "Person"
+    engine.rootContext()->setContextProperty("Person", &person);
+    //loading main qml file
+    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
 
-
-    /*QDeclarativeView view;
-    view.rootContext()->setContextProperty("currentDateTime", QDateTime::currentDateTime());
-    view.setSource(QUrl::fromLocalFile("MyItem.qml"));
-    view.show();
-    QObject *rect = engine.findChild<QObject*>("mainW");
-    qDebug() << rect;
-    if (rect)
-        rect->setProperty("width",100);*/
-
-    //        ->setContextProperty("width", 100);
-    // C++
-    /*QQuickView view(QUrl::fromLocalFile("main.qml"));
-
-    QVariantList list;
-    list << 10 << QColor(Qt::green) << "bottles";
-
-    QVariantMap map;
-    map.insert("language", "QML");
-    map.insert("released", QDate(2010, 9, 21));
-
-    QMetaObject::invokeMethod(view.rootObject(), "readValues",
-            Q_ARG(QVariant, QVariant::fromValue(list)),
-            Q_ARG(QVariant, QVariant::fromValue(map)));*/
-
-
-    /*
-    QObject * c = engine.findChild<QObject * >("MainForm");
-    c->setProperty("width", 100);
-    c->setProperty("color", "green");*/
     return app.exec();
 
 }
