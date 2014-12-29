@@ -37,32 +37,31 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-#include "person.h"
+#ifndef PERSON_H
+#define PERSON_H
 
-// ![0]
-Person::Person(QObject *parent)
-: QObject(parent), m_shoeSize(0)
+#include <QObject>
+#include "esoinn.h"
+//![0]
+class dataExchanger : public QObject
 {
-}
+    Q_OBJECT
+    Q_PROPERTY(QString structureData READ structureData WRITE setStructureData)
+    Q_PROPERTY(QList<double> esoinnParams READ esoinnParams WRITE setEsoinnParams)
+public:
+    dataExchanger(QObject *parent = 0);
+    Esoinn * es;
 
-QString Person::name() const
-{
-    return m_name;
-}
+    QString structureData() const;
+    void setStructureData(const QString &);
 
-void Person::setName(const QString &n)
-{
-    m_name = n;
-}
+    QList<double> esoinnParams() const;
+    void setEsoinnParams(const QList<double> &);
 
-int Person::shoeSize() const
-{
-    return m_shoeSize;
-}
+private:
+    QString m_structureData;
+    QList<double> m_esoinnParams;
+};
+//![0]
 
-void Person::setShoeSize(int s)
-{
-    m_shoeSize = s;
-}
-
-// ![0]
+#endif // PERSON_H

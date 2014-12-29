@@ -7,7 +7,7 @@ SOURCES +=  neuron.cpp\
     connection.cpp \
     esoinn.cpp \
     main.cpp \
-    person.cpp
+    dataExchanger.cpp
 
 RESOURCES += qml.qrc
 
@@ -22,4 +22,4 @@ HEADERS += \
     connection.h \
     neuron.h \
     esoinn.h \
-    person.h
+    dataExchanger.h

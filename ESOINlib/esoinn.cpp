@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <QDebug>
 
 #define NeuronIterator list<Neuron*>::iterator
 /*Esoinn::Esoinn(int dimensionSize, int maximalConnectionAge, int lambda, double c1, double c2, double (*distanceFunction)(double *,double *)){//= &commonDistanceFunction

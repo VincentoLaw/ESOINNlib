@@ -4,17 +4,21 @@
 #include <stdlib.h>
 #include <time.h>
 
+#include <random>
+
 #include <iostream>
 
 Neuron::Neuron(int dimentionSize, double * weights = NULL){
-        srand(time(NULL));
+        std::default_random_engine generator;
+        std::uniform_int_distribution<int> distribution(0,1000);
+        //srand(time(NULL));
         this->neighboursList = new list<Connection *>();
         this->dimentionSize = dimentionSize;
         this->weights = new double[dimentionSize];
         for (int i = 0; i < dimentionSize; i++){
             //TODO: in what borders random values?
             if (weights == NULL)
-                this->weights[i] = rand() % 1000;
+                this->weights[i] = distribution(generator);
             else this->weights[i] = weights[i];
         }
         this->area = NULL;
