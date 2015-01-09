@@ -55,6 +55,7 @@ class dataExchanger : public QObject
     Q_PROPERTY(QList<double> esoinnParams READ esoinnParams WRITE setEsoinnParams)
 
     Q_PROPERTY(QUrl im READ im WRITE sim)
+    Q_PROPERTY(QUrl pointedImage READ pointedImage WRITE setPointedImage)
 public:
     dataExchanger(QObject *parent = 0);
     //shared data
@@ -66,6 +67,9 @@ public:
 
     imgType im() const;
     void sim(const imgType &);
+
+    QUrl pointedImage() const;
+    void setPointedImage(const QUrl &);
 
     //local data
     Esoinn * es;

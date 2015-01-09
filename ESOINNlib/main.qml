@@ -28,7 +28,7 @@ Window {
         Rectangle{
             id: settingsBar
             height: 50
-            color: "blue"
+            color: "red"
             anchors.top: mainForm.top
             Button{
                 id: loadImgButton
@@ -37,11 +37,23 @@ Window {
                     fileDialog.open()
                 }
             }
+
+            Button{
+                id: showImgButton
+                anchors.leftMargin: 10
+                anchors.left: loadImgButton.right
+                text:"Show pointed image"
+                onClicked: {
+                    dataEx.pointedImage = imagePreview.source
+                    canvas.loadStructure();
+                }
+            }
+
             ComboBox{
                 id: nnComboBox
                 width:70
                 currentIndex: 0
-                anchors.left: loadImgButton.right
+                anchors.left: showImgButton.right
                 anchors.leftMargin: 10
                 model:["ESOINN"]
             }
@@ -59,7 +71,7 @@ Window {
                 anchors.left: text1.right
                 anchors.leftMargin: 5
                 font.pointSize: 14
-                text:"20"
+                text:"100"
             }
             Text{
                 id: text2
@@ -73,7 +85,7 @@ Window {
                 anchors.left: text2.right
                 anchors.leftMargin: 5
                 font.pointSize: 14
-                text:"2"
+                text:"100"
             }
             Text{
                 id: text3
@@ -87,7 +99,7 @@ Window {
                 anchors.left: text3.right
                 anchors.leftMargin: 5
                 font.pointSize: 14
-                text:"1"
+                text:"0.001"
             }
             Text{
                 id: text4
@@ -101,7 +113,7 @@ Window {
                 anchors.left: text4.right
                 anchors.leftMargin: 5
                 font.pointSize: 14
-                text:"2"
+                text:"1"
             }
             Button{
                 anchors.left: c2P.right

@@ -75,6 +75,34 @@ void dataExchanger::sim(const imgType &n)
     image = new QImage(n.toLocalFile());
 }
 
+QUrl dataExchanger::pointedImage() const
+{
+    return m_im;
+}
+
+void dataExchanger::setPointedImage(const QUrl &n)
+{
+    m_im = n;
+    delete image;
+    image = new QImage(n.toLocalFile());
+    QString strs = "";
+    for (int i = 0; i < image->height(); i++){
+        for (int j = 0; j < image->width(); j++){
+            QColor qc(image->pixel(j,i));
+            if (qc.red() < 100 || qc.green() < 100 || qc.blue() < 100){
+                //st += "1 ";
+                double * w = new double[2];
+                //qDebug() << j << i;
+                strs += QString::number(j);
+                strs += " ";
+                strs += QString::number(i);
+                strs += ",";
+            }
+        }
+    }
+    setStructureData(strs);
+}
+
 void dataExchanger::setEsoinnParams(const QList<double> &n){
     m_esoinnParams = n;
 
