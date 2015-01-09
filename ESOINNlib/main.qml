@@ -20,14 +20,7 @@ Window {
             onAccepted: {
                   //console.log("You chose: " + fileDialog.fileUrls)
                 imagePreview.source = fileDialog.fileUrl
-                //console.log(imagePreview.data)
-                var obj = imagePreview.data
-                //for (x in obj) {
-                //    console.log(x + " " + obj[x]);
-                //}
-                //console.log(Image.Ready)
-                //console.log(imagePreview.data)
-                //dataEx.structureData = imagePreview.data;
+                dataEx.im = imagePreview.source
 
             }
         }
@@ -44,9 +37,18 @@ Window {
                     fileDialog.open()
                 }
             }
+            ComboBox{
+                id: nnComboBox
+                width:70
+                currentIndex: 0
+                anchors.left: loadImgButton.right
+                anchors.leftMargin: 10
+                model:["ESOINN"]
+            }
+
             Text{
                 id: text1
-                anchors.left:loadImgButton.right
+                anchors.left:nnComboBox.right
                 font.pointSize: 14
                 anchors.leftMargin: 15
                 text: "<b>Max connection age:</b>"
@@ -104,7 +106,7 @@ Window {
             Button{
                 anchors.left: c2P.right
                 anchors.leftMargin: 20
-                text:"RUN"
+                text:"LEARN"
                 onClicked: {
                     var arr = [parseFloat(conAge.text), parseFloat(lambda.text), parseFloat(c1P.text), parseFloat(c2P.text)];
                     dataEx.esoinnParams = arr;
@@ -138,19 +140,9 @@ Window {
             //anchors.fill: parent
             property var ctx : canvas.getContext("2d")
 
-            MouseArea {
-                id:mousearea
-                hoverEnabled:true
-                anchors.fill: parent
-                onClicked:{
-                    ctx.lineWidth = lineWidth
-                    ctx.fillStyle = drawColor
-                    ctx.fillRect(mousearea.mouseX, mousearea.mouseY, 2, 2);
-                }
-            }
             onPaint:{
                 //Draw vertical coordinates line
-                ctx.lineWidth = 1
+                /*ctx.lineWidth = 1
                 ctx.strokeStyle = "black"
                 ctx.fillStyle = "black"
                 ctx.beginPath()
@@ -164,12 +156,12 @@ Window {
                 ctx.beginPath()
                 ctx.moveTo(0,canvas.height / 2)
                 ctx.lineTo(canvas.width,canvas.height / 2)
-                ctx.stroke()
+                ctx.stroke()*/
             }
             function loadStructure() {
-                ctx.clearRect(0,0, canvas.width, canvas.height)
                 //data from esoin is in string in Person.name in format: "x y, x y, x y,"
                 var arr = dataEx.structureData.split(',');
+                //console.log(arr)
                 var min_x = 1000000, max_x = -1000000, min_y = 1000000, max_y = -1000000
                 //finding the square, in that all data is lay
                 for (var i = 0; i < arr.length; i++){
@@ -186,36 +178,57 @@ Window {
                         max_y = numz[1];
                 }
                 //coefficents to transform data coordinates to see input in full window size
-                var offset_x = -min_x + 5;
-                var offset_y = -min_y + 5;
+                var offset_x = -min_x;
+                var offset_y = -min_y;
                 var scale_x = (canvas.width - 20) / (max_x - min_x);
                 var scale_y = (canvas.height - 20)/ (max_y - min_y);
+
+                function newCoords(offset, scale, num){
+                    return parseInt((parseInt(num) + offset) * scale + 10)
+                }
+
                 //draw points, that interpritates data
                 for (var i = 0; i < arr.length; i++){
                       var nums = arr[i].split(' ');
+                       //console.log(((parseInt(nums[0]) + offset_x) * scale_x) + ' ' + parseInt((parseInt(nums[1]) + offset_y)  * scale_y))
                       ctx.beginPath();
                       ctx.fillStyle = "green"
                       ctx.strokeStyle = "blue"
-                      ctx.arc(parseInt((parseInt(nums[0]) + offset_x) * scale_x), parseInt((parseInt(nums[1]) + offset_y)  * scale_y), 3, 0, 2*Math.PI, false)
+                      ctx.arc( newCoords(offset_x, scale_x, nums[0]), newCoords(offset_y, scale_y, nums[1]), 3, 0, 2*Math.PI, false)
                       ctx.fill();
                       ctx.stroke();
-                }
 
+                      //Draw connections
+                      for (var j = 2; j < nums.length; j++){
+                          if (nums[j] && nums[j] >= 0){
+                              var xy = (arr[parseInt(nums[j])]).split(' ')
+                              ctx.lineWidth = 1
+                              ctx.strokeStyle = "black"
+                              ctx.fillStyle = "black"
+                              ctx.beginPath()
+                              ctx.moveTo(newCoords(offset_x, scale_x, xy[0]), newCoords(offset_y, scale_y, xy[1]))
+                              ctx.lineTo(newCoords(offset_x, scale_x, nums[0]), newCoords(offset_y, scale_y, nums[1]))
+                              //console.log(newCoords(offset_x, scale_x, xy[0]) + ' ' + newCoords(offset_y, scale_y, xy[1]))
+                              //console.log(newCoords(offset_x, scale_x, nums[0])+ ' ' + newCoords(offset_y, scale_y, nums[1]))
+                              ctx.stroke()
+                          }
+                      }
+                }
                 //Draw vertical coordinates line
-                ctx.lineWidth = 1
+                /*ctx.lineWidth = 1
                 ctx.strokeStyle = "black"
                 ctx.fillStyle = "black"
                 ctx.beginPath()
-                ctx.moveTo(canvas.width / 2,0)
-                ctx.lineTo(canvas.width / 2,canvas.height)
+                ctx.moveTo( parseInt((offset_x) * scale_x) + 10,0)
+                ctx.lineTo(parseInt((offset_x) * scale_x) + 10,canvas.height)
                 ctx.stroke()
                 //Draw horizontal coordinates line
                 ctx.lineWidth = 1
                 ctx.strokeStyle = "black"
                 ctx.fillStyle = "black"
                 ctx.beginPath()
-                ctx.moveTo(0,canvas.height / 2)
-                ctx.lineTo(canvas.width,canvas.height / 2)
+                ctx.moveTo(0,parseInt((offset_y) * scale_y) + 10)
+                ctx.lineTo(canvas.width,parseInt((offset_y) * scale_y) + 10)
                 ctx.stroke()
 
 
@@ -248,7 +261,7 @@ Window {
                 ctx.fillStyle = "black"
                 ctx.font = "16px sans-serif";
                 ctx.text(max_y, canvas.width / 2 - 10, 25);
-                ctx.stroke();
+                ctx.stroke();*/
                 canvas.requestPaint();
             }
         }

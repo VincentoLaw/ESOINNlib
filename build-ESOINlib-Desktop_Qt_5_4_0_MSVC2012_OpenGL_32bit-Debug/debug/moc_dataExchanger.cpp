@@ -6,7 +6,7 @@
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
-#include "../../ESOINlib/dataExchanger.h"
+#include "../../ESOINNlib/dataExchanger.h"
 #include <QtCore/qbytearray.h>
 #include <QtCore/qmetatype.h>
 #include <QtCore/QList>
@@ -20,8 +20,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_dataExchanger_t {
-    QByteArrayData data[4];
-    char stringdata[55];
+    QByteArrayData data[5];
+    char stringdata[58];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -33,11 +33,12 @@ static const qt_meta_stringdata_dataExchanger_t qt_meta_stringdata_dataExchanger
 QT_MOC_LITERAL(0, 0, 13), // "dataExchanger"
 QT_MOC_LITERAL(1, 14, 13), // "structureData"
 QT_MOC_LITERAL(2, 28, 12), // "esoinnParams"
-QT_MOC_LITERAL(3, 41, 13) // "QList<double>"
+QT_MOC_LITERAL(3, 41, 13), // "QList<double>"
+QT_MOC_LITERAL(4, 55, 2) // "im"
 
     },
     "dataExchanger\0structureData\0esoinnParams\0"
-    "QList<double>"
+    "QList<double>\0im"
 };
 #undef QT_MOC_LITERAL
 
@@ -48,7 +49,7 @@ static const uint qt_meta_data_dataExchanger[] = {
        0,       // classname
        0,    0, // classinfo
        0,    0, // methods
-       2,   14, // properties
+       3,   14, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
@@ -57,6 +58,7 @@ static const uint qt_meta_data_dataExchanger[] = {
  // properties: name, type, flags
        1, QMetaType::QString, 0x00095103,
        2, 0x80000000 | 3, 0x0009510b,
+       4, QMetaType::QUrl, 0x00095003,
 
        0        // eod
 };
@@ -105,33 +107,35 @@ int dataExchanger::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         switch (_id) {
         case 0: *reinterpret_cast< QString*>(_v) = structureData(); break;
         case 1: *reinterpret_cast< QList<double>*>(_v) = esoinnParams(); break;
+        case 2: *reinterpret_cast< QUrl*>(_v) = im(); break;
         default: break;
         }
-        _id -= 2;
+        _id -= 3;
     } else if (_c == QMetaObject::WriteProperty) {
         void *_v = _a[0];
         switch (_id) {
         case 0: setStructureData(*reinterpret_cast< QString*>(_v)); break;
         case 1: setEsoinnParams(*reinterpret_cast< QList<double>*>(_v)); break;
+        case 2: sim(*reinterpret_cast< QUrl*>(_v)); break;
         default: break;
         }
-        _id -= 2;
+        _id -= 3;
     } else if (_c == QMetaObject::ResetProperty) {
-        _id -= 2;
+        _id -= 3;
     } else if (_c == QMetaObject::QueryPropertyDesignable) {
-        _id -= 2;
+        _id -= 3;
     } else if (_c == QMetaObject::QueryPropertyScriptable) {
-        _id -= 2;
+        _id -= 3;
     } else if (_c == QMetaObject::QueryPropertyStored) {
-        _id -= 2;
+        _id -= 3;
     } else if (_c == QMetaObject::QueryPropertyEditable) {
-        _id -= 2;
+        _id -= 3;
     } else if (_c == QMetaObject::QueryPropertyUser) {
-        _id -= 2;
+        _id -= 3;
     } else if (_c == QMetaObject::RegisterPropertyMetaType) {
-        if (_id < 2)
+        if (_id < 3)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 2;
+        _id -= 3;
     }
 #endif // QT_NO_PROPERTIES
     return _id;

@@ -2,12 +2,13 @@ TEMPLATE = app
 
 QT += qml quick
 
-SOURCES +=  neuron.cpp\
-    cluster.cpp \
-    connection.cpp \
-    esoinn.cpp \
+SOURCES +=ESOINNLibSources/cluster.cpp \
+    ESOINNLibSources/connection.cpp \
+    ESOINNLibSources/esoinn.cpp \
+    ESOINNLibSources/neuron.cpp \
     main.cpp \
     dataExchanger.cpp
+
 
 RESOURCES += qml.qrc
 
@@ -18,8 +19,9 @@ QML_IMPORT_PATH =
 include(deployment.pri)
 
 HEADERS += \
-    cluster.h \
-    connection.h \
-    neuron.h \
-    esoinn.h \
+    ESOINNLibSources/cluster.h \
+    ESOINNLibSources/connection.h \
+    ESOINNLibSources/esoinn.h \
+    ESOINNLibSources/neuron.h \
     dataExchanger.h
+

@@ -37,70 +37,45 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-#include "dataExchanger.h"
-#include <QtDebug>
-#include <QTime>
-#include <random>
+#ifndef PERSON_H
+#define PERSON_H
 
-// ![0]
-dataExchanger::dataExchanger(QObject *parent)
-: QObject(parent)
+#include <QObject>
+#include <QQuickImageProvider>
+#include <QImage>
+#include "ESOINNLibSources/esoinn.h"
+//![0] 
+
+typedef QUrl imgType;
+
+class dataExchanger : public QObject
 {
-}
+    Q_OBJECT
+    Q_PROPERTY(QString structureData READ structureData WRITE setStructureData)
+    Q_PROPERTY(QList<double> esoinnParams READ esoinnParams WRITE setEsoinnParams)
 
-QString dataExchanger::structureData() const
-{
-    return m_structureData;
-}
+    Q_PROPERTY(QUrl im READ im WRITE sim)
+public:
+    dataExchanger(QObject *parent = 0);
+    //shared data
+    QString structureData() const;
+    void setStructureData(const QString &);
 
-void dataExchanger::setStructureData(const QString &n)
-{
-    m_structureData = n;
-}
+    QList<double> esoinnParams() const;
+    void setEsoinnParams(const QList<double> &);
 
-QList<double> dataExchanger::esoinnParams() const
-{
-    return m_esoinnParams;
-}
+    imgType im() const;
+    void sim(const imgType &);
 
-void dataExchanger::setEsoinnParams(const QList<double> &n){
-    m_esoinnParams = n;
+    //local data
+    Esoinn * es;
+    QImage * image;
 
-    QTime time = QTime::currentTime();
-    std::default_random_engine generator;
-    generator.seed((uint)time.msec());
-    std::uniform_int_distribution<int> distribution(0,150);
+private:
+    QString m_structureData;
+    QList<double> m_esoinnParams;
+    imgType m_im;
+};
+//![0]
 
-    es = new Esoinn(2, m_esoinnParams[0], m_esoinnParams[1], m_esoinnParams[2], m_esoinnParams[3]);
-    //generating random data for esoinn
-    for (int j = 0; j < 4; j++)
-        for (int i = 0; i < 500; i++){
-            double * w = new double[2];
-            w[0] = distribution(generator) + (j < 2 ? 30 : -180);
-            w[1] = distribution(generator) + (j % 2 == 1 ? 30 : -180);
-            es->inputSignal(w);
-        }
-    //getting esoinn structure from double array
-    double ** str = es->getStructure();
-    QString qs;
-    for (int i = 1; i < str[0][0] + 1; i++){
-        for (int j = 0; j < str[0][0] + 2; j++){
-            if (j > 1 && str[i][j] == -1)
-                break;
-            //qDebug() << str[i][j] << " ";
-            qs += QString::number(str[i][j]);
-            qs += " " ;
-
-        }
-        qs += ",";
-         //qDebug() << qs;
-        //qDebug() << endl;
-
-    }
-    //qDebug() << qs->length();
-    //Loading data to class. This data now will be available in QML
-    setStructureData(qs);
-}
-
-
-// ![0]
+#endif // PERSON_H

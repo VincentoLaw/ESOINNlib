@@ -1,0 +1,136 @@
+/****************************************************************************
+**
+** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+** Contact: http://www.qt-project.org/legal
+**
+** This file is part of the examples of the Qt Toolkit.
+**
+** $QT_BEGIN_LICENSE:BSD$
+** You may use this file under the terms of the BSD license as follows:
+**
+** "Redistribution and use in source and binary forms, with or without
+** modification, are permitted provided that the following conditions are
+** met:
+**   * Redistributions of source code must retain the above copyright
+**     notice, this list of conditions and the following disclaimer.
+**   * Redistributions in binary form must reproduce the above copyright
+**     notice, this list of conditions and the following disclaimer in
+**     the documentation and/or other materials provided with the
+**     distribution.
+**   * Neither the name of Digia Plc and its Subsidiary(-ies) nor the names
+**     of its contributors may be used to endorse or promote products derived
+**     from this software without specific prior written permission.
+**
+**
+** THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+** "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+** LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+** A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+** OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+** SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+** LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+** DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+** THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+** (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+** OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
+**
+** $QT_END_LICENSE$
+**
+****************************************************************************/
+#include "dataExchanger.h"
+#include <QtDebug>
+#include <QTime>
+#include <random>
+
+// ![0]
+dataExchanger::dataExchanger(QObject *parent)
+: QObject(parent)
+{
+}
+
+QString dataExchanger::structureData() const
+{
+    return m_structureData;
+}
+
+void dataExchanger::setStructureData(const QString &n)
+{
+    m_structureData = n;
+}
+
+QList<double> dataExchanger::esoinnParams() const
+{
+    return m_esoinnParams;
+}
+
+imgType dataExchanger::im() const
+{
+    return m_im;
+}
+
+void dataExchanger::sim(const imgType &n)
+{
+    m_im = n;
+    delete image;
+    image = new QImage(n.toLocalFile());
+}
+
+void dataExchanger::setEsoinnParams(const QList<double> &n){
+    m_esoinnParams = n;
+
+    QTime time = QTime::currentTime();
+    std::default_random_engine generator;
+    generator.seed((uint)time.msec());
+    std::uniform_int_distribution<int> distribution(0,150);
+
+    es = new Esoinn(2, m_esoinnParams[0], m_esoinnParams[1], m_esoinnParams[2], m_esoinnParams[3]);
+
+    //string st = "";
+    for (int i = 0; i < image->height(); i++){
+        for (int j = 0; j < image->width(); j++){
+            QColor qc(image->pixel(j,i));
+            if (qc.red() < 100 || qc.green() < 100 || qc.blue() < 100){
+                //st += "1 ";
+                double * w = new double[2];
+                //qDebug() << j << i;
+                w[0] = j;
+                w[1] = i;
+                es->inputSignal(w);
+            }
+            //else st += "0 ";
+        }
+        //qDebug() << st.c_str();
+        //st = "";
+    }
+    //generating random data for esoinn
+    /*for (int j = 0; j < 4; j++)
+        for (int i = 0; i < 500; i++){
+            double * w = new double[2];
+            w[0] = distribution(generator) + (j < 2 ? 30 : -180);
+            w[1] = distribution(generator) + (j % 2 == 1 ? 30 : -180);
+            es->inputSignal(w);
+        }*/
+    //getting esoinn structure from double array
+    double ** str = es->getStructure();
+    QString qs;
+    for (int i = 1; i < str[0][0] + 1; i++){
+        for (int j = 0; j < str[0][0] + 2; j++){
+            if (j > 1 && str[i][j] == -1)
+                break;
+            //qDebug() << str[i][j] << " ";
+            qs += QString::number(str[i][j]);
+            qs += " " ;
+
+        }
+        qs += ",";
+         //qDebug() << qs;
+        //qDebug() << endl;
+
+    }
+    //qDebug() << qs;
+    //Loading data to class. This data now will be available in QML
+    setStructureData(qs);
+}
+
+
+// ![0]
