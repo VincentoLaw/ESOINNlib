@@ -17,12 +17,16 @@ class Neuron{
     	int winerTimesCount;
 
 	public:
-        double similarityThreshold;
+        
+		Neuron(int dimentionSize, double* weights);
+		Neuron(Neuron* v);
+		~Neuron();
+		
+		double similarityThreshold;
 		double * weights;
     	list<Connection*> * neighboursList;
-		Neuron(int dimentionSize, double * values);
-		~Neuron();
-    	void incSignal();
+    	
+		void incSignal();
     	Cluster * getCluster();
     	double getDensity();
 		int getDim();
@@ -30,6 +34,5 @@ class Neuron{
     	int getCountSignals();
     	void setDensity(int data);
     	void setId(int data);
-    	void setArea(Cluster* buf);
-    	void remove();
+    	Cluster* setArea(Cluster* buf);
 };

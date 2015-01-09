@@ -14,15 +14,14 @@ class Cluster{
 		Neuron * apex;
 
 	public:
-        Cluster(Neuron * delegatorOfCluster, int clusterId);
+        Cluster(Neuron *delegatorOfCluster, int clusterId);
 		~Cluster();
-		list<Neuron*> * neuronsList;
+		list<Neuron*> *neuronsList;
 		int getId();
+		void setId(int data);
 		double getDensity();
-		void findApex();
-		Neuron * getApex();
-		static void unite(Cluster *a, Cluster * b );
-		void separate();
-		void remove();
-		void calcMeanDensity();
+		Neuron* findApex();
+		Neuron *getApex();
+		double calcMeanDensity();
 };
+

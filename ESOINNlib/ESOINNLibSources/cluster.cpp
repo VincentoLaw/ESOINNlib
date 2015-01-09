@@ -1,52 +1,62 @@
 #include "neuron.h"
 #include "cluster.h"
 
-Cluster::Cluster(Neuron * delegatorOfCluster, int clusterId){
-    apex = delegatorOfCluster;
+Cluster::Cluster(Neuron * delegatorOfCluster, int clusterId)
+{
+	neuronsList = new list<Neuron*>();
+	apex = delegatorOfCluster;
+	neuronsList->push_back(apex); 
     id = clusterId;
 }
 
-Cluster::~Cluster(){
+Cluster::~Cluster()
+{
 	for(list<Neuron *>::iterator it = neuronsList->begin(); it != neuronsList->end(); ++it) delete (*it);
 	delete neuronsList;
 	delete apex;
 }
 
-int Cluster::getId(){
+int Cluster::getId()
+{
 	return id;
 }
 
-double Cluster::getDensity(){
+void Cluster::setId(int data)
+{
+	id = data;
+}
+
+double Cluster::getDensity()
+{
 	return meanDensity;
 }
 
-Neuron * Cluster::getApex(){
+Neuron * Cluster::getApex()
+{
 	return apex;
 }
 
-void Cluster::calcMeanDensity(){
+double Cluster::calcMeanDensity()
+{
 	double res = 0.0;
-    for (list<Neuron*>::iterator it = neuronsList->begin(); it != neuronsList->end(); ++it){
+    for (list<Neuron*>::iterator it = neuronsList->begin(); it != neuronsList->end(); ++it)
+	{
         res += (*it)->getDensity();
     }
 	res /= neuronsList->size();
 	meanDensity = res;
+	return meanDensity;
 }
 
-void Cluster::findApex(){
-	for (list<Neuron*>::iterator it = neuronsList->begin(); it != neuronsList->end(); ++it){
+Neuron* Cluster::findApex()
+{
+	for (list<Neuron*>::iterator it = neuronsList->begin(); it != neuronsList->end(); ++it)
+	{
 		if ((*it)->getDensity() > apex->getDensity()) apex = (*it);
 		//this->apex = (*it).getDensity() > this->apex->getDensity() ? it : this->apex;
 	}
+	return apex;
 }
 
-void Cluster::remove(){
-	delete this;
-}
 
-void Cluster::unite(Cluster* A, Cluster* B){
-	list<Neuron*>::iterator it = A->neuronsList->end();
-	A->neuronsList->splice(it, (*B->neuronsList));
-	B->remove();
-}
 

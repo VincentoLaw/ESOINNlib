@@ -13,7 +13,7 @@ class Connection {
 
 		Connection(Neuron * first, Neuron * second);
 		~Connection();
-		Neuron * first, * second;
+		Neuron *first, *second;
         //increasing age of connection by n
         void incAge();
         Neuron * getNeighbourNeuron(Neuron* node);
@@ -22,3 +22,4 @@ class Connection {
         int getAge();
 		void remove();
 };
+

@@ -314,6 +314,7 @@ debug\moc_dataExchanger.cpp: C:\Qt\5.4\msvc2012_opengl\include\QtCore\QObject \
 		C:\Qt\5.4\msvc2012_opengl\include\QtQml\qqmlerror.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtQml\qqmldebug.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtGui\QImage \
+		..\ESOINNlib\ESOINNLibSources\esoinn.h \
 		..\ESOINNlib\dataExchanger.h
 	C:\Qt\5.4\msvc2012_opengl\bin\moc.exe $(DEFINES) -D_MSC_VER=1700 -D_WIN32 -IC:/Qt/5.4/msvc2012_opengl/mkspecs/win32-msvc2012 -IC:/Ivan/Programming/NeuralNetworks/ESOINN/ESOINNlib/ESOINNlib -IC:/Qt/5.4/msvc2012_opengl/include -IC:/Qt/5.4/msvc2012_opengl/include/QtQuick -IC:/Qt/5.4/msvc2012_opengl/include/QtGui -IC:/Qt/5.4/msvc2012_opengl/include/QtQml -IC:/Qt/5.4/msvc2012_opengl/include/QtNetwork -IC:/Qt/5.4/msvc2012_opengl/include/QtCore -I. ..\ESOINNlib\dataExchanger.h -o debug\moc_dataExchanger.cpp
 
@@ -340,74 +341,7 @@ debug\connection.obj: ..\ESOINNlib\ESOINNLibSources\connection.cpp ..\ESOINNlib\
 debug\esoinn.obj: ..\ESOINNlib\ESOINNLibSources\esoinn.cpp ..\ESOINNlib\ESOINNLibSources\neuron.h \
 		..\ESOINNlib\ESOINNLibSources\connection.h \
 		..\ESOINNlib\ESOINNLibSources\esoinn.h \
-		..\ESOINNlib\ESOINNLibSources\cluster.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\QDebug \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qdebug.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qalgorithms.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qglobal.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qconfig.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qfeatures.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qsystemdetection.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qprocessordetection.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qcompilerdetection.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qtypeinfo.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qtypetraits.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qsysinfo.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qlogging.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qflags.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qatomic.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qbasicatomic.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qatomic_bootstrap.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qgenericatomic.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qatomic_msvc.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qatomic_armv7.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qatomic_armv6.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qatomic_armv5.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qatomic_ia64.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qatomic_mips.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qatomic_x86.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qatomic_cxx11.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qatomic_gcc.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qatomic_unix.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qglobalstatic.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qmutex.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qnumeric.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qhash.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qchar.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qiterator.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qlist.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qrefcount.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qarraydata.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qbytearraylist.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qbytearray.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qnamespace.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qstring.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qstringbuilder.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qpair.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qmap.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qtextstream.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qiodevice.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qobject.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qobjectdefs.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qobjectdefs_impl.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qcoreevent.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qscopedpointer.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qmetatype.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qvarlengtharray.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qcontainerfwd.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qisenum.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qobject_impl.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qlocale.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qvariant.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qstringlist.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qdatastream.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qregexp.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qstringmatcher.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qshareddata.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qvector.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qpoint.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qset.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qcontiguouscache.h
+		..\ESOINNlib\ESOINNLibSources\cluster.h
 
 debug\neuron.obj: ..\ESOINNlib\ESOINNLibSources\neuron.cpp ..\ESOINNlib\ESOINNLibSources\neuron.h \
 		..\ESOINNlib\ESOINNLibSources\cluster.h \
@@ -660,6 +594,7 @@ debug\dataExchanger.obj: ..\ESOINNlib\dataExchanger.cpp ..\ESOINNlib\dataExchang
 		C:\Qt\5.4\msvc2012_opengl\include\QtQml\qqmlerror.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtQml\qqmldebug.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtGui\QImage \
+		..\ESOINNlib\ESOINNLibSources\esoinn.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtCore\QtDebug \
 		C:\Qt\5.4\msvc2012_opengl\include\QtCore\QTime \
 		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qdatetime.h

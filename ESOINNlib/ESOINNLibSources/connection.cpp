@@ -36,3 +36,4 @@ Neuron* Connection::getNeighbourNeuron(Neuron *node){
 void Connection::remove(){
 	delete this;
 }
+

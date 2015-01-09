@@ -28,7 +28,6 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("dataEx", &dataEx);
     //loading main qml file
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
-
     return app.exec();
 
 }

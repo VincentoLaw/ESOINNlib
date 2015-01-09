@@ -180,9 +180,15 @@ Window {
                 //coefficents to transform data coordinates to see input in full window size
                 var offset_x = -min_x;
                 var offset_y = -min_y;
+                if (max_x - min_x == 0)
+                    max_x = min_x + 1;
+                if (max_y - min_y == 0)
+                    max_y = min_y + 1;
                 var scale_x = (canvas.width - 20) / (max_x - min_x);
                 var scale_y = (canvas.height - 20)/ (max_y - min_y);
+                //console.log(min_x + ' ' + max_x + ' ' + min_y + ' ' + max_y)
 
+                //this function resizes input coordinates fit to canvas size
                 function newCoords(offset, scale, num){
                     return parseInt((parseInt(num) + offset) * scale + 10)
                 }
@@ -214,6 +220,7 @@ Window {
                           }
                       }
                 }
+                //console.log(offset_x + ' ' + offset_y + ' ' + scale_x + ' ' + scale_y)
                 //Draw vertical coordinates line
                 /*ctx.lineWidth = 1
                 ctx.strokeStyle = "black"
