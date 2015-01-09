@@ -22,7 +22,7 @@ It can load .png, .jpg, .jpeg images, make them grayscale and use them as input 
 
 3) Neural network ESOINN. It is used as self-learning middle layer of associative memory GAM. 
 
-All code of ESOINN is in folder ESOINNlib in these files: 
+All code of ESOINN is in folder ESOINNlib/ESOINNLibSources in these files: 
 
 neuron.h, neuron.cpp, connection.h, connection.cpp, cluster.h, cluster.cpp, esoinn.h, esoinn.cpp
 
