@@ -171,6 +171,7 @@ Window {
                 ctx.stroke()*/
             }
             function loadStructure() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
                 //data from esoin is in string in Person.name in format: "x y, x y, x y,"
                 var arr = dataEx.structureData.split(',');
                 //console.log(arr)
