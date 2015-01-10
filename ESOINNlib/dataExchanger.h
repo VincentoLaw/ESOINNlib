@@ -52,7 +52,7 @@ class dataExchanger : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString structureData READ structureData WRITE setStructureData)
-    Q_PROPERTY(QList<double> esoinnParams READ esoinnParams WRITE setEsoinnParams)
+    Q_PROPERTY(QList<QString> esoinnParams READ esoinnParams WRITE setEsoinnParams)
 
     Q_PROPERTY(QUrl im READ im WRITE sim)
     Q_PROPERTY(QUrl pointedImage READ pointedImage WRITE setPointedImage)
@@ -62,8 +62,8 @@ public:
     QString structureData() const;
     void setStructureData(const QString &);
 
-    QList<double> esoinnParams() const;
-    void setEsoinnParams(const QList<double> &);
+    QList<QString> esoinnParams() const;
+    void setEsoinnParams(const QList<QString> &);
 
     imgType im() const;
     void sim(const imgType &);
@@ -77,7 +77,7 @@ public:
 
 private:
     QString m_structureData;
-    QList<double> m_esoinnParams;
+    QList<QString> m_esoinnParams;
     imgType m_im;
 };
 //![0]

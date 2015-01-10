@@ -27,7 +27,7 @@ Window {
 
         Rectangle{
             id: settingsBar
-            height: 50
+            height: 30
             color: "red"
             anchors.top: mainForm.top
             Button{
@@ -58,80 +58,129 @@ Window {
                 model:["ESOINN"]
             }
 
+            function learn(fromBegin){
+                var arr = [nnComboBox.currentText, fromBegin, iterEdit.text, parseFloat(conAge.text), parseFloat(lambda.text), parseFloat(c1P.text), parseFloat(c2P.text)];
+                dataEx.esoinnParams = arr;
+                canvas.loadStructure();
+            }
+
+            Button{
+                id: learnBeginButton
+                anchors.left: nnComboBox.right
+                anchors.leftMargin: 10
+                text:"LEARN FROM BEGIN"
+                onClicked: {
+                    settingsBar.learn("1");
+
+                }
+            }
+
+            Button{
+                id: learnButton
+                anchors.left: learnBeginButton.right
+                anchors.leftMargin: 10
+                text:"LEARN ITERATIONS"
+                onClicked: {
+                    settingsBar.learn("0");
+
+                }
+            }
+        }
+
+        Rectangle{
+            id: settings2Bar
+            height: 30
+            color: "red"
+            anchors.top: settingsBar.bottom
+            anchors.leftMargin: 5
+            Text{
+                id: paramsText
+                anchors.leftMargin: 10
+                font.pointSize: 12
+                text: "LEARN PARAMETRS:"
+            }
+            Text{
+                id: iterText
+                anchors.left: paramsText.right
+                anchors.leftMargin: 5
+                font.pointSize: 12
+                text: "Iterations:"
+            }
+            TextEdit{
+                id: iterEdit
+                color:"blue"
+                anchors.left: iterText.right
+                anchors.leftMargin: 5
+                font.pointSize: 12
+                text:"10"
+            }
             Text{
                 id: text1
-                anchors.left:nnComboBox.right
-                font.pointSize: 14
+                anchors.left:iterEdit.right
+                font.pointSize: 12
                 anchors.leftMargin: 15
-                text: "<b>Max connection age:</b>"
+                text: "Max connection age:"
             }
 
             TextEdit{
                 id: conAge
+                color:"blue"
                 anchors.left: text1.right
                 anchors.leftMargin: 5
-                font.pointSize: 14
+                font.pointSize: 12
                 text:"100"
             }
             Text{
                 id: text2
                 anchors.left:conAge.right
-                font.pointSize: 14
+                font.pointSize: 12
                 anchors.leftMargin: 15
-                text:"<b>Lambda:</b>"
+                text:"Lambda:"
             }
             TextEdit{
                 id: lambda
+                color:"blue"
                 anchors.left: text2.right
                 anchors.leftMargin: 5
-                font.pointSize: 14
+                font.pointSize: 12
                 text:"100"
             }
             Text{
                 id: text3
                 anchors.left:lambda.right
                 anchors.leftMargin: 15
-                font.pointSize: 14
-                text:"<b>c1:</b>"
+                font.pointSize: 12
+                text:"c1:"
             }
             TextEdit{
                 id: c1P
+                color:"blue"
                 anchors.left: text3.right
                 anchors.leftMargin: 5
-                font.pointSize: 14
+                font.pointSize: 12
                 text:"0.001"
             }
             Text{
                 id: text4
                 anchors.left:c1P.right
                 anchors.leftMargin: 15
-                font.pointSize: 14
-                text:"<b> c2: </b>"
+                font.pointSize: 12
+                text:"c2:"
             }
             TextEdit{
                 id: c2P
+                color:"blue"
                 anchors.left: text4.right
                 anchors.leftMargin: 5
-                font.pointSize: 14
+                font.pointSize: 12
                 text:"1"
-            }
-            Button{
-                anchors.left: c2P.right
-                anchors.leftMargin: 20
-                text:"LEARN"
-                onClicked: {
-                    var arr = [parseFloat(conAge.text), parseFloat(lambda.text), parseFloat(c1P.text), parseFloat(c2P.text)];
-                    dataEx.esoinnParams = arr;
-                    canvas.loadStructure();
-
-                }
             }
         }
 
         Image{
             id: imagePreview
             width: mainForm.width / 2
-            anchors.top: settingsBar.bottom
+            anchors.top: settings2Bar.bottom
             anchors.bottom: mainForm.bottom
             anchors.left: mainForm.left
         }
@@ -145,7 +194,7 @@ Window {
 
         Canvas{
             id: canvas
-            anchors.top: settingsBar.bottom
+            anchors.top: settings2Bar.bottom
             anchors.bottom: mainForm.bottom
             anchors.left: imagePreview.right
             anchors.right: mainForm.right
