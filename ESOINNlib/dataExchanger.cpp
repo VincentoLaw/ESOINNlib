@@ -71,8 +71,10 @@ imgType dataExchanger::im() const
 
 void dataExchanger::sim(const imgType &n)
 {
+
     m_im = n;
-    delete image;
+    if (!image)
+        delete image;
     image = new QImage(n.toLocalFile());
 }
 
