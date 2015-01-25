@@ -4,6 +4,7 @@
 #include <math.h>
 #include <string>
 #include <stdio.h>
+#include <QDebug>
 
 using namespace std;
 

@@ -23,13 +23,14 @@ Neuron::Neuron(int dimentionSize, double * weights = NULL)
         this->classId = -1;
         this->density = 0;
         this->winerTimesCount = 0;
+        this->point = 0;
 
 
 }
 
 Neuron::Neuron(Neuron* v)
 {
-	srand((unsigned)time(NULL));
+    srand((unsigned)time(NULL));
 	this->neighboursList = new list<Connection *>();
     this->dimentionSize = v->getDim();
     this->weights = new double[dimentionSize];
@@ -40,10 +41,11 @@ Neuron::Neuron(Neuron* v)
         this->weights[i] = rand() % 1000;
         else this->weights[i] = v->weights[i];
     }
-        this->area = v->getCluster();
-        this->classId = v->getId();
-        this->density = v->getDensity();
-        this->winerTimesCount = v->getCountSignals();
+    this->area = v->getCluster();
+    this->classId = v->getId();
+    this->density = v->getDensity();
+    this->winerTimesCount = v->getCountSignals();
+    this->point = 0;
 }
 
 Neuron::~Neuron()
@@ -63,9 +65,9 @@ void Neuron::setId(int data)
 	classId = data;
 }
 
-void Neuron::setDensity(int data)
+void Neuron::setDensity(double data)
 {
-	density = data;
+    this->density = data;
 }
 
 Cluster* Neuron::setArea(Cluster* buf)

@@ -13,7 +13,7 @@ Cluster::~Cluster()
 {
 	for(list<Neuron *>::iterator it = neuronsList->begin(); it != neuronsList->end(); ++it) delete (*it);
 	delete neuronsList;
-	delete apex;
+    delete apex;
 }
 
 int Cluster::getId()

@@ -6,8 +6,8 @@ class Connection {
 	private:
 
 		int age;
-        int id;
-        int count;
+        //int id;
+        //int count;
 
 	public:
 
@@ -18,7 +18,7 @@ class Connection {
         void incAge();
         Neuron * getNeighbourNeuron(Neuron* node);
         void setAge(int age);
-        int getId();
+        //int getId();
         int getAge();
 		void remove();
 };

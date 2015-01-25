@@ -57,11 +57,31 @@ Window {
                 anchors.leftMargin: 10
                 model:["ESOINN"]
             }
-
+            property var visualizeIter : 0;
+            property var currEsoinnData : [];
             function learn(fromBegin){
                 var arr = [nnComboBox.currentText, fromBegin, iterEdit.text, parseFloat(conAge.text), parseFloat(lambda.text), parseFloat(c1P.text), parseFloat(c2P.text)];
                 dataEx.esoinnParams = arr;
-                canvas.loadStructure();
+                visualizeIter = 0;
+                currEsoinnData = dataEx.structureData.split(';');
+                dataShowTimer.running = true;
+                //for (var i = 0; i < dat.length - 1; i++){
+                //    console.log(dat[i])
+                //    canvas.loadStructure(dat[i]);
+                //}
+            }
+
+            Timer{
+                id: dataShowTimer
+                interval: 10;
+                repeat: true;
+                running: false;
+                onTriggered: {
+                    if (settingsBar.visualizeIter < settingsBar.currEsoinnData.length - 1){
+                        canvas.loadStructure(settingsBar.currEsoinnData[settingsBar.visualizeIter]);
+                        settingsBar.visualizeIter++;
+                    }
+                }
             }
 
             Button{
@@ -176,11 +196,28 @@ Window {
                 text:"1"
             }
         }
+        Rectangle{
+            id: settings3Bar
+            height: 20
+            anchors.top: settings2Bar.bottom
+            CheckBox{
+                id: randomInput
+                text:"Randomize input data"
+                checked: true
+            }
+            CheckBox{
+                id: fullVisualize
+                anchors.leftMargin: 5
+                anchors.left: randomInput.right
+                text:"Visualize every step"
+                checked: false
+            }
+        }
 
         Image{
             id: imagePreview
             width: mainForm.width / 2
-            anchors.top: settings2Bar.bottom
+            anchors.top: settings3Bar.bottom
             anchors.bottom: mainForm.bottom
             anchors.left: mainForm.left
         }
@@ -219,10 +256,10 @@ Window {
                 ctx.lineTo(canvas.width,canvas.height / 2)
                 ctx.stroke()*/
             }
-            function loadStructure() {
+            function loadStructure(data) {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 //data from esoin is in string in Person.name in format: "x y, x y, x y,"
-                var arr = dataEx.structureData.split(',');
+                var arr = data.split('/');
                 //console.log(arr)
                 var min_x = 1000000, max_x = -1000000, min_y = 1000000, max_y = -1000000
                 //finding the square, in that all data is lay
@@ -260,14 +297,32 @@ Window {
                       var nums = arr[i].split(' ');
                        //console.log(((parseInt(nums[0]) + offset_x) * scale_x) + ' ' + parseInt((parseInt(nums[1]) + offset_y)  * scale_y))
                       ctx.beginPath();
-                      ctx.fillStyle = "green"
-                      ctx.strokeStyle = "blue"
+                      //ctx.fillStyle = "green"
+                      //ctx.strokeStyle = "blue"
+                      //if (nums[2] > 0)
+                        //  ctx.fillStyle = "red"
+                    function getCol(x){
+                    if (x == 0) return 255;
+                    var pow2 = Math.log(x+1) / Math.log(2);
+                    var kolco = parseInt((x+1) % Math.pow(2,Math.floor(pow2)) * 2 - 1);
+                    if (kolco == -1)
+                       kolco = Math.pow(2,Math.ceil(pow2)) - 1;
+                    return 256/Math.pow(2,Math.ceil(pow2))*kolco;
+                    }
+                    var color = getCol(nums[3]) / 255;
+                    var red = (nums[3] % 6 == 0 || nums[3] % 6 == 3 || nums[3] % 6 == 5) ? color : 0;
+                    var green = (nums[3] % 6 == 0 || nums[3] % 6 == 4 || nums[3] % 6 == 2) ? color : 0;
+                    var blue = (nums[3] % 6 == 5 || nums[3] % 6 == 4 || nums[3] % 6 == 1) ? color : 0;
+                      ctx.fillStyle = Qt.rgba(red, green, blue, 1)
+                    ctx.strokeStyle = Qt.rgba(red, green, blue, 1);
+                      //console.log(colors)
+                      //console.log(colors.length)
                       ctx.arc( newCoords(offset_x, scale_x, nums[0]), newCoords(offset_y, scale_y, nums[1]), 3, 0, 2*Math.PI, false)
                       ctx.fill();
                       ctx.stroke();
 
                       //Draw connections
-                      for (var j = 2; j < nums.length; j++){
+                      for (var j = 4; j < nums.length; j++){
                           if (nums[j] && nums[j] >= 0){
                               var xy = (arr[parseInt(nums[j])]).split(' ')
                               ctx.lineWidth = 1
