@@ -310,6 +310,10 @@ Window {
                     return 256/Math.pow(2,Math.ceil(pow2))*kolco;
                     }
                     var color = getCol(nums[3]) / 255;
+                    if (!nums[3] || nums[3] == -1){
+                        color = 0;
+                    }
+
                     var red = (nums[3] % 6 == 0 || nums[3] % 6 == 3 || nums[3] % 6 == 5) ? color : 0;
                     var green = (nums[3] % 6 == 0 || nums[3] % 6 == 4 || nums[3] % 6 == 2) ? color : 0;
                     var blue = (nums[3] % 6 == 5 || nums[3] % 6 == 4 || nums[3] % 6 == 1) ? color : 0;

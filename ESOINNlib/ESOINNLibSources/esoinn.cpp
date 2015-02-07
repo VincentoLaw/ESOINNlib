@@ -5,6 +5,8 @@
 
 #include <iostream>
 #include <fstream>
+#include <QTime>
+//#include "ESOINNLibSources/hasharray.h"
 
 
 Esoinn::Esoinn(int dimensionSize, int maximalConnectionAge, int lambda, double c1, double c2, double (*distanceFunction)(double *,double *))//= &commonDistanceFunction
@@ -132,31 +134,16 @@ void Esoinn::removeNeuron(list<Neuron*>::iterator &neuronToRemove)
 		else ++it;
 	}
 	
-	
 	for(list<Cluster*>::iterator it = clustersList->begin(); it != clustersList->end(); ++it)
     {
-        for(list<Neuron*>::iterator j = (*it)->neuronsList->begin(); j != (*it)->neuronsList->end();)
-		{
-			if((*j) == buf)
-			{
-				j = (*it)->neuronsList->erase(j);
-				break;
-			}
-			else ++j;
-        }
+        (*it)->neuronsList->remove(buf);
     }
 	if (buf == NULL) return;
     if (buf->neighboursList == NULL) return;
 	for(list<Connection*>::iterator it = buf->neighboursList->begin(); it != buf->neighboursList->end(); ++it)
 	{
-		for(list<Connection*>::iterator j = (*it)->getNeighbourNeuron(buf)->neighboursList->begin(); j != (*it)->getNeighbourNeuron(buf)->neighboursList->end();)
-		{
-			if((*j) == (*it))
-			{
-				j = (*it)->getNeighbourNeuron(buf)->neighboursList->erase(j);
-			}
-			else ++j;
-		}
+        Connection * con = *it;
+        con->getNeighbourNeuron(buf)->neighboursList->remove(con);
 	}
 }
 
@@ -486,7 +473,7 @@ void Esoinn::updateDensity(Neuron* winner)
 {
     winner->point += calcPoint(winner);
     winner->incSignal();
-    double density = winner->point / winner->getCountSignals();
+    double density = winner->point / winner->allTimeWin;
     //qDebug() << winner->getDensity() << density;
     winner->setDensity(density);
     //qDebug() << winner->getDensity();
@@ -651,28 +638,9 @@ void Esoinn::removeNoise()
 
 void Esoinn::updateClassLabels()
 {
-	markClasses();
-    /*int win_cnt_temp = 0;
-    for (list<Neuron*>::iterator it = neuronsList->begin(); it != neuronsList->end(); it++){
-        if ((*it)->getCountSignals() > 0 && (*it)->neighboursList->size())
-            win_cnt_temp += (*it)->neighboursList->size();
-    }
-    qDebug() << "WIN:" << win_cnt_temp << (this->LT % this->lambda);*/
+    markClasses();
     separateToSubclasses();
-
-    /*win_cnt_temp = 0;
-    for (list<Neuron*>::iterator it = neuronsList->begin(); it != neuronsList->end(); it++){
-        if ((*it)->getCountSignals() > 0 && (*it)->neighboursList->size())
-            win_cnt_temp += (*it)->neighboursList->size();
-    }
-    qDebug() << "WIN:" << win_cnt_temp << (this->LT % this->lambda);*/
     removeNoise();
-    /*win_cnt_temp = 0;
-    for (list<Neuron*>::iterator it = neuronsList->begin(); it != neuronsList->end(); it++){
-        if ((*it)->getCountSignals() > 0 && (*it)->neighboursList->size())
-            win_cnt_temp += (*it)->neighboursList->size();
-    }
-    qDebug() << "WIN:" << win_cnt_temp << (this->LT % this->lambda);*/
 }
 
 //TODO: implement this function
@@ -724,7 +692,7 @@ void Esoinn::inputSignal(double* inputVector){
         else edge->setAge(0);
     }
     else if (edge != NULL) 
-		removeConnection(edge);
+        removeConnection(edge);
 	/*-----------------5.end.----------------------------------------------------------*/
 
     /*-----------------6.Update the density of winner----------------------------------*/
@@ -742,14 +710,14 @@ void Esoinn::inputSignal(double* inputVector){
     /*-----------------8.end.-----------------------------------------------------------*/
 
     /*-----------------9.Find-old-edges-and-remove-them---------------------------------*/
-	removeOldConnections();        
+    removeOldConnections();
     /*-----------------9.end.-----------------------------------------------------------*/
 
     /*---------------- 10.Separate-all-classes-on--subclasses---------------------------*/
     if(!(this->LT % this->lambda)) updateClassLabels();
 	/*---------------- 10.end.----------------------------------------------------------*/
 	/*-----------------11.-Delete-nodes-polluted-by-noise-------  ----------------------*/		
-	this->LT++;
+    this->LT++;
     /*-----------------11.end.----------------------------------------------------------*/
 
 }
@@ -822,7 +790,12 @@ double ** Esoinn::getStructure(){
     return structure;
 }
 
-
+void Esoinn::clearWinners(){
+    for (list<Neuron*>::iterator it = neuronsList->begin(); it != neuronsList->end(); ++it)
+    {
+        (*it)->winInThisIter = false;
+    }
+}
 
 
 

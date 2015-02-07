@@ -105,7 +105,6 @@ void dataExchanger::setPointedImage(const QUrl &n)
 
 void dataExchanger::setEsoinnParams(const QList<QString> &n){
     m_esoinnParams = n;
-    QTime qtt();
 
     QString qs;
     qsrand(0);
@@ -129,6 +128,9 @@ void dataExchanger::setEsoinnParams(const QList<QString> &n){
             shuf_arr[i] = shuf_arr[swap_cell];
             shuf_arr[swap_cell] = temp;
         }
+
+        es->clearWinners();
+
         //qDebug() << "BEFORE LEARN";
         //qDebug() << QTime::currentTime().second() << QTime::currentTime().msec();
         for (int i = 0; i < points_cnt; i++){

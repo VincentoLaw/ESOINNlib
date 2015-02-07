@@ -24,7 +24,8 @@ Neuron::Neuron(int dimentionSize, double * weights = NULL)
         this->density = 0;
         this->winerTimesCount = 0;
         this->point = 0;
-
+        this->winInThisIter = false;
+        this->allTimeWin = 0;
 
 }
 
@@ -46,6 +47,8 @@ Neuron::Neuron(Neuron* v)
     this->density = v->getDensity();
     this->winerTimesCount = v->getCountSignals();
     this->point = 0;
+    this->winInThisIter = false;
+    this->allTimeWin = 0;
 }
 
 Neuron::~Neuron()
@@ -58,6 +61,10 @@ Neuron::~Neuron()
 void Neuron::incSignal()
 {
 	winerTimesCount++;
+    if (!winInThisIter){
+        winInThisIter = true;
+        allTimeWin++;
+    }
 }
 
 void Neuron::setId(int data)

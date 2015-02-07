@@ -7,7 +7,8 @@ SOURCES +=ESOINNLibSources/cluster.cpp \
     ESOINNLibSources/esoinn.cpp \
     ESOINNLibSources/neuron.cpp \
     main.cpp \
-    dataExchanger.cpp
+    dataExchanger.cpp \
+    ESOINNLibSources/hasharray.cpp
 
 
 RESOURCES += qml.qrc
@@ -23,5 +24,7 @@ HEADERS += \
     ESOINNLibSources/connection.h \
     ESOINNLibSources/esoinn.h \
     ESOINNLibSources/neuron.h \
-    dataExchanger.h
+    dataExchanger.h \
+    hasharray.h \
+    ESOINNLibSources/hasharray.h
 

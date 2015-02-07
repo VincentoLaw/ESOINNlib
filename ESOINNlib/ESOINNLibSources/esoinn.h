@@ -114,7 +114,7 @@ class Esoinn{
 		/*+*/void writeStructureToFile(string fileName);
 		double ** getStructure();
 		//returns main neuron that represent this input vector
-
+        void Esoinn::clearWinners();
 		//int neuronClassId(double * inputVector);
 
 		//bool saveNetworkData(string fileName);

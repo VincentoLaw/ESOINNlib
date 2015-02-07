@@ -27,6 +27,9 @@ class Neuron{
 		double * weights;
     	list<Connection*> * neighboursList;
         double point;
+
+        bool winInThisIter;
+        int allTimeWin;
     	
 		void incSignal();
     	Cluster * getCluster();
