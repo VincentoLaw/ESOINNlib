@@ -45,14 +45,14 @@ Esoinn::~Esoinn()
     delete connectionsList;
     delete clustersList;
 }
-
+//C
 Neuron* Esoinn::addNeuron(double *weights)
 {
     Neuron* neuron = new Neuron(dimensionSize, weights);
     neuronsList->push_back(neuron);
     return neuron;
 }
-
+//C
 Neuron* Esoinn::addNeuron(double * weights, double threshold)
 {
     Neuron* neuron = new Neuron(dimensionSize, weights);
@@ -60,13 +60,13 @@ Neuron* Esoinn::addNeuron(double * weights, double threshold)
     neuron->similarityThreshold = threshold;
     return neuron;
 }
-
+//C
 Neuron* Esoinn::addNeuron(Neuron *neuronToAdd)
 {
 	neuronsList->push_back(neuronToAdd);
 	return neuronToAdd;
 }
-
+//NN + NC + NCl*NN + NNe*NNe
 void Esoinn::removeNeuron(Neuron* neuronToRemove)
 {
 	
@@ -119,7 +119,7 @@ void Esoinn::removeNeuron(Neuron* neuronToRemove)
 	}
 	
 }
-
+//NN + NC + NCl*NN + NNe*NNe
 void Esoinn::removeNeuron(list<Neuron*>::iterator &neuronToRemove)
 {
     Neuron* buf = *neuronToRemove;
@@ -146,14 +146,14 @@ void Esoinn::removeNeuron(list<Neuron*>::iterator &neuronToRemove)
         con->getNeighbourNeuron(buf)->neighboursList->remove(con);
 	}
 }
-
+//C
 Cluster* Esoinn::addCluster(Neuron* delegatorOfCluster)
 {
     int ident = clustersList->size();
 	clustersList->push_back(new Cluster(delegatorOfCluster, ++ident));
 	return clustersList->back();
 }
-
+//C
 Connection * Esoinn::addConnection(Neuron * first, Neuron * second)
 {
 	Connection * connection = new Connection(first, second);
@@ -162,7 +162,7 @@ Connection * Esoinn::addConnection(Neuron * first, Neuron * second)
 	second->neighboursList->push_back(connection);
 	return connection;
 }
-
+//NC + NNe*2
 void Esoinn::removeConnection(list<Connection*>::iterator &edgeToRemove)
 {
 	Connection* edge = (*edgeToRemove); 
@@ -188,7 +188,7 @@ void Esoinn::removeConnection(list<Connection*>::iterator &edgeToRemove)
 		else ++j;
     }
 }
-
+//NC + NNe*2
 void Esoinn::removeConnection(Connection *edge)
 {
 	for(list<Connection*>::iterator it = connectionsList->begin(); it != connectionsList->end();){
@@ -219,7 +219,7 @@ void Esoinn::removeConnection(Connection *edge)
 		else ++it;
     }
 }
-
+//NC +NNe*2
 void Esoinn::removeConnection(Neuron* first, Neuron* second)
 {
 	Connection *edge;
@@ -253,7 +253,7 @@ void Esoinn::removeConnection(Neuron* first, Neuron* second)
 		
 	}
 }
-
+//NC
 Connection * Esoinn::getConnection(Neuron * first, Neuron * second)
 {
 	for (list<Connection*>::iterator it = connectionsList->begin(); it != connectionsList->end(); ++it)
@@ -318,12 +318,12 @@ double Esoinn::calcMeanDistance(Neuron * neuron)
     else res /= neuron->neighboursList->size();
 	return res;
 }
-
+//NN
 double Esoinn::calcPoint(Neuron * neuron)
 {
 	return 1.0 / pow(1 + calcMeanDistance(neuron), 2);
 }
-
+//NN
 bool Esoinn::findWiner(double *inputVector, Neuron *&firstWinner, Neuron *&secondWinner)
 {
     firstWinner = NULL, secondWinner = NULL;
@@ -351,7 +351,7 @@ bool Esoinn::findWiner(double *inputVector, Neuron *&firstWinner, Neuron *&secon
     return true;
 }
 
-
+//NN
 double Esoinn::similarityThreshold(Neuron* neuron)
 {
 	double dist = 0.0;
@@ -378,7 +378,7 @@ double Esoinn::similarityThreshold(Neuron* neuron)
     }
     return dist;
 }
-
+//NN
 bool Esoinn::isWithinThreshold(Neuron* firstWinner, Neuron* secondWinner, double* inputVector)
 {
     if(calcDistance(inputVector, firstWinner->weights) > similarityThreshold(firstWinner)) 
@@ -392,7 +392,7 @@ bool Esoinn::isWithinThreshold(Neuron* firstWinner, Neuron* secondWinner, double
     return true;
 }
 
-
+//C
 double Esoinn::densityThreshold(double mean, double max)
 {
     double threshold;
@@ -407,7 +407,7 @@ double Esoinn::densityThreshold(double mean, double max)
 	else threshold = 1.0;
     return threshold;
 }
-
+//NCN*4
 bool Esoinn::needUniteClusters(Neuron *first, Neuron *second)
 {	
     Cluster *A = first->getCluster();
@@ -424,7 +424,7 @@ bool Esoinn::needUniteClusters(Neuron *first, Neuron *second)
      //   qDebug() << "TRUE";
     return (minAB > thresholdA * A->getApex()->getDensity() && minAB > thresholdB * B->getApex()->getDensity());
 }
-
+//NCN*2
 void Esoinn::uniteClusters(Neuron* a, Neuron* b)
 {
     //int classId = min(a->getId(), b->getId());
@@ -459,7 +459,7 @@ void Esoinn::uniteClusters(Neuron* a, Neuron* b)
     }
 
 }
-
+//4*NCN
 bool Esoinn::needAddConnection(Neuron *first, Neuron *second)
 {
 	if (first->getId() == -1 || second->getId() == -1) return true;
@@ -468,7 +468,7 @@ bool Esoinn::needAddConnection(Neuron *first, Neuron *second)
     if (first->getId() != second->getId() && needUniteClusters(first, second)) return true;
 	return false;
 }
-
+//NN
 void Esoinn::updateDensity(Neuron* winner)
 {
     winner->point += calcPoint(winner);
@@ -478,7 +478,7 @@ void Esoinn::updateDensity(Neuron* winner)
     winner->setDensity(density);
     //qDebug() << winner->getDensity();
 }
-
+//NN*2
 void Esoinn::adaptWeights(Neuron *&winner, double* inputVector)
 {
 	double e1 = 1.0 / winner->getCountSignals();
@@ -498,7 +498,7 @@ void Esoinn::adaptWeights(Neuron *&winner, double* inputVector)
         }
     }
 }
-
+//
 void Esoinn::removeOldConnections()
 {
 	for (list<Connection*>::iterator it = connectionsList->begin(); it != connectionsList->end();)

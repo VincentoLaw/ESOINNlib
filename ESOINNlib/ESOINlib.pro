@@ -8,7 +8,8 @@ SOURCES +=ESOINNLibSources/cluster.cpp \
     ESOINNLibSources/neuron.cpp \
     main.cpp \
     dataExchanger.cpp \
-    ESOINNLibSources/hasharray.cpp
+    ESOINNLibSources/hasharray.cpp \
+    ESOINNLibSources/cellgrid.cpp
 
 
 RESOURCES += qml.qrc
@@ -26,5 +27,6 @@ HEADERS += \
     ESOINNLibSources/neuron.h \
     dataExchanger.h \
     hasharray.h \
-    ESOINNLibSources/hasharray.h
+    ESOINNLibSources/hasharray.h \
+    ESOINNLibSources/cellgrid.h
 

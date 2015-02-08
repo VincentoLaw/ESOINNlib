@@ -121,6 +121,8 @@ void dataExchanger::setEsoinnParams(const QList<QString> &n){
             }
         }
     }
+
+    qDebug() << QTime::currentTime().minute() << QTime::currentTime().second() << QTime::currentTime().msec();
     for (int iter = 0; iter < m_esoinnParams[2].toDouble(); iter++){
         for (int i = 0; i < points_cnt; i++){
             int temp = shuf_arr[i];
@@ -187,6 +189,9 @@ void dataExchanger::setEsoinnParams(const QList<QString> &n){
             }
         }*/
     }
+
+    qDebug() << QTime::currentTime().minute() << QTime::currentTime().second() << QTime::currentTime().msec();
+
 
     //generating random data for esoinn
     /*QTime time = QTime::currentTime();
