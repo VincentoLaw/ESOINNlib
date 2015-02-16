@@ -1,5 +1,6 @@
 #include "neuron.h"
 #include "cluster.h"
+#include <QDebug>
 
 Cluster::Cluster(Neuron * delegatorOfCluster, int clusterId)
 {
@@ -11,9 +12,22 @@ Cluster::Cluster(Neuron * delegatorOfCluster, int clusterId)
 
 Cluster::~Cluster()
 {
-	for(list<Neuron *>::iterator it = neuronsList->begin(); it != neuronsList->end(); ++it) delete (*it);
-	delete neuronsList;
-    delete apex;
+    qDebug() << "C" << neuronsList;
+    if (neuronsList){
+        for(list<Neuron *>::iterator it = neuronsList->begin(); it != neuronsList->end();) {
+            qDebug() <<*it;
+            Neuron * n = *it;
+            qDebug() <<"C1";
+            it = neuronsList->erase(it);
+            qDebug() <<"C2";
+            //if (n)
+            //    delete n;
+            qDebug() <<"C3";
+
+        }
+        //delete neuronsList;
+        //delete apex;
+    }
 }
 
 int Cluster::getId()
@@ -45,7 +59,7 @@ double Cluster::calcMeanDensity()
     }
 	res /= neuronsList->size();
 	meanDensity = res;
-	return meanDensity;
+    return meanDensity;
 }
 
 Neuron* Cluster::findApex()

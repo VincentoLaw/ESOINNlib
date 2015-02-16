@@ -15,7 +15,7 @@ CellGrid::~CellGrid()
 void CellGrid::addPoint(Neuron * neuron){
     QString coords = "";
     for (int i = 0; i < dimention_cnt; i++)
-        coords += QString::number(round(neuron->weights[i])) + ", ";
+        coords += QString::number(std::round(neuron->weights[i])) + ", ";
     std::map<string,list<Neuron *> *>::iterator it = grid.find(coords.toStdString());
     if (it == grid.end()){
         list<Neuron *> * l = new list<Neuron *>();

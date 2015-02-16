@@ -1,7 +1,7 @@
 #ifndef CELLGRID_H
 #define CELLGRID_H
 #include <list>
-#include <ESOINNLibSources/neuron.h>
+#include "neuron.h"
 #include <map>
 
 class CellGrid

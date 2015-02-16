@@ -108,9 +108,13 @@ void dataExchanger::setEsoinnParams(const QList<QString> &n){
 
     QString qs;
     qsrand(0);
-    if (m_esoinnParams[1].toDouble() == 1 || es == NULL)
+    if (m_esoinnParams[1].toDouble() == 1 || es == NULL){
+        qDebug() << "A";
+        delete es;
+        qDebug() << "B";
         es = new Esoinn(2, m_esoinnParams[3].toDouble(), m_esoinnParams[4].toDouble(), m_esoinnParams[5].toDouble(), m_esoinnParams[6].toDouble());
-
+        qDebug() << "C";
+    }
     int * shuf_arr = new int[image->width() * image->height()];
     int points_cnt = 0;
     for (int i = 0; i < image->height(); i++){

@@ -6,6 +6,8 @@
 
 #include <iostream>
 
+#include <QDebug>
+
 Neuron::Neuron(int dimentionSize, double * weights = NULL)
 {
         srand((unsigned)time(NULL));
@@ -53,9 +55,26 @@ Neuron::Neuron(Neuron* v)
 
 Neuron::~Neuron()
 {
-	for(list<Connection *>::iterator it = neighboursList->begin(); it != neighboursList->end(); ++it) delete (*it);
-	delete neighboursList;
-	delete area;
+    qDebug() << "N"<<(neighboursList->size());
+    if (neighboursList->size() > 0){
+        for(list<Connection *>::iterator it = neighboursList->begin(); it != neighboursList->end();) {
+            qDebug() <<*it << (*it)->first;
+            Connection * c = *it;
+            qDebug() <<"N1";
+            it = neighboursList->erase(it);
+            qDebug() <<"N2" << c;
+            if (c){
+                qDebug() << c->getAge();
+                Neuron * n = c->getNeighbourNeuron(this);
+                n->neighboursList->remove(c);
+                //delete c;
+            }
+            qDebug() <<"N3";
+
+        }
+        //delete neighboursList;
+        //delete area;
+    }
 }
 
 void Neuron::incSignal()
