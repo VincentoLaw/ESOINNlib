@@ -62,6 +62,12 @@ double Cluster::calcMeanDensity()
     return meanDensity;
 }
 
+void Cluster::removeNeuron(Neuron * n){
+    if (n == apex)//TODO сравнение указателей?
+        findApex();
+    neuronsList->remove(n);
+}
+
 Neuron* Cluster::findApex()
 {
 	for (list<Neuron*>::iterator it = neuronsList->begin(); it != neuronsList->end(); ++it)

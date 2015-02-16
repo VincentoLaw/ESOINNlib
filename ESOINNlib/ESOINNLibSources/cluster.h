@@ -22,6 +22,7 @@ class Cluster{
 		double getDensity();
 		Neuron* findApex();
 		Neuron *getApex();
+        void removeNeuron(Neuron * n);
 		double calcMeanDensity();
 };
 

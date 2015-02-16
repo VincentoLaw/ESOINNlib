@@ -40,12 +40,8 @@ Esoinn::~Esoinn()
 {
     qDebug() << "D";
     for(list<Neuron *>::iterator it = neuronsList->begin(); it != neuronsList->end();) {
-        qDebug() << *it;
-        Neuron * n = *it;
+        removeNeuronFully(*it);
         it = neuronsList->erase(it);
-        qDebug() << "E1";
-        delete n;
-        qDebug() << "E2";
     }
     qDebug() << "EEE";
     for(list<Connection *>::iterator it = connectionsList->begin(); it != connectionsList->end();) {
@@ -815,7 +811,27 @@ void Esoinn::clearWinners(){
     }
 }
 
-
+void Esoinn::removeNeuronFully(Neuron * n){
+    if (n->neighboursList->size() > 0){
+        for(list<Connection *>::iterator it = n->neighboursList->begin(); it != n->neighboursList->end();) {
+            qDebug() <<*it << (*it)->first;
+            Connection * c = *it;
+            qDebug() <<"N1";
+            it = n->neighboursList->erase(it);
+            qDebug() <<"N2" << c;
+            if (c){
+                qDebug() << c->getAge();
+                Neuron * neigh = c->getNeighbourNeuron(n);
+                neigh->neighboursList->remove(c);
+                connectionsList->remove(c);
+                delete c;
+            }
+            qDebug() <<"N3";
+        }
+    }
+    n->getCluster()->removeNeuron(n);
+    delete n;
+}
 
 
 

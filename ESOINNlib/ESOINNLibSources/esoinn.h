@@ -62,7 +62,7 @@ class Esoinn{
         /*?*/void updateDensity(Neuron* winner);
 		/*?*/void adaptWeights(Neuron *&winner, double* inputVector);
         /*?*/void removeOldConnections();
-
+        void removeNeuronFully(Neuron * neuron);
         
 		
         double calcPoint(Neuron * neuron);

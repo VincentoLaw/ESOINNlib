@@ -55,7 +55,7 @@ Neuron::Neuron(Neuron* v)
 
 Neuron::~Neuron()
 {
-    qDebug() << "N"<<(neighboursList->size());
+    /*qDebug() << "N"<<(neighboursList->size());
     if (neighboursList->size() > 0){
         for(list<Connection *>::iterator it = neighboursList->begin(); it != neighboursList->end();) {
             qDebug() <<*it << (*it)->first;
@@ -74,7 +74,8 @@ Neuron::~Neuron()
         }
         //delete neighboursList;
         //delete area;
-    }
+    }*/
+    delete[] weights;
 }
 
 void Neuron::incSignal()
