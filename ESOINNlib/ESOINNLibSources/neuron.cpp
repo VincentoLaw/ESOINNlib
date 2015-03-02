@@ -1,9 +1,8 @@
-
 #include "neuron.h"
 #include "cluster.h"
 #include "connection.h"
 #include <iostream>
-
+#include <QString>
 
 Neuron::Neuron(int dimentionSize, double * weights = NULL)
 {
@@ -81,6 +80,18 @@ cluster Neuron::setArea(cluster buf)
     return buf;
 }
 
+string Neuron::getNeuronData(){
+    QString data = "";
+    data += QString::number(similarityThreshold) + " ";
+    data += QString::number(point) + " ";
+    data += QString::number(winInThisIter) + " ";
+    data += QString::number(allTimeWin) + " ";
+    data += QString::number(density) + " ";
+    data += QString::number(classId) + " ";
+    data += QString::number(winerTimesCount);
+    return data.toStdString();
+}
+
 double Neuron::getDensity()
 {
 	return density;
@@ -105,4 +116,3 @@ cluster Neuron::getCluster()
 {
 	return area;
 }
-

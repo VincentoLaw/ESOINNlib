@@ -703,17 +703,78 @@ void Esoinn::clearWinners()
     for (auto &it : neuronsList) it->winInThisIter = false;
 }
 
+int Esoinn::getNeuronId(vertex neuron){
+    int  neuron_ind = 0;
+    for (auto &n : neuronsList){
+        if (neuron == n)
+            return neuron_ind;
+        neuron_ind++;
+    }
+}
+
 void Esoinn::saveStateToFile(string fileName){
     ofstream file(fileName);
     file << dimensionSize << " " << maximalConnectionAge << " " << lambda << " " << c1 << " " << c2 << endl;
     file << neuronsList.size() << " " << connectionsList.size() << " " << clustersList.size() << endl;
     for(auto &it : neuronsList){
+        for (int i = 0; i < dimensionSize; i++)
+            file << it->weights[i] << " ";
+        file << it->getNeuronData() << endl;
     }
+    for (auto &it : connectionsList){
+        file << it->getAge() << " " << getNeuronId(it->first) << " " << getNeuronId(it->second) << endl;
+    }
+    file << endl;
+    for (auto &it : clustersList){
+        file << it->getDensity() << " " << it->getId() << " " << getNeuronId(it->apex) << endl;
+        file << it->neuronsList.size() << endl;
+        for (auto &neuron : it->neuronsList)
+            file << getNeuronId(neuron) << " ";
+        file << endl;
+    }
+    for(auto &it : neuronsList){
+        file << it->area->getId() << " ";
+        file << it->neighboursList.size() << endl;
+        for (auto &neigh : it->neighboursList){
+            auto con_neuron = neigh->getNeighbourNeuron(it);
+            file << getNeuronId(con_neuron) << " ";
+        }
+    }
+    file << endl;
 }
 
 
 void Esoinn::loadStateFromFile(string fileName){
-
+    ifstream file(fileName);
+    file >> dimensionSize >>  maximalConnectionAge >> lambda >> c1 >> c2;
+    int neurons_list_size, connections_list_size, clusters_list_size;
+    file >> neurons_list_size >> connections_list_size >> clusters_list_size;
+    for(int i = 0; i < neurons_list_size; i++){
+        double w = new double[dimensionSize];
+        for (int i = 0; i < dimensionSize; i++)
+            file >> w[i];
+        vertex n = addNeuron(w);
+        file << it->area->getId() << " ";
+        file << it->getNeuronData() << endl;
+    }
+    for (auto &it : connectionsList){
+        file << it->getAge() << " " << getNeuronId(it->first) << " " << getNeuronId(it->second) << endl;
+    }
+    /*
+     *         int neighs_cnt;
+        file >> neighs_cnt;
+        for (int j = 0; j < neighs_cnt; j++){
+            auto con_neuron = neigh->getNeighbourNeuron(it);
+            file << getNeuronId(con_neuron) << " ";
+        }
+     */
+    for (auto &it : clustersList){
+        file << it->getDensity() << " " << it->getId() << " " << getNeuronId(it->apex) << endl;
+        file << it->neuronsList.size() << endl;
+        for (auto &neuron : it->neuronsList)
+            file << getNeuronId(neuron) << " ";
+        file << endl;
+    }
 }
 
 

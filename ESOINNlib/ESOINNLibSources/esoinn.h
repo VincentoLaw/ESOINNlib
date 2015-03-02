@@ -127,6 +127,7 @@ class Esoinn{
 
         void saveStateToFile(string fileName);
         void loadStateFromFile(string fileName);
+        int getNeuronId(vertex neuron);
 		//int neuronClassId(double * inputVector);
 
 		//bool saveNetworkData(string fileName);

@@ -1,6 +1,7 @@
 #pragma once
 #include <list>
 #include <memory>
+#include <string>
 #include <time.h>
 #define vertex shared_ptr<Neuron>
 #define edge shared_ptr<Connection>
@@ -52,4 +53,5 @@ class Neuron{
         void setDensity(double data);
     	void setId(int data);
         cluster setArea(cluster buf);
+        string getNeuronData();
 };
