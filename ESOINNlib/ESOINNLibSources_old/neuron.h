@@ -1,21 +1,10 @@
 #pragma once
 #include <list>
-#include <memory>
-#include <time.h>
-#define vertex shared_ptr<Neuron>
-#define edge shared_ptr<Connection>
-#define cluster shared_ptr<Cluster>
-
-#define neuronIterator list<vertex>::iterator
-#define edgeIterator list<edge>::iterator
-
-class Cluster;
-class Connection;
-
 
 using namespace std;
 
-
+class Cluster;
+class Connection;
 
 class Neuron{
 
@@ -25,31 +14,30 @@ class Neuron{
     	int dimentionSize;
 
     	int classId;
-
+        Cluster* area;
     	int winerTimesCount;
 
 	public:
         
 		Neuron(int dimentionSize, double* weights);
-        Neuron(vertex v);
+		Neuron(Neuron* v);
 		~Neuron();
 
         double similarityThreshold;
-        double *weights;
-        list<edge> neighboursList;
+		double * weights;
+    	list<Connection*> * neighboursList;
         double point;
-        cluster area;
 
         bool winInThisIter;
         int allTimeWin;
     	
 		void incSignal();
-        cluster getCluster();
+    	Cluster * getCluster();
     	double getDensity();
 		int getDim();
     	int getId();
     	int getCountSignals();
         void setDensity(double data);
     	void setId(int data);
-        cluster setArea(cluster buf);
+    	Cluster* setArea(Cluster* buf);
 };

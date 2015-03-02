@@ -1,25 +1,30 @@
+#pragma once
+
+#include <memory>
+#define vertex shared_ptr<Neuron>
+
+
+//Also can be called as edge
+
+using namespace std;
 
 class Neuron;
-//Also can be called as edge
+
 class Connection {
 
 	private:
 
 		int age;
-        //int id;
-        //int count;
 
 	public:
 
-		Connection(Neuron * first, Neuron * second);
+        Connection(vertex first, vertex second);
 		~Connection();
-		Neuron *first, *second;
-        //increasing age of connection by n
+        vertex first;
+        vertex second;
         void incAge();
-        Neuron * getNeighbourNeuron(Neuron* node);
+        vertex getNeighbourNeuron(vertex node);
         void setAge(int age);
-        //int getId();
         int getAge();
-		void remove();
 };
 

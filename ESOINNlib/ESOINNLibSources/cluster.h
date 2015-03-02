@@ -1,5 +1,11 @@
 #pragma once
 #include <list>
+#include <memory>
+
+#define vertex shared_ptr<Neuron>
+
+#define neuronIterator list<vertex>::iterator
+
 
 using namespace std;
 
@@ -11,18 +17,17 @@ class Cluster{
 
 		int id;
 		double meanDensity;
-		Neuron * apex;
 
 	public:
-        Cluster(Neuron *delegatorOfCluster, int clusterId);
+        Cluster(vertex delegatorOfCluster, int clusterId);
 		~Cluster();
-		list<Neuron*> *neuronsList;
+        vertex apex;
+        list<vertex> neuronsList;
 		int getId();
 		void setId(int data);
 		double getDensity();
-		Neuron* findApex();
-		Neuron *getApex();
-        void removeNeuron(Neuron * n);
+        vertex findApex();
+        vertex getApex();
 		double calcMeanDensity();
 };
 

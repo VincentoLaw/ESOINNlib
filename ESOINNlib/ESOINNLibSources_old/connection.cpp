@@ -1,8 +1,7 @@
 #include "connection.h"
 #include "neuron.h"
 
-Connection::Connection(vertex first, vertex second)
-{
+Connection::Connection(Neuron * first, Neuron * second){
     this->first = first;
     this->second = second;
     //count++;
@@ -10,18 +9,15 @@ Connection::Connection(vertex first, vertex second)
     age = 0;
 }
 
-Connection::~Connection()
-{
+Connection::~Connection(){
     //delete first;
     //delete second;
 }
-void Connection::incAge()
-{
+void Connection::incAge(){
 	age++;
 }
 
-void Connection::setAge(int age)
-{
+void Connection::setAge(int age){
 	this->age = age;
 }
 
@@ -29,14 +25,15 @@ void Connection::setAge(int age)
 //	return id;
 //}
 
-int Connection::getAge()
-{
+int Connection::getAge(){
 	return age;
 }
 
-vertex Connection::getNeighbourNeuron(vertex node)
-{
+Neuron* Connection::getNeighbourNeuron(Neuron *node){
 	return first == node ? second : first;
 }
 
+void Connection::remove(){
+	delete this;
+}
 

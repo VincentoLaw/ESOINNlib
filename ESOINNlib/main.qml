@@ -132,7 +132,7 @@ Window {
                 anchors.left: iterText.right
                 anchors.leftMargin: 5
                 font.pointSize: 12
-                text:"10"
+                text:"1"
             }
             Text{
                 id: text1
@@ -178,7 +178,7 @@ Window {
                 anchors.left: text3.right
                 anchors.leftMargin: 5
                 font.pointSize: 12
-                text:"0.001"
+                text:"0.01"
             }
             Text{
                 id: text4

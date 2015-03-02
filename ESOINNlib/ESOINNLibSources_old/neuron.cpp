@@ -1,13 +1,17 @@
-
 #include "neuron.h"
 #include "cluster.h"
 #include "connection.h"
+#include <stdlib.h>
+#include <time.h>
+
 #include <iostream>
 
+#include <QDebug>
 
 Neuron::Neuron(int dimentionSize, double * weights = NULL)
 {
         srand((unsigned)time(NULL));
+        this->neighboursList = new list<Connection *>();
         this->dimentionSize = dimentionSize;
         this->weights = new double[dimentionSize];
         for (int i = 0; i < dimentionSize; i++)
@@ -17,18 +21,20 @@ Neuron::Neuron(int dimentionSize, double * weights = NULL)
                 this->weights[i] = rand() % 1000;
             else this->weights[i] = weights[i];
         }
-        this->area = nullptr;
+        this->area = NULL;
         this->classId = -1;
         this->density = 0;
         this->winerTimesCount = 0;
         this->point = 0;
         this->winInThisIter = false;
         this->allTimeWin = 0;
+
 }
 
-Neuron::Neuron(vertex v)
+Neuron::Neuron(Neuron* v)
 {
     srand((unsigned)time(NULL));
+	this->neighboursList = new list<Connection *>();
     this->dimentionSize = v->getDim();
     this->weights = new double[dimentionSize];
     for (int i = 0; i < dimentionSize; i++)
@@ -49,9 +55,26 @@ Neuron::Neuron(vertex v)
 
 Neuron::~Neuron()
 {
-    //for(auto it = neighboursList->begin(); it != neighboursList->end(); ++it) delete (*it);
-    //delete area;
-    //cout << "deleted" << endl;
+    /*qDebug() << "N"<<(neighboursList->size());
+    if (neighboursList->size() > 0){
+        for(list<Connection *>::iterator it = neighboursList->begin(); it != neighboursList->end();) {
+            qDebug() <<*it << (*it)->first;
+            Connection * c = *it;
+            qDebug() <<"N1";
+            it = neighboursList->erase(it);
+            qDebug() <<"N2" << c;
+            if (c){
+                qDebug() << c->getAge();
+                Neuron * n = c->getNeighbourNeuron(this);
+                n->neighboursList->remove(c);
+                //delete c;
+            }
+            qDebug() <<"N3";
+
+        }
+        //delete neighboursList;
+        //delete area;
+    }*/
     delete[] weights;
 }
 
@@ -74,7 +97,7 @@ void Neuron::setDensity(double data)
     this->density = data;
 }
 
-cluster Neuron::setArea(cluster buf)
+Cluster* Neuron::setArea(Cluster* buf)
 {
 	this->area = buf;
 	this->classId = area->getId();
@@ -101,7 +124,7 @@ int Neuron::getDim()
 	return dimentionSize;
 }
 
-cluster Neuron::getCluster()
+Cluster * Neuron::getCluster()
 {
 	return area;
 }

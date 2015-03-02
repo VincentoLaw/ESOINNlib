@@ -1,27 +1,16 @@
 #pragma once
-
 #include <list>
 #include <stdlib.h>
 #include <math.h>
 #include <string>
 #include <stdio.h>
-#include <memory>
 #include <QDebug>
-
-#define INF 1e15
-#define vertex shared_ptr<Neuron>
-#define edge shared_ptr<Connection>
-#define cluster shared_ptr<Cluster>
-
-#define neuronIterator list<vertex>::iterator
-#define	edgeIterator list<edge>::iterator
-#define clusterIterator list<cluster>::iterator
-
-
 
 using namespace std;
 
-
+#define INF 1e15
+#define NeuronIterator list<Neuron*>::iterator
+#define	EdgeIterator list<Connection*>::iterator
 //TODO change name or put in class constants
 
 /*
@@ -48,9 +37,7 @@ class Esoinn{
         int lambda;
         double c1;
         double c2;
-        list<vertex> neuronsList;
-        list<edge> connectionsList;
-        list<cluster> clustersList;
+        
 
 		//methods
         double commonDistanceFunction(double * inputVector, double * checkDistanceVector);
@@ -58,36 +45,27 @@ class Esoinn{
 		//TODO another params?
         
         
-        vertex addNeuron(double * weights, double threshold);
-        /*+*/vertex addNeuron(double *weights);
-        vertex addNeuron(vertex neuronToAdd);
-        /*+*/edge addConnection(vertex first, vertex second);
-        cluster addCluster(vertex delegatorOfCluster);
-        /*+*/void removeConnection(edge Edge);
-        void removeConnection(edgeIterator &edgeToremove);
-        /*+*/void removeConnection(vertex first, vertex second);
-        /*+*/void removeNeuron(vertex neuronToRemove);
-        /*+*/void removeNeuron(neuronIterator &neuronToRemove);
-        /*+*/edge getConnection(vertex first, vertex second);
+        Neuron * addNeuron(double * weights, double threshold);
+
+        
 
 		//TODO another params?
-        double calcDistance(double *weight1, double *weight2);
-        double calcMeanDistance(vertex neuron);
         
-        /*?*/bool findWiner(double * inputVector, vertex &winner, vertex &secondWinner);
-        /*?*/bool needAddConnection(vertex first, vertex second);
-        /*?*/bool needUniteClusters(vertex first, vertex second);
-        /*?*/void uniteClusters(vertex a, vertex b);
+        
+        /*?*/bool findWiner(double * inputVector, Neuron * &winner, Neuron * &secondWinner);
+        /*?*/bool needAddConnection(Neuron *first, Neuron *second);
+        /*?*/bool needUniteClusters(Neuron *first, Neuron *second);
+        /*?*/void uniteClusters(Neuron* a, Neuron* b);
         /*?*/double densityThreshold(double mean, double max);
-        /*?*/double similarityThreshold(vertex neuron);
-        /*?*/bool isWithinThreshold(vertex firstWinner, vertex secondWinner, double* inputSignal);
-        /*?*/void updateDensity(vertex winner);
-        /*?*/void adaptWeights(vertex &winner, double* inputVector);
+        /*?*/double similarityThreshold(Neuron* neuron);
+        /*?*/bool isWithinThreshold(Neuron* firstWinner, Neuron* secondWinner, double* inputSignal);
+        /*?*/void updateDensity(Neuron* winner);
+		/*?*/void adaptWeights(Neuron *&winner, double* inputVector);
         /*?*/void removeOldConnections();
-
-
+        void removeNeuronFully(Neuron * neuron);
+        
 		
-        double calcPoint(vertex neuron);
+        double calcPoint(Neuron * neuron);
        	double calcEuclidNorm(double * vector1, double * vector2, int n);
        	double calcHemmingNorm(double * vector1, double * vector2, int n);
 		double externalCalcDistance(double * weight1, double * weight2);
@@ -100,8 +78,8 @@ class Esoinn{
 		void separateToSubclasses();
 		void removeNoise();
 
-        vertex getNeuron(int neuronIndex);
-        edge getConnection(int connectionIndex);
+        Neuron * getNeuron(int neuronIndex);
+        Connection * getConnection(int connectionIndex);
 
 
     public:
@@ -109,24 +87,34 @@ class Esoinn{
 		//Constructor for ESOINN
         //dimensionSize means the size of learning vectors
         //distanceFunction can not be set, it means the function, that calculate distance between vectors
-
+		list<Neuron *> * neuronsList;
+        list<Connection *> * connectionsList;
+        list<Cluster *> * clustersList;
 		
 		Esoinn(int dimensionSize, int maximalConnectionAge, int lambda, double c1, double c2, double (*distanceFunction)(double *,double *));
 		/*+*/Esoinn(int dimensionSize, int maximalConnectionAge, int lambda, double c1, double c2);
 		~Esoinn();
 		//method for input learning vectors as double values
         
-
-
-        void inputSignal(double *inputVector);
+		/*+*/Neuron * addNeuron(double * weights);
+		Neuron* addNeuron(Neuron * neuronToAdd);
+        /*+*/Connection * addConnection(Neuron * first, Neuron * second);
+		Cluster* addCluster(Neuron * delegatorOfCluster);
+		/*+*/void removeConnection(Connection * edge);
+		void removeConnection(list<Connection*>::iterator &edgeToremove);
+		/*+*/void removeConnection(Neuron * first, Neuron * second);
+		/*+*/void removeNeuron(Neuron * neuronToRemove);
+		/*+*/void removeNeuron(list<Neuron*>::iterator &neuronToRemove);
+		/*+*/Connection *getConnection(Neuron * first, Neuron * second);
+		
+		void inputSignal(double * inputVector);
         //void inputSignal(Neuron * inputVector);
+        double calcDistance(double * weight1, double * weight2);
+        double calcMeanDistance(Neuron * neuron);
 		/*+*/void writeStructureToFile(string fileName);
 		double ** getStructure();
 		//returns main neuron that represent this input vector
-        void clearWinners();
-
-        void saveStateToFile(string fileName);
-        void loadStateFromFile(string fileName);
+        void Esoinn::clearWinners();
 		//int neuronClassId(double * inputVector);
 
 		//bool saveNetworkData(string fileName);

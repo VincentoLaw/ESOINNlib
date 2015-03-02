@@ -43,8 +43,7 @@
 //#include <random>
 
 // ![0]
-dataExchanger::dataExchanger(QObject *parent)
-: QObject(parent)
+dataExchanger::dataExchanger(QObject *parent): QObject(parent)
 {
     es = NULL;
 }
@@ -108,13 +107,9 @@ void dataExchanger::setEsoinnParams(const QList<QString> &n){
 
     QString qs;
     qsrand(0);
-    if (m_esoinnParams[1].toDouble() == 1 || es == NULL){
-        qDebug() << "A";
-        delete es;
-        qDebug() << "B";
+    if (m_esoinnParams[1].toDouble() == 1 || es == NULL)
         es = new Esoinn(2, m_esoinnParams[3].toDouble(), m_esoinnParams[4].toDouble(), m_esoinnParams[5].toDouble(), m_esoinnParams[6].toDouble());
-        qDebug() << "C";
-    }
+
     int * shuf_arr = new int[image->width() * image->height()];
     int points_cnt = 0;
     for (int i = 0; i < image->height(); i++){
@@ -125,9 +120,8 @@ void dataExchanger::setEsoinnParams(const QList<QString> &n){
             }
         }
     }
-
-    qDebug() << QTime::currentTime().minute() << QTime::currentTime().second() << QTime::currentTime().msec();
-    for (int iter = 0; iter < m_esoinnParams[2].toDouble(); iter++){
+    for (int iter = 0; iter < m_esoinnParams[2].toDouble(); iter++)
+    {
         for (int i = 0; i < points_cnt; i++){
             int temp = shuf_arr[i];
             int swap_cell = qrand() % points_cnt;
@@ -144,7 +138,7 @@ void dataExchanger::setEsoinnParams(const QList<QString> &n){
             w[0] = shuf_arr[i] % 100000;
             w[1] = shuf_arr[i] / 100000;
             es->inputSignal(w);
-
+            delete[] w;
             if (i == points_cnt - 1){
                 double ** str = es->getStructure();
                 for (int ii = 1; ii < str[0][0] + 1; ii++){
@@ -158,6 +152,8 @@ void dataExchanger::setEsoinnParams(const QList<QString> &n){
                     }
                     qs += "/";
                 }
+                int n = str[0][0] + 1;
+                for(int i = 0; i < n; ++i) delete[] str[i];
                 delete[] str;
                 qs += ";";
             }
@@ -194,9 +190,6 @@ void dataExchanger::setEsoinnParams(const QList<QString> &n){
         }*/
     }
 
-    qDebug() << QTime::currentTime().minute() << QTime::currentTime().second() << QTime::currentTime().msec();
-
-
     //generating random data for esoinn
     /*QTime time = QTime::currentTime();
     std::default_random_engine generator;
@@ -212,9 +205,10 @@ void dataExchanger::setEsoinnParams(const QList<QString> &n){
 
 
     //getting esoinn structure from double array
-
+    delete[] shuf_arr;
     //Loading data to class. This data now will be available in QML
     setStructureData(qs);
+
 }
 
 

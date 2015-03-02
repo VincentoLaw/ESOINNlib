@@ -1,33 +1,18 @@
 #include "neuron.h"
 #include "cluster.h"
-#include <QDebug>
 
-Cluster::Cluster(Neuron * delegatorOfCluster, int clusterId)
+Cluster::Cluster(vertex delegatorOfCluster, int clusterId)
 {
-	neuronsList = new list<Neuron*>();
 	apex = delegatorOfCluster;
-	neuronsList->push_back(apex); 
+    neuronsList.push_back(apex);
     id = clusterId;
 }
 
 Cluster::~Cluster()
 {
-    qDebug() << "C" << neuronsList;
-    if (neuronsList){
-        for(list<Neuron *>::iterator it = neuronsList->begin(); it != neuronsList->end();) {
-            qDebug() <<*it;
-            Neuron * n = *it;
-            qDebug() <<"C1";
-            it = neuronsList->erase(it);
-            qDebug() <<"C2";
-            //if (n)
-            //    delete n;
-            qDebug() <<"C3";
-
-        }
-        //delete neuronsList;
-        //delete apex;
-    }
+    //for(auto it = neuronsList->begin(); it != neuronsList->end(); ++it) delete (*it);
+    //delete neuronsList;
+    //delete apex;
 }
 
 int Cluster::getId()
@@ -45,36 +30,34 @@ double Cluster::getDensity()
 	return meanDensity;
 }
 
-Neuron * Cluster::getApex()
+vertex Cluster::getApex()
 {
 	return apex;
 }
 
 double Cluster::calcMeanDensity()
 {
-	double res = 0.0;
-    for (list<Neuron*>::iterator it = neuronsList->begin(); it != neuronsList->end(); ++it)
+    auto res = 0.0;
+    for(auto &it : neuronsList)
 	{
-        res += (*it)->getDensity();
+        res += it->getDensity();
     }
-	res /= neuronsList->size();
+    res /= neuronsList.size();
 	meanDensity = res;
-    return meanDensity;
+	return meanDensity;
 }
 
-void Cluster::removeNeuron(Neuron * n){
-    if (n == apex)//TODO сравнение указателей?
-        findApex();
-    neuronsList->remove(n);
-}
-
-Neuron* Cluster::findApex()
+vertex Cluster::findApex()
 {
-	for (list<Neuron*>::iterator it = neuronsList->begin(); it != neuronsList->end(); ++it)
-	{
-		if ((*it)->getDensity() > apex->getDensity()) apex = (*it);
-		//this->apex = (*it).getDensity() > this->apex->getDensity() ? it : this->apex;
-	}
+    if (neuronsList.size() > 0){
+        if (apex == nullptr)
+            apex = *(neuronsList.begin());
+        for (auto &it : neuronsList)
+        {
+            if (it->getDensity() > apex->getDensity()) apex = it;
+
+        }
+    }
 	return apex;
 }
 
