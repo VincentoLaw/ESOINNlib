@@ -92,6 +92,16 @@ string Neuron::getNeuronData(){
     return data.toStdString();
 }
 
+void Neuron::setNeuronData(double simTh, double Point, bool winned, int allwins, double dens, int classid, int winCnt){
+    similarityThreshold = simTh;
+    point = Point;
+    winInThisIter = winned;
+    allTimeWin = allwins;
+    density = dens;
+    classId = classid;
+    winerTimesCount = winCnt;
+}
+
 double Neuron::getDensity()
 {
 	return density;

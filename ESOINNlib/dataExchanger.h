@@ -43,6 +43,7 @@
 #include <QObject>
 #include <QQuickImageProvider>
 #include <QImage>
+#include <string>
 #include "ESOINNLibSources/esoinn.h"
 //![0] 
 
@@ -56,6 +57,9 @@ class dataExchanger : public QObject
 
     Q_PROPERTY(QUrl im READ im WRITE sim)
     Q_PROPERTY(QUrl pointedImage READ pointedImage WRITE setPointedImage)
+
+    Q_PROPERTY(QUrl loadStructure READ loadStructure WRITE setLoadStructure)
+    Q_PROPERTY(QUrl saveStructure READ saveStructure WRITE setSaveStructure)
 public:
     dataExchanger(QObject *parent = 0);
     //shared data
@@ -71,6 +75,12 @@ public:
     QUrl pointedImage() const;
     void setPointedImage(const QUrl &);
 
+    QUrl loadStructure() const;
+    void setLoadStructure(const QUrl &);
+
+    QUrl saveStructure() const;
+    void setSaveStructure(const QUrl &);
+
     //local data
     Esoinn * es;
     QImage * image;
@@ -79,6 +89,7 @@ private:
     QString m_structureData;
     QList<QString> m_esoinnParams;
     imgType m_im;
+    string m_loadStructure;
 };
 //![0]
 

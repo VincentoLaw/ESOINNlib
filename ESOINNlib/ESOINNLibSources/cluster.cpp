@@ -30,6 +30,11 @@ double Cluster::getDensity()
 	return meanDensity;
 }
 
+void Cluster::setDensity(double dens)
+{
+    meanDensity = dens;
+}
+
 vertex Cluster::getApex()
 {
 	return apex;

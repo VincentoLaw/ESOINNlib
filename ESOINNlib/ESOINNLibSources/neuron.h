@@ -54,4 +54,5 @@ class Neuron{
     	void setId(int data);
         cluster setArea(cluster buf);
         string getNeuronData();
+        void setNeuronData(double simTh, double Point, bool winned, int allwins, double dens, int classid, int winCnt);
 };

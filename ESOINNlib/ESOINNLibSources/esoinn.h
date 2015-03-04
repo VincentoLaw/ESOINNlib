@@ -51,6 +51,7 @@ class Esoinn{
         list<vertex> neuronsList;
         list<edge> connectionsList;
         list<cluster> clustersList;
+        int clustersId;
 
 		//methods
         double commonDistanceFunction(double * inputVector, double * checkDistanceVector);
@@ -103,6 +104,9 @@ class Esoinn{
         vertex getNeuron(int neuronIndex);
         edge getConnection(int connectionIndex);
 
+        int getNeuronId(vertex neuron);
+        vertex getNeuronById(int id);
+
 
     public:
 
@@ -113,6 +117,7 @@ class Esoinn{
 		
 		Esoinn(int dimensionSize, int maximalConnectionAge, int lambda, double c1, double c2, double (*distanceFunction)(double *,double *));
 		/*+*/Esoinn(int dimensionSize, int maximalConnectionAge, int lambda, double c1, double c2);
+        Esoinn(string fileName);
 		~Esoinn();
 		//method for input learning vectors as double values
         
@@ -127,7 +132,6 @@ class Esoinn{
 
         void saveStateToFile(string fileName);
         void loadStateFromFile(string fileName);
-        int getNeuronId(vertex neuron);
 		//int neuronClassId(double * inputVector);
 
 		//bool saveNetworkData(string fileName);

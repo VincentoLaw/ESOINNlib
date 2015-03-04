@@ -102,6 +102,30 @@ void dataExchanger::setPointedImage(const QUrl &n)
     setStructureData(strs);
 }
 
+void dataExchanger::setLoadStructure(const QUrl &filePath){
+    auto fileName = filePath.toString().remove(0, 8).toStdString();
+    if (es == NULL){
+        es = new Esoinn(fileName);
+    }
+    else {
+        es->~Esoinn();
+        es = new Esoinn(fileName);
+    }
+}
+
+QUrl dataExchanger::loadStructure() const{
+    return NULL;
+}
+
+QUrl dataExchanger::saveStructure() const{
+    return NULL;
+}
+void dataExchanger::setSaveStructure(const QUrl &filePath){
+    auto fileName = filePath.toString().remove(0, 8).toStdString();
+    es->saveStateToFile(fileName);
+
+}
+
 void dataExchanger::setEsoinnParams(const QList<QString> &n){
     m_esoinnParams = n;
 

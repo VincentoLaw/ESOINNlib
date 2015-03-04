@@ -26,6 +26,7 @@ class Cluster{
 		int getId();
 		void setId(int data);
 		double getDensity();
+        void setDensity(double density);
         vertex findApex();
         vertex getApex();
 		double calcMeanDensity();

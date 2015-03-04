@@ -17,6 +17,7 @@ Esoinn::Esoinn(int dimensionSize, int maximalConnectionAge, int lambda, double c
     this->c1 = c1;
     this->c2 = c2;
     this->LT = 0;
+    clustersId = 0;
     //this->externalCalcDistance = distanceFunction;
 }
 
@@ -28,6 +29,13 @@ Esoinn::Esoinn(int dimensionSize, int maximalConnectionAge, int lambda, double c
     this->c1 = c1;
     this->c2 = c2;
     this->LT = 0;
+    clustersId = 0;
+}
+
+Esoinn::Esoinn(string fileName){
+    clustersId = 0;
+    LT = 0;
+    loadStateFromFile(fileName);
 }
 
 Esoinn::~Esoinn()
@@ -99,8 +107,7 @@ void Esoinn::removeNeuron(vertex neuronToRemove)
 
 cluster Esoinn::addCluster(vertex delegatorOfCluster)
 {
-    auto ident = clustersList.size();
-    clustersList.push_back(make_shared<Cluster>(Cluster(delegatorOfCluster, ++ident)));
+    clustersList.push_back(make_shared<Cluster>(Cluster(delegatorOfCluster, clustersId++)));
     return clustersList.back();
 }
 
@@ -712,7 +719,17 @@ int Esoinn::getNeuronId(vertex neuron){
     }
 }
 
+vertex Esoinn::getNeuronById(int id){
+    int  neuron_ind = 0;
+    for (auto &n : neuronsList){
+        if (neuron_ind == id)
+            return n;
+        neuron_ind++;
+    }
+}
+
 void Esoinn::saveStateToFile(string fileName){
+    cout << fileName << endl;
     ofstream file(fileName);
     file << dimensionSize << " " << maximalConnectionAge << " " << lambda << " " << c1 << " " << c2 << endl;
     file << neuronsList.size() << " " << connectionsList.size() << " " << clustersList.size() << endl;
@@ -732,14 +749,6 @@ void Esoinn::saveStateToFile(string fileName){
             file << getNeuronId(neuron) << " ";
         file << endl;
     }
-    for(auto &it : neuronsList){
-        file << it->area->getId() << " ";
-        file << it->neighboursList.size() << endl;
-        for (auto &neigh : it->neighboursList){
-            auto con_neuron = neigh->getNeighbourNeuron(it);
-            file << getNeuronId(con_neuron) << " ";
-        }
-    }
     file << endl;
 }
 
@@ -750,30 +759,37 @@ void Esoinn::loadStateFromFile(string fileName){
     int neurons_list_size, connections_list_size, clusters_list_size;
     file >> neurons_list_size >> connections_list_size >> clusters_list_size;
     for(int i = 0; i < neurons_list_size; i++){
-        double w = new double[dimensionSize];
+        double * w = new double[dimensionSize];
         for (int i = 0; i < dimensionSize; i++)
             file >> w[i];
         vertex n = addNeuron(w);
-        file << it->area->getId() << " ";
-        file << it->getNeuronData() << endl;
+        double d1,d2,d3; int i1,i2,i3; bool b1;
+        file >> d1 >> d2 >> b1 >> i1 >> d3 >> i2 >> i3;
+        n->setNeuronData(d1, d2, b1, i1, d3 ,i2 ,i3);
     }
-    for (auto &it : connectionsList){
-        file << it->getAge() << " " << getNeuronId(it->first) << " " << getNeuronId(it->second) << endl;
-    }
-    /*
-     *         int neighs_cnt;
-        file >> neighs_cnt;
-        for (int j = 0; j < neighs_cnt; j++){
-            auto con_neuron = neigh->getNeighbourNeuron(it);
-            file << getNeuronId(con_neuron) << " ";
+    for (int i = 0; i < connections_list_size; i++){
+        int f_id, s_id, age;
+        file >> age >> f_id >> s_id;
+        vertex n1 = getNeuronById(f_id);
+        vertex n2 = getNeuronById(s_id);
+        auto con = addConnection(n1, n2);
+        n1->neighboursList.push_back(con);
+        n2->neighboursList.push_back(con);
+        con->setAge(age);
+    }    
+    for (int i = 0; i < clusters_list_size; i++){
+        double dens;
+        int id, neuronId, neuronsSize;
+        file >> dens >> id >> neuronId >> neuronsSize;
+        auto cl = addCluster(getNeuronById(neuronId));
+        cl->setId(id);
+        cl->setDensity(dens);
+        for (int j = 0; j < neuronsSize; j++){
+            int n_id; file >> n_id;
+            vertex neuron = getNeuronById(n_id);
+            cl->neuronsList.push_back(neuron);
+            neuron->setArea(cl);
         }
-     */
-    for (auto &it : clustersList){
-        file << it->getDensity() << " " << it->getId() << " " << getNeuronId(it->apex) << endl;
-        file << it->neuronsList.size() << endl;
-        for (auto &neuron : it->neuronsList)
-            file << getNeuronId(neuron) << " ";
-        file << endl;
     }
 }
 

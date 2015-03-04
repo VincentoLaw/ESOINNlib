@@ -21,7 +21,25 @@ Window {
                   //console.log("You chose: " + fileDialog.fileUrls)
                 imagePreview.source = fileDialog.fileUrl
                 dataEx.im = imagePreview.source
+            }
+        }
 
+        FileDialog{
+            id: saveFileDialog
+            title: "Please choose a image file to load"
+            selectExisting:false
+            nameFilters: [ "Text files (*.txt *.)" ]
+            onAccepted: {
+                dataEx.saveStructure = saveFileDialog.fileUrl.toString();
+            }
+        }
+
+        FileDialog{
+            id: loadFileDialog
+            title: "Please choose a image file to load"
+            nameFilters: [ "Text files (*.txt *.)" ]
+            onAccepted: {
+                dataEx.loadStructure = loadFileDialog.fileUrl.toString();
             }
         }
 
@@ -102,7 +120,25 @@ Window {
                 text:"LEARN ITERATIONS"
                 onClicked: {
                     settingsBar.learn("0");
+                }
+            }
 
+            Button{
+                id: saveNNStructure
+                anchors.left: learnButton.right
+                anchors.leftMargin: 20
+                text:"Save structure"
+                onClicked: {
+                    saveFileDialog.open();
+                }
+            }
+            Button{
+                id: loadNNStructure
+                anchors.left: saveNNStructure.right
+                anchors.leftMargin: 10
+                text:"Load structure"
+                onClicked: {
+                    loadFileDialog.open();
                 }
             }
         }
