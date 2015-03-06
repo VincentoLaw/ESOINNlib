@@ -111,6 +111,26 @@ void dataExchanger::setLoadStructure(const QUrl &filePath){
         es->~Esoinn();
         es = new Esoinn(fileName);
     }
+    qDebug() << "E";
+    QString qs = "";
+    double ** str = es->getStructure();
+    for (int ii = 1; ii < str[0][0] + 1; ii++){
+        for (int jj = 0; jj < str[0][0] + 4; jj++){
+            //qDebug() << str[i] << " ";
+            if (jj > 1 && str[ii][jj] == -1)
+                break;
+            qs += QString::number(str[ii][jj]);
+            qs += " " ;
+
+        }
+        qs += "/";
+    }
+    int n = str[0][0] + 1;
+    for(int i = 0; i < n; ++i) delete[] str[i];
+    delete[] str;
+    qs += ";";
+    qDebug() << qs;
+    setStructureData(qs);
 }
 
 QUrl dataExchanger::loadStructure() const{

@@ -40,6 +40,8 @@ Window {
             nameFilters: [ "Text files (*.txt *.)" ]
             onAccepted: {
                 dataEx.loadStructure = loadFileDialog.fileUrl.toString();
+                currEsoinnData = dataEx.structureData.split(';');
+                dataShowTimer.running = true;
             }
         }
 
