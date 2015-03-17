@@ -349,6 +349,7 @@ void Esoinn::uniteClusters(vertex a, vertex b)
 
     auto A = a->getCluster();
     auto B = b->getCluster();
+
     //if(A->getId() < B->getId())
     for(auto &it : B->neuronsList)
     {
@@ -455,7 +456,6 @@ void Esoinn::markClasses()
     }
     clustersList.clear();
 	vertexQueue.sort(cmp_density);
-
     for(auto &it : vertexQueue)
 	{
         if(it->getId() == -1) path(it, addCluster(it));
@@ -582,7 +582,8 @@ void Esoinn::inputSignal(double* inputVector){
     {
         auto neuron = addNeuron(inputVector);
     	buf = addCluster(neuron);
-    	buf->setId(-1);
+        //возможно это нужно. всё это надо проверить!
+        //buf->setId(-1);
     	neuron->setArea(buf);
     	return;
     }
@@ -629,9 +630,9 @@ void Esoinn::inputSignal(double* inputVector){
     /*-----------------9.end.-----------------------------------------------------------*/
 
     /*---------------- 10.Separate-all-classes-on--subclasses---------------------------*/
-    if(!(this->LT % this->lambda)) updateClassLabels();
+    if(!(this->LT % this->lambda))  updateClassLabels();
 	/*---------------- 10.end.----------------------------------------------------------*/
-	/*-----------------11.-Delete-nodes-polluted-by-noise-------  ----------------------*/		
+    /*-----------------11.-Delete-nodes-polluted-by-noise-------  ----------------------*/
     this->LT++;
     /*-----------------11.end.----------------------------------------------------------*/
 
@@ -729,7 +730,6 @@ vertex Esoinn::getNeuronById(int id){
 }
 
 void Esoinn::saveStateToFile(string fileName){
-    cout << fileName << endl;
     ofstream file(fileName);
     file << dimensionSize << " " << maximalConnectionAge << " " << lambda << " " << c1 << " " << c2 << endl;
     file << neuronsList.size() << " " << connectionsList.size() << " " << clustersList.size() << endl;
@@ -758,7 +758,6 @@ void Esoinn::loadStateFromFile(string fileName){
     file >> dimensionSize >>  maximalConnectionAge >> lambda >> c1 >> c2;
     int neurons_list_size, connections_list_size, clusters_list_size;
     file >> neurons_list_size >> connections_list_size >> clusters_list_size;
-    cout << "A" << flush;
     for(int i = 0; i < neurons_list_size; i++){
         double * w = new double[dimensionSize];
         for (int i = 0; i < dimensionSize; i++)
@@ -768,7 +767,6 @@ void Esoinn::loadStateFromFile(string fileName){
         file >> d1 >> d2 >> b1 >> i1 >> d3 >> i2 >> i3;
         n->setNeuronData(d1, d2, b1, i1, d3 ,i2 ,i3);
     }
-     cout << "B" << flush;
     for (int i = 0; i < connections_list_size; i++){
         int f_id, s_id, age;
         file >> age >> f_id >> s_id;
@@ -779,12 +777,13 @@ void Esoinn::loadStateFromFile(string fileName){
         n2->neighboursList.push_back(con);
         con->setAge(age);
     }    
-     cout << clusters_list_size << flush;
     for (int i = 0; i < clusters_list_size; i++){
         double dens;
         int id, neuronId, neuronsSize;
         file >> dens >> id >> neuronId >> neuronsSize;
         auto cl = addCluster(getNeuronById(neuronId));
+        if (id == -1)
+            id = clustersId++;
         cl->setId(id);
         cl->setDensity(dens);
         for (int j = 0; j < neuronsSize; j++){
@@ -794,7 +793,6 @@ void Esoinn::loadStateFromFile(string fileName){
             neuron->setArea(cl);
         }
     }
-     cout << "C" << flush;
 }
 
 

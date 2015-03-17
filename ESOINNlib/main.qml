@@ -40,7 +40,7 @@ Window {
             nameFilters: [ "Text files (*.txt *.)" ]
             onAccepted: {
                 dataEx.loadStructure = loadFileDialog.fileUrl.toString();
-                currEsoinnData = dataEx.structureData.split(';');
+                settingsBar.currEsoinnData = dataEx.structureData.split(';');
                 dataShowTimer.running = true;
             }
         }
@@ -57,7 +57,6 @@ Window {
                     fileDialog.open()
                 }
             }
-
             Button{
                 id: showImgButton
                 anchors.leftMargin: 10
@@ -80,7 +79,7 @@ Window {
             property var visualizeIter : 0;
             property var currEsoinnData : [];
             function learn(fromBegin){
-                var arr = [nnComboBox.currentText, fromBegin, iterEdit.text, parseFloat(conAge.text), parseFloat(lambda.text), parseFloat(c1P.text), parseFloat(c2P.text)];
+                var arr = [nnComboBox.currentText, randomInput.checked, fullVisualize.checked, fromBegin, iterEdit.text, parseFloat(conAge.text), parseFloat(lambda.text), parseFloat(c1P.text), parseFloat(c2P.text)];
                 dataEx.esoinnParams = arr;
                 visualizeIter = 0;
                 currEsoinnData = dataEx.structureData.split(';');
