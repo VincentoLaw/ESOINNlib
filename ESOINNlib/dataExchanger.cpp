@@ -40,6 +40,7 @@
 #include "dataExchanger.h"
 #include <QtDebug>
 #include <QTime>
+#include <fstream>
 //#include <random>
 
 // ![0]
@@ -75,6 +76,30 @@ void dataExchanger::sim(const imgType &n)
     if (!image)
         delete image;
     image = new QImage(n.toLocalFile());
+
+    double ** shuf_arr = new double*[image->width() * image->height()];
+    int points_cnt = 0;
+    for (int i = 0; i < image->height(); i++){
+        for (int j = 0; j < image->width(); j++){
+            QColor qc(image->pixel(j,i));
+            if (qc.red() < 100 || qc.green() < 100 || qc.blue() < 100){
+                shuf_arr[points_cnt] = new double[2];
+                shuf_arr[points_cnt][0] = j;
+                shuf_arr[points_cnt][1] = i;
+                points_cnt++;
+            }
+        }
+    }
+    vectors = new double*[points_cnt];
+    vectorsCnt = points_cnt;
+    dimSize = 2;
+    for (int i = 0; i < points_cnt; i++){
+        vectors[i] = new double[2];
+        vectors[i][0] = shuf_arr[i][0];
+        vectors[i][1] = shuf_arr[i][1];
+        delete[] shuf_arr[i];
+    }
+    delete[] shuf_arr;
 }
 
 QUrl dataExchanger::pointedImage() const
@@ -111,12 +136,10 @@ void dataExchanger::setLoadStructure(const QUrl &filePath){
         es->~Esoinn();
         es = new Esoinn(fileName);
     }
-    //qDebug() << "E";
     QString qs = "";
     double ** str = es->getStructure();
     for (int ii = 1; ii < str[0][0] + 1; ii++){
         for (int jj = 0; jj < str[0][0] + 4; jj++){
-            //qDebug() << str[i] << " ";
             if (jj > 1 && str[ii][jj] == -1)
                 break;
             qs += QString::number(str[ii][jj]);
@@ -129,7 +152,6 @@ void dataExchanger::setLoadStructure(const QUrl &filePath){
     for(int i = 0; i < n; ++i) delete[] str[i];
     delete[] str;
     qs += ";";
-    //qDebug() << qs;
     setStructureData(qs);
 }
 
@@ -146,9 +168,43 @@ void dataExchanger::setSaveStructure(const QUrl &filePath){
 
 }
 
+QUrl dataExchanger::loadVector() const{
+    return m_im;
+}
+void dataExchanger::setLoadVector(const QUrl &filePath){
+    auto fileName = filePath.toString().remove(0, 8).toStdString();
+    //во-первых надо передать параметры как-то в инициализатор. во-вторых надо дописать кол-во итераций
+
+    list<double> oneVect;
+    ifstream in(fileName.c_str());
+    char c; double num; in >> c;
+    while (c != ')'){
+        in >> num >> c;
+        oneVect.push_back(num);
+    }
+    dimSize = oneVect.size();
+    list<double *> vects;
+    double * d = new double[dimSize];
+    int i = 0;
+    for (auto &it: oneVect)
+        d[i++] = it;
+    vects.push_back(d);
+    while (in >> c){
+        d = new double[dimSize];
+        for (int i = 0; i < dimSize; i++)
+            in >> d[i] >> c;
+        vects.push_back(d);
+    }
+    vectorsCnt = vects.size();
+    vectors = new double*[vectorsCnt];
+    i = 0;
+    for (auto &it: vects){
+        vectors[i] = it;
+    }
+}
+
 void dataExchanger::setEsoinnParams(const QList<QString> &n){
     m_esoinnParams = n;
-
     QString qs;
     qsrand(0);
     bool randomizeDataOrder = m_esoinnParams[1] == "true" ? true : false;
@@ -156,38 +212,30 @@ void dataExchanger::setEsoinnParams(const QList<QString> &n){
     if (m_esoinnParams[3].toDouble() == 1 || es == NULL)
         es = new Esoinn(2, m_esoinnParams[5].toDouble(), m_esoinnParams[6].toDouble(), m_esoinnParams[7].toDouble(), m_esoinnParams[8].toDouble());
 
-    int * shuf_arr = new int[image->width() * image->height()];
-    int points_cnt = 0;
-    for (int i = 0; i < image->height(); i++){
-        for (int j = 0; j < image->width(); j++){
-            QColor qc(image->pixel(j,i));
-            if (qc.red() < 100 || qc.green() < 100 || qc.blue() < 100){
-                shuf_arr[points_cnt++] = i * 100000 + j;
-            }
-        }
-    }
+
+    //double values are situated in vectors array!
+    double ** shuf_arr = new double*[vectorsCnt];
+    for (int i = 0; i < vectorsCnt; i++)
+        shuf_arr[i] = vectors[i];
     for (int iter = 0; iter < m_esoinnParams[4].toDouble(); iter++)
     {
         if (randomizeDataOrder){
-            for (int i = 0; i < points_cnt; i++){
-                int temp = shuf_arr[i];
-                int swap_cell = qrand() % points_cnt;
+            for (int i = 0; i < vectorsCnt; i++){
+                double * temp = shuf_arr[i];
+                int swap_cell = qrand() % vectorsCnt;
                 shuf_arr[i] = shuf_arr[swap_cell];
                 shuf_arr[swap_cell] = temp;
             }
         }
 
         es->clearWinners();
-
-        //qDebug() << "BEFORE LEARN";
-        //qDebug() << QTime::currentTime().second() << QTime::currentTime().msec();
-        for (int i = 0; i < points_cnt; i++){
-            double * w = new double[2];
-            w[0] = shuf_arr[i] % 100000;
-            w[1] = shuf_arr[i] / 100000;
+        for (int i = 0; i < vectorsCnt; i++){
+            double * w = new double[dimSize];
+            for (int j = 0; j < dimSize; j++)
+                w[j] = shuf_arr[i][j];
             es->inputSignal(w);
             delete[] w;
-            if (visualizeEveryStep || (i == points_cnt - 1)){
+            if (visualizeEveryStep || (i == vectorsCnt - 1)){
                 double ** str = es->getStructure();
                 for (int ii = 1; ii < str[0][0] + 1; ii++){
                     for (int jj = 0; jj < str[0][0] + 4; jj++){
@@ -207,35 +255,6 @@ void dataExchanger::setEsoinnParams(const QList<QString> &n){
             }
 
         }
-
-        /*for (int i = 0; i < image->height(); i++){
-            for (int j = 0; j < image->width(); j++){
-                QColor qc(image->pixel(j,i));
-                if (qc.red() < 100 || qc.green() < 100 || qc.blue() < 100){
-                    double * w = new double[2];
-                    w[0] = j;
-                    w[1] = i;
-                    es->inputSignal(w);
-
-                    double ** str = es->getStructure();
-
-                    for (int ii = 1; ii < str[0][0] + 1; ii++){
-                        for (int jj = 0; jj < str[0][0] + 3; jj++){
-                            //qDebug() << str[i] << " ";
-                            if (jj > 1 && str[ii][jj] == -1)
-                                break;
-
-                            qs += QString::number(str[ii][jj]);
-                            qs += " " ;
-
-                        }
-                        qs += "/";
-                    }
-                    delete[] str;
-                    qs += ";";
-                }
-            }
-        }*/
     }
 
     //generating random data for esoinn

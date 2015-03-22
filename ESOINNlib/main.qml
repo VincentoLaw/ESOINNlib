@@ -33,6 +33,14 @@ Window {
                 dataEx.saveStructure = saveFileDialog.fileUrl.toString();
             }
         }
+        FileDialog{
+            id: openFileWithVector
+            title: "Choose a file with input data in vectors"
+            nameFilters: [ "Text files (*.txt *.)" ]
+            onAccepted:{
+                //dataEx.
+            }
+        }
 
         FileDialog{
             id: loadFileDialog
@@ -57,10 +65,20 @@ Window {
                     fileDialog.open()
                 }
             }
+            Button {
+                id:loadInputVector
+                anchors.leftMargin: 10
+                anchors.left: loadImgButton.right
+                text: "Load input vector"
+                onClicked: {
+                    openFileWithVector.open();
+                }
+            }
+
             Button{
                 id: showImgButton
                 anchors.leftMargin: 10
-                anchors.left: loadImgButton.right
+                anchors.left: loadInputVector.right
                 text:"Show pointed image"
                 onClicked: {
                     dataEx.pointedImage = imagePreview.source

@@ -40,6 +40,8 @@ Esoinn::Esoinn(string fileName){
 
 Esoinn::~Esoinn()
 {
+    for (auto &it: neuronsList)
+        removeNeuron(it);
     neuronsList.clear();
     connectionsList.clear();
     clustersList.clear();
@@ -670,16 +672,16 @@ double ** Esoinn::getStructure()
     //std::ofstream out(fileName.c_str(),  std::ofstream::out);
     //std::ofstream ofs ("test.txt"
     double ** structure = new double * [neuronsList.size() + 1];
-    structure[0] = new double[1];
+    structure[0] = new double[2];
     structure[0][0] = neuronsList.size();
+    structure[0][1] = dimensionSize;
     int i = 1;
     for(auto &it : neuronsList)
     {
         structure[i] = new double[neuronsList.size() + 4];
-        structure[i][0] = it->weights[0];
-        structure[i][1] = it->weights[1];
-        structure[i][2] = it->getCountSignals();
-        structure[i][3] = it->getCluster()->getId();
+        structure[i][0] = it->getCluster()->getId();
+        for (int k = 0; k < dimensionSize; k++)
+            structure[i][k + 1] = it->weights[k];
         //cout << structure[i][0] << " " << structure[i][1] << " " << i << " " << neuronsList->size() << endl;
         if (!it->neighboursList.size()) structure[i][4] = -1;
 

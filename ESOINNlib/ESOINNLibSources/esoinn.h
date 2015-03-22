@@ -118,6 +118,7 @@ class Esoinn{
 		Esoinn(int dimensionSize, int maximalConnectionAge, int lambda, double c1, double c2, double (*distanceFunction)(double *,double *));
 		/*+*/Esoinn(int dimensionSize, int maximalConnectionAge, int lambda, double c1, double c2);
         Esoinn(string fileName);
+        Esoinn(string fileName, int maximalConnectionAge, int lambda, double c1, double c2);
 		~Esoinn();
 		//method for input learning vectors as double values
         

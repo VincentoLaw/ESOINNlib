@@ -20,8 +20,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_dataExchanger_t {
-    QByteArrayData data[8];
-    char stringdata[100];
+    QByteArrayData data[9];
+    char stringdata[111];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -37,12 +37,13 @@ QT_MOC_LITERAL(3, 41, 14), // "QList<QString>"
 QT_MOC_LITERAL(4, 56, 2), // "im"
 QT_MOC_LITERAL(5, 59, 12), // "pointedImage"
 QT_MOC_LITERAL(6, 72, 13), // "loadStructure"
-QT_MOC_LITERAL(7, 86, 13) // "saveStructure"
+QT_MOC_LITERAL(7, 86, 13), // "saveStructure"
+QT_MOC_LITERAL(8, 100, 10) // "loadVector"
 
     },
     "dataExchanger\0structureData\0esoinnParams\0"
     "QList<QString>\0im\0pointedImage\0"
-    "loadStructure\0saveStructure"
+    "loadStructure\0saveStructure\0loadVector"
 };
 #undef QT_MOC_LITERAL
 
@@ -53,7 +54,7 @@ static const uint qt_meta_data_dataExchanger[] = {
        0,       // classname
        0,    0, // classinfo
        0,    0, // methods
-       6,   14, // properties
+       7,   14, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
@@ -66,6 +67,7 @@ static const uint qt_meta_data_dataExchanger[] = {
        5, QMetaType::QUrl, 0x00095103,
        6, QMetaType::QUrl, 0x00095103,
        7, QMetaType::QUrl, 0x00095103,
+       8, QMetaType::QUrl, 0x00095103,
 
        0        // eod
 };
@@ -118,9 +120,10 @@ int dataExchanger::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 3: *reinterpret_cast< QUrl*>(_v) = pointedImage(); break;
         case 4: *reinterpret_cast< QUrl*>(_v) = loadStructure(); break;
         case 5: *reinterpret_cast< QUrl*>(_v) = saveStructure(); break;
+        case 6: *reinterpret_cast< QUrl*>(_v) = loadVector(); break;
         default: break;
         }
-        _id -= 6;
+        _id -= 7;
     } else if (_c == QMetaObject::WriteProperty) {
         void *_v = _a[0];
         switch (_id) {
@@ -130,25 +133,26 @@ int dataExchanger::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 3: setPointedImage(*reinterpret_cast< QUrl*>(_v)); break;
         case 4: setLoadStructure(*reinterpret_cast< QUrl*>(_v)); break;
         case 5: setSaveStructure(*reinterpret_cast< QUrl*>(_v)); break;
+        case 6: setLoadVector(*reinterpret_cast< QUrl*>(_v)); break;
         default: break;
         }
-        _id -= 6;
+        _id -= 7;
     } else if (_c == QMetaObject::ResetProperty) {
-        _id -= 6;
+        _id -= 7;
     } else if (_c == QMetaObject::QueryPropertyDesignable) {
-        _id -= 6;
+        _id -= 7;
     } else if (_c == QMetaObject::QueryPropertyScriptable) {
-        _id -= 6;
+        _id -= 7;
     } else if (_c == QMetaObject::QueryPropertyStored) {
-        _id -= 6;
+        _id -= 7;
     } else if (_c == QMetaObject::QueryPropertyEditable) {
-        _id -= 6;
+        _id -= 7;
     } else if (_c == QMetaObject::QueryPropertyUser) {
-        _id -= 6;
+        _id -= 7;
     } else if (_c == QMetaObject::RegisterPropertyMetaType) {
-        if (_id < 6)
+        if (_id < 7)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 6;
+        _id -= 7;
     }
 #endif // QT_NO_PROPERTIES
     return _id;

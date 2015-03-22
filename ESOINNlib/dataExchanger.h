@@ -60,6 +60,8 @@ class dataExchanger : public QObject
 
     Q_PROPERTY(QUrl loadStructure READ loadStructure WRITE setLoadStructure)
     Q_PROPERTY(QUrl saveStructure READ saveStructure WRITE setSaveStructure)
+
+    Q_PROPERTY(QUrl loadVector READ loadVector WRITE setLoadVector)
 public:
     dataExchanger(QObject *parent = 0);
     //shared data
@@ -81,15 +83,22 @@ public:
     QUrl saveStructure() const;
     void setSaveStructure(const QUrl &);
 
+    QUrl loadVector() const;
+    void setLoadVector(const QUrl &);
+
     //local data
     Esoinn * es;
     QImage * image;
+    double ** vectors;
+    int dimSize;
+    int vectorsCnt;
 
 private:
     QString m_structureData;
     QList<QString> m_esoinnParams;
     imgType m_im;
     string m_loadStructure;
+
 };
 //![0]
 
