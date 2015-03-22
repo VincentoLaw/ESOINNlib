@@ -568,7 +568,7 @@ void Esoinn::inputSignal(double* inputVector){
         auto neuron = addNeuron(inputVector);
 		//if(addCluster(neuron) == NULL)return;
 		buf = addCluster(neuron);
-		buf->setId(-1);
+        buf->setId(-1);
         neuron->setArea(buf);
         return;
     }
@@ -637,7 +637,6 @@ void Esoinn::inputSignal(double* inputVector){
     /*-----------------11.-Delete-nodes-polluted-by-noise-------  ----------------------*/
     this->LT++;
     /*-----------------11.end.----------------------------------------------------------*/
-
 }
 
 void Esoinn::writeStructureToFile(string fileName)
@@ -678,14 +677,14 @@ double ** Esoinn::getStructure()
     int i = 1;
     for(auto &it : neuronsList)
     {
-        structure[i] = new double[neuronsList.size() + 4];
+        structure[i] = new double[it->neighboursList.size() + 2 + dimensionSize];
         structure[i][0] = it->getCluster()->getId();
         for (int k = 0; k < dimensionSize; k++)
             structure[i][k + 1] = it->weights[k];
         //cout << structure[i][0] << " " << structure[i][1] << " " << i << " " << neuronsList->size() << endl;
-        if (!it->neighboursList.size()) structure[i][4] = -1;
+        if (!it->neighboursList.size()) structure[i][1 + dimensionSize] = -1;
 
-        int j = 4;
+        int j = 1 + dimensionSize;
         for(auto &it2 : it->neighboursList){
             vertex n;
             if (it2->first != it) n = it2->first;
@@ -704,7 +703,6 @@ double ** Esoinn::getStructure()
         }
         i++;
     }
-    //cout << "b" << structure[2][0];
     return structure;
 }
 

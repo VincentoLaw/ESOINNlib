@@ -38,7 +38,7 @@ Window {
             title: "Choose a file with input data in vectors"
             nameFilters: [ "Text files (*.txt *.)" ]
             onAccepted:{
-                //dataEx.
+                dataEx.loadVector = openFileWithVector.fileUrl.toString();
             }
         }
 
@@ -253,7 +253,7 @@ Window {
         }
         Rectangle{
             id: settings3Bar
-            height: 20
+            height: 30
             anchors.top: settings2Bar.bottom
             CheckBox{
                 id: randomInput
@@ -266,6 +266,36 @@ Window {
                 anchors.left: randomInput.right
                 text:"Visualize every step"
                 checked: false
+            }
+            Text{
+                id: dimsText
+                anchors.leftMargin: 5
+                anchors.left: fullVisualize.right
+                font.pointSize: 12
+                text:"Visualize dimensions ids: "
+            }
+            TextEdit{
+                id: fstDimId
+                anchors.leftMargin: 5
+                anchors.left: dimsText.right
+                font.pointSize: 12
+                color:"blue"
+                text : "1"
+            }
+            Text{
+                id: dimsDefisText
+                anchors.leftMargin: 5
+                anchors.left: fstDimId.right
+                font.pointSize: 12
+                text:"-"
+            }
+            TextEdit{
+                id: secondDimId
+                anchors.leftMargin: 5
+                anchors.left: dimsDefisText.right
+                font.pointSize: 12
+                color:"blue"
+                text: "2"
             }
         }
 
@@ -286,7 +316,7 @@ Window {
 
         Canvas{
             id: canvas
-            anchors.top: settings2Bar.bottom
+            anchors.top: settings3Bar.bottom
             anchors.bottom: mainForm.bottom
             anchors.left: imagePreview.right
             anchors.right: mainForm.right
@@ -315,21 +345,25 @@ Window {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 //data from esoin is in string in Person.name in format: "x y, x y, x y,"
                 var arr = data.split('/');
+
+                var dimSize = dataEx.dimensionsCnt;
+                var fstDim = parseInt(fstDimId.text);
+                var secDim = parseInt(secondDimId.text);
                 //console.log(arr)
                 var min_x = 1000000, max_x = -1000000, min_y = 1000000, max_y = -1000000
                 //finding the square, in that all data is lay
                 for (var i = 0; i < arr.length; i++){
                     var numz = arr[i].split(' ');
-                    numz[0] = parseInt(numz[0])
-                    numz[1] = parseInt(numz[1])
-                    if (numz[0] > max_x)
-                        max_x = numz[0];
-                    if (numz[0] < min_x)
-                        min_x = numz[0];
-                    if (numz[1] < min_y)
-                        min_y = numz[1];
-                    if (numz[1] > max_y)
-                        max_y = numz[1];
+                    numz[fstDim] = parseInt(numz[fstDim])
+                    numz[secDim] = parseInt(numz[secDim])
+                    if (numz[fstDim] > max_x)
+                        max_x = numz[fstDim];
+                    if (numz[fstDim] < min_x)
+                        min_x = numz[fstDim];
+                    if (numz[secDim] < min_y)
+                        min_y = numz[secDim];
+                    if (numz[secDim] > max_y)
+                        max_y = numz[secDim];
                 }
                 //coefficents to transform data coordinates to see input in full window size
                 var offset_x = -min_x;
@@ -338,13 +372,13 @@ Window {
                     max_x = min_x + 1;
                 if (max_y - min_y == 0)
                     max_y = min_y + 1;
-                var scale_x = (canvas.width - 20) / (max_x - min_x);
-                var scale_y = (canvas.height - 20)/ (max_y - min_y);
+                var scale_x = (canvas.width - 100) / (max_x - min_x);
+                var scale_y = (canvas.height - 100)/ (max_y - min_y);
                 //console.log(min_x + ' ' + max_x + ' ' + min_y + ' ' + max_y)
 
                 //this function resizes input coordinates fit to canvas size
                 function newCoords(offset, scale, num){
-                    return parseInt((parseInt(num) + offset) * scale + 10)
+                    return parseInt((parseInt(num) + offset) * scale + 50)
                 }
 
                 //draw points, that interpritates data
@@ -364,32 +398,42 @@ Window {
                        kolco = Math.pow(2,Math.ceil(pow2)) - 1;
                     return 256/Math.pow(2,Math.ceil(pow2))*kolco;
                     }
-                    var color = getCol(nums[3]) / 255;
-                    if (!nums[3] || nums[3] == -1){
+                    var color = getCol(nums[0]) / 255;
+                    if (!nums[0] || nums[0] == -1){
                         color = 0;
                     }
 
-                    var red = (nums[3] % 6 == 0 || nums[3] % 6 == 3 || nums[3] % 6 == 5) ? color : 0;
-                    var green = (nums[3] % 6 == 0 || nums[3] % 6 == 4 || nums[3] % 6 == 2) ? color : 0;
-                    var blue = (nums[3] % 6 == 5 || nums[3] % 6 == 4 || nums[3] % 6 == 1) ? color : 0;
-                      ctx.fillStyle = Qt.rgba(red, green, blue, 1)
+                    var red = (nums[0] % 6 == 0 || nums[0] % 6 == 3 || nums[0] % 6 == 5) ? color : 0;
+                    var green = (nums[0] % 6 == 0 || nums[0] % 6 == 4 || nums[0] % 6 == 2) ? color : 0;
+                    var blue = (nums[0] % 6 == 5 || nums[0] % 6 == 4 || nums[0] % 6 == 1) ? color : 0;
+                      ctx.fillStyle = Qt.rgba(red, green, blue, 1);
                     ctx.strokeStyle = Qt.rgba(red, green, blue, 1);
                       //console.log(colors)
                       //console.log(colors.length)
-                      ctx.arc( newCoords(offset_x, scale_x, nums[0]), newCoords(offset_y, scale_y, nums[1]), 3, 0, 2*Math.PI, false)
+
+                    var temp_x = newCoords(offset_x, scale_x, nums[fstDim]);
+                    var temp_y = newCoords(offset_y, scale_y, nums[secDim]);
+                      ctx.arc( temp_x, temp_y, 3, 0, 2*Math.PI, false)
                       ctx.fill();
                       ctx.stroke();
 
+                    ctx.strokeStyle = "black"
+                    ctx.fillStyle = "black"
+                    ctx.font = "10px sans-serif";
+                    ctx.text(nums[1] + "," + nums[2] + "," + nums[3], temp_x, temp_y);
+                    ctx.stroke();
+                    //console.log(nums[0] + "," + nums[1] + "," + nums[2] + "," + nums[3])
+
                       //Draw connections
-                      for (var j = 4; j < nums.length; j++){
+                      for (var j = 1 + dimSize; j < nums.length; j++){
                           if (nums[j] && nums[j] >= 0){
                               var xy = (arr[parseInt(nums[j])]).split(' ')
                               ctx.lineWidth = 1
                               ctx.strokeStyle = "black"
                               ctx.fillStyle = "black"
                               ctx.beginPath()
-                              ctx.moveTo(newCoords(offset_x, scale_x, xy[0]), newCoords(offset_y, scale_y, xy[1]))
-                              ctx.lineTo(newCoords(offset_x, scale_x, nums[0]), newCoords(offset_y, scale_y, nums[1]))
+                              ctx.moveTo(newCoords(offset_x, scale_x, xy[fstDim]), newCoords(offset_y, scale_y, xy[secDim]))
+                              ctx.lineTo(newCoords(offset_x, scale_x, nums[fstDim]), newCoords(offset_y, scale_y, nums[secDim]))
                               //console.log(newCoords(offset_x, scale_x, xy[0]) + ' ' + newCoords(offset_y, scale_y, xy[1]))
                               //console.log(newCoords(offset_x, scale_x, nums[0])+ ' ' + newCoords(offset_y, scale_y, nums[1]))
                               ctx.stroke()

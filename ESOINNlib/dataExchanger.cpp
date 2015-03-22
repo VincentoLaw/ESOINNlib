@@ -59,6 +59,14 @@ void dataExchanger::setStructureData(const QString &n)
     m_structureData = n;
 }
 
+int dataExchanger::dimensionsCnt() const{
+    return m_dimensionsCnt;
+
+}
+void dataExchanger::setDimensionsCnt(const int &number){
+    m_dimensionsCnt = number;
+}
+
 QList<QString> dataExchanger::esoinnParams() const
 {
     return m_esoinnParams;
@@ -128,7 +136,7 @@ void dataExchanger::setPointedImage(const QUrl &n)
 }
 
 void dataExchanger::setLoadStructure(const QUrl &filePath){
-    auto fileName = filePath.toString().remove(0, 8).toStdString();
+    auto fileName = filePath.toString().remove(0, 7).toStdString();
     if (es == NULL){
         es = new Esoinn(fileName);
     }
@@ -156,23 +164,22 @@ void dataExchanger::setLoadStructure(const QUrl &filePath){
 }
 
 QUrl dataExchanger::loadStructure() const{
-    return NULL;
+    return m_im;
 }
 
 QUrl dataExchanger::saveStructure() const{
-    return NULL;
+    return m_im;
 }
 void dataExchanger::setSaveStructure(const QUrl &filePath){
     auto fileName = filePath.toString().remove(0, 8).toStdString();
     es->saveStateToFile(fileName);
-
 }
 
 QUrl dataExchanger::loadVector() const{
     return m_im;
 }
 void dataExchanger::setLoadVector(const QUrl &filePath){
-    auto fileName = filePath.toString().remove(0, 8).toStdString();
+    auto fileName = filePath.toLocalFile().toStdString();
     //во-первых надо передать параметры как-то в инициализатор. во-вторых надо дописать кол-во итераций
 
     list<double> oneVect;
@@ -199,8 +206,9 @@ void dataExchanger::setLoadVector(const QUrl &filePath){
     vectors = new double*[vectorsCnt];
     i = 0;
     for (auto &it: vects){
-        vectors[i] = it;
+        vectors[i++] = it;
     }
+    m_dimensionsCnt = dimSize;
 }
 
 void dataExchanger::setEsoinnParams(const QList<QString> &n){
@@ -215,8 +223,9 @@ void dataExchanger::setEsoinnParams(const QList<QString> &n){
 
     //double values are situated in vectors array!
     double ** shuf_arr = new double*[vectorsCnt];
-    for (int i = 0; i < vectorsCnt; i++)
+    for (int i = 0; i < vectorsCnt; i++){
         shuf_arr[i] = vectors[i];
+    }
     for (int iter = 0; iter < m_esoinnParams[4].toDouble(); iter++)
     {
         if (randomizeDataOrder){
@@ -244,7 +253,6 @@ void dataExchanger::setEsoinnParams(const QList<QString> &n){
                             break;
                         qs += QString::number(str[ii][jj]);
                         qs += " " ;
-
                     }
                     qs += "/";
                 }
@@ -253,9 +261,9 @@ void dataExchanger::setEsoinnParams(const QList<QString> &n){
                 delete[] str;
                 qs += ";";
             }
-
         }
     }
+    m_dimensionsCnt = dimSize;
 
     //generating random data for esoinn
     /*QTime time = QTime::currentTime();
