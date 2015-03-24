@@ -41,6 +41,8 @@ Esoinn::Esoinn(string fileName){
 
 Esoinn::~Esoinn()
 {
+    for (auto &it: neuronsList)
+        removeNeuron(it);
     neuronsList.clear();
     connectionsList.clear();
     clustersList.clear();
@@ -654,7 +656,9 @@ double ** Esoinn::getStructure()
     for(auto &it : neuronsList)
     {
         structure[i] = new double[it->neighboursList.size() + 2 + dimensionSize];
-        structure[i][0] = it->getCluster()->getId();
+        if (it->isClassified())
+            structure[i][0] = it->getCluster()->getId();
+        else structure[i][0] = -1;
         for (int k = 0; k < dimensionSize; k++)
             structure[i][k + 1] = it->weights[k];
         //cout << structure[i][0] << " " << structure[i][1] << " " << i << " " << neuronsList->size() << endl;
