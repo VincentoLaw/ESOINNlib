@@ -417,11 +417,11 @@ Window {
                       ctx.fill();
                       ctx.stroke();
 
-                    ctx.strokeStyle = "black"
+                    /*ctx.strokeStyle = "black"
                     ctx.fillStyle = "black"
                     ctx.font = "10px sans-serif";
                     ctx.text(nums[1] + "," + nums[2] + "," + nums[3], temp_x, temp_y);
-                    ctx.stroke();
+                    ctx.stroke();*/
                     //console.log(nums[0] + "," + nums[1] + "," + nums[2] + "," + nums[3])
 
                       //Draw connections

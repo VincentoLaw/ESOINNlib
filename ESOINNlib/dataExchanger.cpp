@@ -108,6 +108,7 @@ void dataExchanger::sim(const imgType &n)
         delete[] shuf_arr[i];
     }
     delete[] shuf_arr;
+    m_dimensionsCnt = dimSize;
 }
 
 QUrl dataExchanger::pointedImage() const
@@ -136,7 +137,7 @@ void dataExchanger::setPointedImage(const QUrl &n)
 }
 
 void dataExchanger::setLoadStructure(const QUrl &filePath){
-    auto fileName = filePath.toString().remove(0, 7).toStdString();
+    auto fileName = filePath.toLocalFile().toStdString();
     if (es == NULL){
         es = new Esoinn(fileName);
     }
@@ -171,7 +172,7 @@ QUrl dataExchanger::saveStructure() const{
     return m_im;
 }
 void dataExchanger::setSaveStructure(const QUrl &filePath){
-    auto fileName = filePath.toString().remove(0, 8).toStdString();
+    auto fileName = filePath.toLocalFile().toStdString();
     es->saveStateToFile(fileName);
 }
 
@@ -218,8 +219,7 @@ void dataExchanger::setEsoinnParams(const QList<QString> &n){
     bool randomizeDataOrder = m_esoinnParams[1] == "true" ? true : false;
     bool visualizeEveryStep = m_esoinnParams[2] == "true" ? true : false;
     if (m_esoinnParams[3].toDouble() == 1 || es == NULL)
-        es = new Esoinn(2, m_esoinnParams[5].toDouble(), m_esoinnParams[6].toDouble(), m_esoinnParams[7].toDouble(), m_esoinnParams[8].toDouble());
-
+        es = new Esoinn(m_dimensionsCnt, m_esoinnParams[5].toDouble(), m_esoinnParams[6].toDouble(), m_esoinnParams[7].toDouble(), m_esoinnParams[8].toDouble());
 
     //double values are situated in vectors array!
     double ** shuf_arr = new double*[vectorsCnt];
