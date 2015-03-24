@@ -38,17 +38,12 @@ Esoinn::Esoinn(string fileName){
     loadStateFromFile(fileName);
 }
 
+
 Esoinn::~Esoinn()
 {
-    for (auto &it: neuronsList)
-        removeNeuron(it);
     neuronsList.clear();
     connectionsList.clear();
     clustersList.clear();
-    //for(auto it = neuronsList->begin(); it != neuronsList->end(); ++it) delete (*it);
-    //for(auto it = connectionsList->begin(); it != connectionsList->end(); ++it) delete(*it);
-    //for(auto it = clustersList->begin(); it != clustersList->end(); ++it) delete(*it);
-
 }
 
 vertex Esoinn::addNeuron(double *weights)
@@ -87,7 +82,6 @@ void Esoinn::removeNeuron(vertex neuronToRemove)
             neuronToRemove->neighboursList.remove(*it);
             (*it)->first = nullptr;
             (*it)->second = nullptr;
-            //(*it).reset();
             it = connectionsList.erase(it);
 		}
 		else ++it;
@@ -97,26 +91,36 @@ void Esoinn::removeNeuron(vertex neuronToRemove)
     for(auto &it : clustersList)
 	{
         it->neuronsList.remove(neuronToRemove);
-        if (it->apex == neuronToRemove){
-            it->apex = nullptr;
-            it->apex = it->findApex();
+        if (it->getApex() == neuronToRemove)
+        {
+
+            it->setApex(nullptr);
+            if(it->findApex())
+            {
+                it->setId(it->getApex()->getId());
+            }
+            else
+            {
+                it->setId(-1);
+            }
+
         }
     }
     neuronToRemove->neighboursList.clear();
-    neuronToRemove->area = nullptr;
+    neuronToRemove->setCluster(nullptr);
     //cout << neuronToRemove.use_count() << endl;
 }
 
 cluster Esoinn::addCluster(vertex delegatorOfCluster)
 {
-    clustersList.push_back(make_shared<Cluster>(Cluster(delegatorOfCluster, clustersId++)));
+    clustersList.push_back(make_shared<Cluster>(Cluster(delegatorOfCluster, ++clustersId)));
     return clustersList.back();
 }
 
 edge Esoinn::addConnection(vertex first, vertex second)
 {
     auto connection = make_shared<Connection>(Connection(first, second));
-    this->connectionsList.push_back(connection);
+    connectionsList.push_back(connection);
     first->neighboursList.push_back(connection);
     second->neighboursList.push_back(connection);
 	return connection;
@@ -237,7 +241,7 @@ bool Esoinn::findWiner(double *inputVector, vertex &firstWinner, vertex &secondW
 {
     firstWinner = nullptr, secondWinner = nullptr;
     double dist, firstMinDist = INF, secondMinDist = INF;
-    int neuronsCnt = neuronsList.size();
+    int neuronsCnt = (int)neuronsList.size();
     if (neuronsCnt < 2) return false;
     for(auto &it : neuronsList)
 	{
@@ -288,7 +292,7 @@ double Esoinn::similarityThreshold(vertex neuron)
     return dist;
 }
 
-bool Esoinn::isWithinThreshold(vertex firstWinner, vertex secondWinner, double* inputVector)
+bool Esoinn::isWithinThreshold(vertex firstWinner, vertex secondWinner, double *inputVector)
 {
     if(calcDistance(inputVector, firstWinner->weights) > similarityThreshold(firstWinner)) 
 	{
@@ -313,7 +317,7 @@ double Esoinn::densityThreshold(double mean, double max)
 	{  
 		threshold = 0.5;
 	}
-	else threshold = 1.0;
+    else threshold = 1.0;
     return threshold;
 }
 
@@ -323,7 +327,7 @@ bool Esoinn::needUniteClusters(vertex first, vertex second)
     auto B = second->getCluster();
     auto meanA = A->calcMeanDensity();
     auto meanB = B->calcMeanDensity();
-    //if (meanA < 1e-10 || meanB < 1e-10) return false;
+
     //qDebug() << "B";
     auto thresholdA = densityThreshold(meanA, A->findApex()->getDensity());
     auto thresholdB = densityThreshold(meanB, B->findApex()->getDensity());
@@ -336,55 +340,38 @@ bool Esoinn::needUniteClusters(vertex first, vertex second)
 
 void Esoinn::uniteClusters(vertex a, vertex b)
 {
-    //int classId = min(a->getId(), b->getId());
-     /*for(list<Neuron*>::iterator it = neuronsList->begin(); it != neuronsList->end(); ++it)
-	 {
-        if((*it)->getId() == a->getId() || (*it)->getId() == b->getId()) 
-		{
-            (*it)->setId(classId);
-        }
-    }*/
-//qDebug() << a->getId() << b->getId();
-    /*
-     *
-     */
-
     auto A = a->getCluster();
     auto B = b->getCluster();
 
-    //if(A->getId() < B->getId())
     for(auto &it : B->neuronsList)
     {
         A->neuronsList.push_back(it);
-        it->setArea(A);
+        it->setCluster(A);
+        it->setId(A->getId());
+
     }
     B->neuronsList.clear();
-    B->apex = nullptr;
-    /*else
-    {
-        for(auto &it : A->neuronsList)
-    	{
-            B->neuronsList.push_back(it);
-            it->setArea(B);
-    	}
-
-        A->neuronsList.clear();
-    }*/
+    B->setApex(nullptr);
+    clustersList.remove(B);
 
 }
 
 bool Esoinn::needAddConnection(vertex first, vertex second)
 {
-	if (first->getId() == -1 || second->getId() == -1) return true;
-	if (first->getId() == second->getId()) return true;
+    if (!first->isClassified() || !second->isClassified()) return true;
+    if (first->isClassified() && second->isClassified())
+    {
+        if (first->getId() == second->getId()) return true;
+        if (first->getId() != second->getId() && needUniteClusters(first, second)) return true;
+    }
 	
-    if (first->getId() != second->getId() && needUniteClusters(first, second)) return true;
+
 	return false;
 }
 
 void Esoinn::updateDensity(vertex winner)
 {
-    winner->point += calcPoint(winner);
+    winner->point += calcPoint(winner);//+= ?
     winner->incSignal();
     double density = winner->point / winner->allTimeWin;
     //qDebug() << winner->getDensity() << density;
@@ -427,11 +414,13 @@ void Esoinn::removeOldConnections()
 
 void path(vertex top, cluster bag)
 {
-	top->setArea(bag);
+    top->setCluster(bag);
+    top->setStatus(true);
+    top->setId(bag->getId());
     if(top != bag->getApex()) bag->neuronsList.push_back(top);
     for(auto &it : top->neighboursList)
 	{
-        if(it->getNeighbourNeuron(top)->getId() == -1 && it->getNeighbourNeuron(top)->getDensity() < top->getDensity())
+        if(!it->getNeighbourNeuron(top)->isClassified() && it->getNeighbourNeuron(top)->getDensity() < top->getDensity())//?
 		{
             path(it->getNeighbourNeuron(top), bag);
 		}
@@ -448,19 +437,22 @@ void Esoinn::markClasses()
     list<vertex> vertexQueue;
     for(auto &it : neuronsList)
 	{
+        it->setStatus(false);
+        it->setCluster(nullptr);
         it->setId(-1);
-        it->area = nullptr;
         vertexQueue.push_back(it);
 	}
-    for(auto &it : clustersList){
+    for(auto &it : clustersList)
+    {
         it->neuronsList.clear();
-        it->apex = nullptr;
+        it->setApex(nullptr);
     }
     clustersList.clear();
 	vertexQueue.sort(cmp_density);
+
     for(auto &it : vertexQueue)
 	{
-        if(it->getId() == -1) path(it, addCluster(it));
+        if(!it->isClassified()) path(it, addCluster(it));
 	}
 }
 
@@ -473,31 +465,21 @@ void Esoinn::separateToSubclasses()
 		a = (*it)->first, b = (*it)->second;
 		if(a->getId() != b->getId())
 		{
-            if(needUniteClusters(a, b))
+            if (needUniteClusters(a, b))
             {
-                for(auto j = clustersList.begin(); j != clustersList.end();)
-                {
-                    if((*j) == b->getCluster())
-                    {
-                        j = clustersList.erase(j);
-                        break;
-                    }
-                    else ++j;
-                }
                 uniteClusters(a, b);
-
-			}
+            }
             else
             {
-                if (getConnection(a,b)){
+                if (getConnection(a, b)) // можно искать edge
+                {
                     removeConnection(*it);
                     it = connectionsList.erase(it);
                     need_iter_inc = false;
                 }
             }
 		}
-        if (need_iter_inc)
-            it++;
+        if (need_iter_inc) it++;
 	}
 }
 
@@ -560,16 +542,13 @@ void Esoinn::updateClassLabels()
 }
 
 //TODO: implement this function
-void Esoinn::inputSignal(double* inputVector){
+void Esoinn::inputSignal(double* inputVector)
+{
+
 /*-----------------1.Initialize-set-of-2-neurons-with-2-first-weights-taken-from-input*/
-    cluster buf;
     if (neuronsList.size() < 2)//better count of all input signals
     {    
-        auto neuron = addNeuron(inputVector);
-		//if(addCluster(neuron) == NULL)return;
-		buf = addCluster(neuron);
-        buf->setId(-1);
-        neuron->setArea(buf);
+        addNeuron(inputVector);
         return;
     }
 /*-----------------1.end--------------------------------------------------------------*/
@@ -582,11 +561,7 @@ void Esoinn::inputSignal(double* inputVector){
 /*-----------------3.add-neuron-if-the-distance-between-inputVector-and-winner-or-secondWinner-is-greater-than-threshold-------*/
     if(!isWithinThreshold(firstWinner, secondWinner, inputVector))
     {
-        auto neuron = addNeuron(inputVector);
-    	buf = addCluster(neuron);
-        //возможно это нужно. всё это надо проверить!
-        //buf->setId(-1);
-    	neuron->setArea(buf);
+        addNeuron(inputVector);
     	return;
     }
 /*-----------------3.end--------------------------------------------------------------*/
@@ -602,12 +577,12 @@ void Esoinn::inputSignal(double* inputVector){
         if(!d)
 		{
             addConnection(firstWinner, secondWinner);
-            //Cluster::unite(winner->getCluster(), secondWinner->getCluster());
         }
         else d->setAge(0);
     }
     else
-    if (d) {
+    if (d)
+    {
         removeConnection(d);
         connectionsList.remove(d);
     }
@@ -632,11 +607,12 @@ void Esoinn::inputSignal(double* inputVector){
     /*-----------------9.end.-----------------------------------------------------------*/
 
     /*---------------- 10.Separate-all-classes-on--subclasses---------------------------*/
-    if(!(this->LT % this->lambda))  updateClassLabels();
+    if(!(this->LT % this->lambda)) updateClassLabels();
 	/*---------------- 10.end.----------------------------------------------------------*/
-    /*-----------------11.-Delete-nodes-polluted-by-noise-------  ----------------------*/
+	/*-----------------11.-Delete-nodes-polluted-by-noise-------  ----------------------*/		
     this->LT++;
     /*-----------------11.end.----------------------------------------------------------*/
+
 }
 
 void Esoinn::writeStructureToFile(string fileName)
@@ -776,7 +752,7 @@ void Esoinn::loadStateFromFile(string fileName){
         n1->neighboursList.push_back(con);
         n2->neighboursList.push_back(con);
         con->setAge(age);
-    }    
+    }
     for (int i = 0; i < clusters_list_size; i++){
         double dens;
         int id, neuronId, neuronsSize;
@@ -794,6 +770,9 @@ void Esoinn::loadStateFromFile(string fileName){
         }
     }
 }
+
+
+
 
 
 

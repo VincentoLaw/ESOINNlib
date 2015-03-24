@@ -285,6 +285,3 @@ void dataExchanger::setEsoinnParams(const QList<QString> &n){
     setStructureData(qs);
 
 }
-
-
-// ![0]

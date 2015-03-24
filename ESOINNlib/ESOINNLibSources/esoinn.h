@@ -9,6 +9,7 @@
 #include <QDebug>
 
 #define INF 1e15
+#define weight unique_ptr<double[]>
 #define vertex shared_ptr<Neuron>
 #define edge shared_ptr<Connection>
 #define cluster shared_ptr<Cluster>
@@ -37,7 +38,8 @@ class Cluster;
 class Neuron;
 class Connection;
 
-class Esoinn{
+class Esoinn
+{
 
 	private:
 
@@ -89,9 +91,9 @@ class Esoinn{
 
 		
         double calcPoint(vertex neuron);
-       	double calcEuclidNorm(double * vector1, double * vector2, int n);
-       	double calcHemmingNorm(double * vector1, double * vector2, int n);
-		double externalCalcDistance(double * weight1, double * weight2);
+        double calcEuclidNorm(double * vector1, double * vector2, int n);
+        double calcHemmingNorm(double * vector1, double * vector2, int n);
+        double externalCalcDistance(double * weight1, double * weight2);
 		
 
 
@@ -118,7 +120,6 @@ class Esoinn{
 		Esoinn(int dimensionSize, int maximalConnectionAge, int lambda, double c1, double c2, double (*distanceFunction)(double *,double *));
 		/*+*/Esoinn(int dimensionSize, int maximalConnectionAge, int lambda, double c1, double c2);
         Esoinn(string fileName);
-        Esoinn(string fileName, int maximalConnectionAge, int lambda, double c1, double c2);
 		~Esoinn();
 		//method for input learning vectors as double values
         
@@ -130,10 +131,10 @@ class Esoinn{
 		double ** getStructure();
 		//returns main neuron that represent this input vector
         void clearWinners();
+		//int neuronClassId(double * inputVector);
 
         void saveStateToFile(string fileName);
         void loadStateFromFile(string fileName);
-		//int neuronClassId(double * inputVector);
 
 		//bool saveNetworkData(string fileName);
         //bool loadNetworkData(string fileName);

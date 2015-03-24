@@ -45,7 +45,7 @@
 #include <QImage>
 #include <string>
 #include "ESOINNLibSources/esoinn.h"
-//![0] 
+//![0]
 
 typedef QUrl imgType;
 

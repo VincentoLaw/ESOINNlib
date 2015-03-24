@@ -1,8 +1,8 @@
 #pragma once
 #include <list>
 #include <memory>
-#include <string>
 #include <time.h>
+#define weight unique_ptr<double[]>
 #define vertex shared_ptr<Neuron>
 #define edge shared_ptr<Connection>
 #define cluster shared_ptr<Cluster>
@@ -18,20 +18,21 @@ using namespace std;
 
 
 
-class Neuron{
+class Neuron
+{
 
 	private:
 
 		double density;
     	int dimentionSize;
-
     	int classId;
-
+        bool classified;
     	int winerTimesCount;
+        cluster area;
 
-	public:
+    public:
         
-		Neuron(int dimentionSize, double* weights);
+        Neuron(int dimentionSize, double* weights);
         Neuron(vertex v);
 		~Neuron();
 
@@ -39,20 +40,24 @@ class Neuron{
         double *weights;
         list<edge> neighboursList;
         double point;
-        cluster area;
 
         bool winInThisIter;
         int allTimeWin;
-    	
-		void incSignal();
+
+        void incSignal();
         cluster getCluster();
     	double getDensity();
 		int getDim();
-    	int getId();
-    	int getCountSignals();
+        int getId();
+        int getCountSignals();
         void setDensity(double data);
     	void setId(int data);
-        cluster setArea(cluster buf);
+        void setStatus(bool flag);
+        bool isClassified();
+
         string getNeuronData();
         void setNeuronData(double simTh, double Point, bool winned, int allwins, double dens, int classid, int winCnt);
+        cluster setArea(cluster buf);
+
+        cluster setCluster(cluster buf);
 };

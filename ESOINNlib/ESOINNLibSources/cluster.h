@@ -3,7 +3,6 @@
 #include <memory>
 
 #define vertex shared_ptr<Neuron>
-
 #define neuronIterator list<vertex>::iterator
 
 
@@ -11,7 +10,8 @@ using namespace std;
 
 class Neuron;
 
-class Cluster{
+class Cluster
+{
 
 	private:
 
@@ -21,14 +21,16 @@ class Cluster{
 	public:
         Cluster(vertex delegatorOfCluster, int clusterId);
 		~Cluster();
-        vertex apex;
         list<vertex> neuronsList;
 		int getId();
 		void setId(int data);
 		double getDensity();
-        void setDensity(double density);
         vertex findApex();
         vertex getApex();
+        vertex setApex(vertex data);
 		double calcMeanDensity();
+
+        void setDensity(double density);
+        vertex apex;
 };
 

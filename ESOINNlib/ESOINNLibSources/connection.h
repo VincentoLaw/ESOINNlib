@@ -10,7 +10,8 @@ using namespace std;
 
 class Neuron;
 
-class Connection {
+class Connection
+{
 
 	private:
 

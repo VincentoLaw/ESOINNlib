@@ -1,8 +1,10 @@
+
 #include "neuron.h"
 #include "cluster.h"
 #include "connection.h"
 #include <iostream>
 #include <QString>
+
 
 Neuron::Neuron(int dimentionSize, double * weights = NULL)
 {
@@ -23,6 +25,7 @@ Neuron::Neuron(int dimentionSize, double * weights = NULL)
         this->point = 0;
         this->winInThisIter = false;
         this->allTimeWin = 0;
+        this->classified = false;
 }
 
 Neuron::Neuron(vertex v)
@@ -44,6 +47,7 @@ Neuron::Neuron(vertex v)
     this->point = 0;
     this->winInThisIter = false;
     this->allTimeWin = 0;
+    this->classified = false;
 }
 
 Neuron::~Neuron()
@@ -63,20 +67,10 @@ void Neuron::incSignal()
     }
 }
 
-void Neuron::setId(int data)
-{
-	classId = data;
-}
-
-void Neuron::setDensity(double data)
-{
-    this->density = data;
-}
-
 cluster Neuron::setArea(cluster buf)
 {
-	this->area = buf;
-	this->classId = area->getId();
+    this->area = buf;
+    this->classId = area->getId();
     return buf;
 }
 
@@ -100,6 +94,27 @@ void Neuron::setNeuronData(double simTh, double Point, bool winned, int allwins,
     density = dens;
     classId = classid;
     winerTimesCount = winCnt;
+}
+
+void Neuron::setId(int data)
+{
+	classId = data;
+}
+
+void Neuron::setDensity(double data)
+{
+    this->density = data;
+}
+
+cluster Neuron::setCluster(cluster buf)
+{
+	this->area = buf;
+    return buf;
+}
+
+void Neuron::setStatus(bool flag)
+{
+    classified = flag;
 }
 
 double Neuron::getDensity()
@@ -126,3 +141,9 @@ cluster Neuron::getCluster()
 {
 	return area;
 }
+
+bool Neuron::isClassified()
+{
+    return classified;
+}
+

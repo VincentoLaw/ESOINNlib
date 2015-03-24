@@ -3,7 +3,7 @@
 
 Cluster::Cluster(vertex delegatorOfCluster, int clusterId)
 {
-	apex = delegatorOfCluster;
+    apex = delegatorOfCluster;
     neuronsList.push_back(apex);
     id = clusterId;
 }
@@ -30,14 +30,15 @@ double Cluster::getDensity()
 	return meanDensity;
 }
 
-void Cluster::setDensity(double dens)
-{
-    meanDensity = dens;
-}
-
 vertex Cluster::getApex()
 {
 	return apex;
+}
+
+vertex Cluster::setApex(vertex data)
+{
+    apex = data;
+    return apex;
 }
 
 double Cluster::calcMeanDensity()
@@ -52,15 +53,19 @@ double Cluster::calcMeanDensity()
 	return meanDensity;
 }
 
+void Cluster::setDensity(double dens)
+{
+    meanDensity = dens;
+}
+
 vertex Cluster::findApex()
 {
-    if (neuronsList.size() > 0){
-        if (apex == nullptr)
-            apex = *(neuronsList.begin());
+    if (neuronsList.size())
+    {
+        if (!apex) apex = *(neuronsList.begin());
         for (auto &it : neuronsList)
         {
             if (it->getDensity() > apex->getDensity()) apex = it;
-
         }
     }
 	return apex;
