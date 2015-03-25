@@ -95,6 +95,7 @@ public:
     Esoinn * es;
     QImage * image;
     double ** vectors;
+    double ** normalizedVectors;
     int dimSize;
     int vectorsCnt;
 

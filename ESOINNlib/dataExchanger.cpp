@@ -47,6 +47,7 @@
 dataExchanger::dataExchanger(QObject *parent): QObject(parent)
 {
     es = NULL;
+    normalizedVectors = NULL;
 }
 
 QString dataExchanger::structureData() const
@@ -97,6 +98,16 @@ void dataExchanger::sim(const imgType &n)
                 points_cnt++;
             }
         }
+    }
+    if (normalizedVectors){
+        for (int i = 0; i < vectorsCnt; i++)
+            delete[] normalizedVectors[i];
+        delete[] normalizedVectors;
+    }
+    if (vectors){
+        for (int i = 0; i < vectorsCnt; i++)
+            delete[] vectors[i];
+        delete[] vectors;
     }
     vectors = new double*[points_cnt];
     vectorsCnt = points_cnt;
@@ -183,6 +194,16 @@ void dataExchanger::setLoadVector(const QUrl &filePath){
     auto fileName = filePath.toLocalFile().toStdString();
     //во-первых надо передать параметры как-то в инициализатор. во-вторых надо дописать кол-во итераций
 
+    if (normalizedVectors){
+        for (int i = 0; i < vectorsCnt; i++)
+            delete[] normalizedVectors[i];
+        delete[] normalizedVectors;
+    }
+    if (vectors){
+        for (int i = 0; i < vectorsCnt; i++)
+            delete[] vectors[i];
+        delete[] vectors;
+    }
     list<double> oneVect;
     ifstream in(fileName.c_str());
     char c; double num; in >> c;
@@ -218,13 +239,49 @@ void dataExchanger::setEsoinnParams(const QList<QString> &n){
     qsrand(0);
     bool randomizeDataOrder = m_esoinnParams[1] == "true" ? true : false;
     bool visualizeEveryStep = m_esoinnParams[2] == "true" ? true : false;
+    bool normalizeInput = m_esoinnParams[5] == "true" ? true : false;
     if (m_esoinnParams[3].toDouble() == 1 || es == NULL)
-        es = new Esoinn(m_dimensionsCnt, m_esoinnParams[5].toDouble(), m_esoinnParams[6].toDouble(), m_esoinnParams[7].toDouble(), m_esoinnParams[8].toDouble());
+        es = new Esoinn(m_dimensionsCnt, m_esoinnParams[6].toDouble(), m_esoinnParams[7].toDouble(), m_esoinnParams[8].toDouble(), m_esoinnParams[9].toDouble());
+
+    double ** cur_vectors = vectors;
+    if (normalizeInput){
+        if (!normalizedVectors){
+            double * max_vals = new double[dimSize];
+            double * min_vals = new double[dimSize];
+            for (int j = 0; j < dimSize; j++){
+                max_vals[j] = vectors[0][j];
+                min_vals[j] = vectors[0][j];
+            }
+            for (int i = 0; i < vectorsCnt; i++)
+                for (int j = 0; j < dimSize; j++){
+                    if (vectors[i][j] > max_vals[j])
+                        max_vals[j] = vectors[i][j];
+                    if (vectors[i][j] < min_vals[j])
+                        min_vals[j] = vectors[i][j];
+                }
+            double * norma = new double[dimSize];
+            double max = max_vals[0] - min_vals[0];
+            for (int j = 0; j < dimSize; j++){
+                norma[j] = max_vals[j] - min_vals[j];
+                if (max < norma[j])
+                    max = norma[j];
+            }
+            for (int j = 0; j < dimSize; j++)
+                norma[j] = max / norma[j];
+            normalizedVectors = new double * [vectorsCnt];
+            for (int i = 0; i < vectorsCnt; i++){
+                normalizedVectors[i] = new double[dimSize];
+                for (int j = 0; j < dimSize; j++)
+                    normalizedVectors[i][j] = (vectors[i][j] - min_vals[j]) * norma[j];
+            }
+        }
+        cur_vectors = normalizedVectors;
+    }
 
     //double values are situated in vectors array!
     double ** shuf_arr = new double*[vectorsCnt];
     for (int i = 0; i < vectorsCnt; i++){
-        shuf_arr[i] = vectors[i];
+        shuf_arr[i] = cur_vectors[i];
     }
     for (int iter = 0; iter < m_esoinnParams[4].toDouble(); iter++)
     {

@@ -97,7 +97,7 @@ Window {
             property var visualizeIter : 0;
             property var currEsoinnData : [];
             function learn(fromBegin){
-                var arr = [nnComboBox.currentText, randomInput.checked, fullVisualize.checked, fromBegin, iterEdit.text, parseFloat(conAge.text), parseFloat(lambda.text), parseFloat(c1P.text), parseFloat(c2P.text)];
+                var arr = [nnComboBox.currentText, randomInput.checked, fullVisualize.checked, fromBegin, iterEdit.text, normalizeInput.checked, parseFloat(conAge.text), parseFloat(lambda.text), parseFloat(c1P.text), parseFloat(c2P.text)];
                 dataEx.esoinnParams = arr;
                 visualizeIter = 0;
                 currEsoinnData = dataEx.structureData.split(';');
@@ -267,10 +267,18 @@ Window {
                 text:"Visualize every step"
                 checked: false
             }
+            CheckBox{
+                id: normalizeInput
+                anchors.leftMargin: 5
+                anchors.left: fullVisualize.right
+                text: "Normalize input"
+                checked: true
+            }
+
             Text{
                 id: dimsText
                 anchors.leftMargin: 5
-                anchors.left: fullVisualize.right
+                anchors.left: normalizeInput.right
                 font.pointSize: 12
                 text:"Visualize dimensions ids: "
             }
