@@ -71,6 +71,7 @@ cluster Neuron::setArea(cluster buf)
 {
     this->area = buf;
     this->classId = area->getId();
+    classified = true;
     return buf;
 }
 

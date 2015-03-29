@@ -47,6 +47,7 @@
 dataExchanger::dataExchanger(QObject *parent): QObject(parent)
 {
     es = NULL;
+    vectors = NULL;
     normalizedVectors = NULL;
 }
 
@@ -158,6 +159,7 @@ void dataExchanger::setLoadStructure(const QUrl &filePath){
     }
     QString qs = "";
     double ** str = es->getStructure();
+    m_dimensionsCnt = str[0][1];
     for (int ii = 1; ii < str[0][0] + 1; ii++){
         for (int jj = 0; jj < str[0][0] + 4; jj++){
             if (jj > 1 && str[ii][jj] == -1)

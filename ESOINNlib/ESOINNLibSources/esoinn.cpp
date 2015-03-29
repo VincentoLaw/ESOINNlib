@@ -450,6 +450,7 @@ void Esoinn::markClasses()
         it->setApex(nullptr);
     }
     clustersList.clear();
+    //clustersId = 0;
 	vertexQueue.sort(cmp_density);
 
     for(auto &it : vertexQueue)
