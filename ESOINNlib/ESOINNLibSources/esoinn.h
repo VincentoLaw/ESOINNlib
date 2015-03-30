@@ -126,6 +126,7 @@ class Esoinn
 
 
         void inputSignal(double *inputVector);
+        //double* interpolation(int* pixels, int w1, int h1, int w2, int h2);
         //void inputSignal(Neuron * inputVector);
 		/*+*/void writeStructureToFile(string fileName);
 		double ** getStructure();
