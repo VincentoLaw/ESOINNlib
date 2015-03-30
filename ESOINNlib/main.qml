@@ -97,7 +97,7 @@ Window {
             property var visualizeIter : 0;
             property var currEsoinnData : [];
             function learn(fromBegin){
-                var arr = [nnComboBox.currentText, randomInput.checked, fullVisualize.checked, fromBegin, iterEdit.text, parseFloat(conAge.text), parseFloat(lambda.text), parseFloat(c1P.text), parseFloat(c2P.text)];
+                var arr = [nnComboBox.currentText, randomInput.checked, fullVisualize.checked, fromBegin, iterEdit.text, normalizeInput.checked, parseFloat(conAge.text), parseFloat(lambda.text), parseFloat(c1P.text), parseFloat(c2P.text)];
                 dataEx.esoinnParams = arr;
                 visualizeIter = 0;
                 currEsoinnData = dataEx.structureData.split(';');
@@ -267,10 +267,18 @@ Window {
                 text:"Visualize every step"
                 checked: false
             }
+            CheckBox{
+                id: normalizeInput
+                anchors.leftMargin: 5
+                anchors.left: fullVisualize.right
+                text: "Normalize input"
+                checked: true
+            }
+
             Text{
                 id: dimsText
                 anchors.leftMargin: 5
-                anchors.left: fullVisualize.right
+                anchors.left: normalizeInput.right
                 font.pointSize: 12
                 text:"Visualize dimensions ids: "
             }
@@ -417,13 +425,13 @@ Window {
                       ctx.fill();
                       ctx.stroke();
 
-                    /*ctx.strokeStyle = "black"
-                    ctx.fillStyle = "black"
-                    ctx.font = "10px sans-serif";
-                    ctx.text(nums[1] + "," + nums[2] + "," + nums[3], temp_x, temp_y);
-                    ctx.stroke();*/
+                    //ctx.strokeStyle = "black"
+                    //ctx.fillStyle = "black"
+                    //ctx.font = "10px sans-serif";
+                    //ctx.text(nums[0], temp_x, temp_y);
+                    //ctx.stroke();
                     //console.log(nums[0] + "," + nums[1] + "," + nums[2] + "," + nums[3])
-
+                    //console.log(dimSize);
                       //Draw connections
                       for (var j = 1 + dimSize; j < nums.length; j++){
                           if (nums[j] && nums[j] >= 0){
