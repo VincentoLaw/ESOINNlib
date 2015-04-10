@@ -79,6 +79,15 @@ imgType dataExchanger::im() const
     return m_im;
 }
 
+QString dataExchanger::currentNNparams() const
+{
+    return m_currentNNparams;
+}
+
+void dataExchanger::setCurrentNNparams(const QString &str){
+    m_currentNNparams = str;
+}
+
 void dataExchanger::sim(const imgType &n)
 {
 
@@ -282,9 +291,8 @@ void dataExchanger::setEsoinnParams(const QList<QString> &n){
 
     //double values are situated in vectors array!
     double ** shuf_arr = new double*[vectorsCnt];
-    for (int i = 0; i < vectorsCnt; i++){
+    for (int i = 0; i < vectorsCnt; i++)
         shuf_arr[i] = cur_vectors[i];
-    }
     for (int iter = 0; iter < m_esoinnParams[4].toDouble(); iter++)
     {
         if (randomizeDataOrder){
@@ -323,6 +331,7 @@ void dataExchanger::setEsoinnParams(const QList<QString> &n){
         }
     }
     m_dimensionsCnt = dimSize;
+    setCurrentNNparams(QString::fromStdString(es->getCurrentParams()));
 
     //generating random data for esoinn
     /*QTime time = QTime::currentTime();

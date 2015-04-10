@@ -97,15 +97,36 @@ Window {
             property var visualizeIter : 0;
             property var currEsoinnData : [];
             function learn(fromBegin){
+                var beg_time = new Date();
                 var arr = [nnComboBox.currentText, randomInput.checked, fullVisualize.checked, fromBegin, iterEdit.text, normalizeInput.checked, parseFloat(conAge.text), parseFloat(lambda.text), parseFloat(c1P.text), parseFloat(c2P.text)];
                 dataEx.esoinnParams = arr;
                 visualizeIter = 0;
                 currEsoinnData = dataEx.structureData.split(';');
+                var end_time = new Date();
+                function time_ring(value, type){
+                    if (value >= 0){
+                        if (type != "ms")
+                            return value;
+                        else {
+                            if (value < 10)
+                                return "00" + value;
+                            else if (value < 100) return "0" + value;
+                            else return value;
+                        }
+                    }
+                    if (type == "ms"){
+                        value = 1000 + value;
+                        if (value < 10)
+                            return "00" + value;
+                        else if (value < 100) return "0" + value;
+                        else return value;
+                    }
+                    else return 60 + value;
+                }
+
+                var time_diff = time_ring(end_time.getMinutes() - beg_time.getMinutes(), "m") + "m. " + time_ring(end_time.getSeconds() - beg_time.getSeconds(), "s") + "." + time_ring(end_time.getMilliseconds() - beg_time.getMilliseconds(), "ms") + "s.";
+                learnResultsText.text = dataEx.currentNNparams + ", Time elapsed: " + time_diff;
                 dataShowTimer.running = true;
-                //for (var i = 0; i < dat.length - 1; i++){
-                //    console.log(dat[i])
-                //    canvas.loadStructure(dat[i]);
-                //}
             }
 
             Timer{
@@ -272,13 +293,20 @@ Window {
                 anchors.leftMargin: 5
                 anchors.left: fullVisualize.right
                 text: "Normalize input"
-                checked: true
+                checked: false
+            }
+            CheckBox{
+                id: showClustersIds
+                anchors.leftMargin: 5
+                anchors.left: normalizeInput.right
+                text: "Show clusters ids"
+                checked: false
             }
 
             Text{
                 id: dimsText
                 anchors.leftMargin: 5
-                anchors.left: normalizeInput.right
+                anchors.left: showClustersIds.right
                 font.pointSize: 12
                 text:"Visualize dimensions ids: "
             }
@@ -306,11 +334,19 @@ Window {
                 text: "2"
             }
         }
+        Rectangle{
+            id: settings4Bar
+            height: 30
+            anchors.top: settings3Bar.bottom
+            Text{
+                id: learnResultsText
+            }
+        }
 
         Image{
             id: imagePreview
             width: mainForm.width / 2
-            anchors.top: settings3Bar.bottom
+            anchors.top: settings4Bar.bottom
             anchors.bottom: mainForm.bottom
             anchors.left: mainForm.left
         }
@@ -324,7 +360,7 @@ Window {
 
         Canvas{
             id: canvas
-            anchors.top: settings3Bar.bottom
+            anchors.top: settings4Bar.bottom
             anchors.bottom: mainForm.bottom
             anchors.left: imagePreview.right
             anchors.right: mainForm.right
@@ -353,6 +389,8 @@ Window {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 //data from esoin is in string in Person.name in format: "x y, x y, x y,"
                 var arr = data.split('/');
+                var showed_clusters = {};
+                var cur_cluster_id = 0;
 
                 var dimSize = dataEx.dimensionsCnt;
                 var fstDim = parseInt(fstDimId.text);
@@ -427,9 +465,17 @@ Window {
 
                     //ctx.strokeStyle = "black"
                     //ctx.fillStyle = "black"
-                    //ctx.font = "10px sans-serif";
-                    //ctx.text(nums[0], temp_x, temp_y);
-                    //ctx.stroke();
+                    if (showClustersIds.checked && showed_clusters[nums[0]] != 1){
+                        ctx.font = "24px fantasy";
+                        //ctx.shadowColor = "white";
+                        //ctx.shadowOffsetX = "1px";
+                        //ctx.shadowOffsetX = "1px";
+                        ctx.text(cur_cluster_id, temp_x, temp_y);
+
+                        ctx.stroke();
+                        showed_clusters[nums[0]] = 1;
+                        cur_cluster_id++;
+                    }
                     //console.log(nums[0] + "," + nums[1] + "," + nums[2] + "," + nums[3])
                     //console.log(dimSize);
                       //Draw connections

@@ -64,6 +64,8 @@ class dataExchanger : public QObject
     Q_PROPERTY(QUrl loadVector READ loadVector WRITE setLoadVector)
 
     Q_PROPERTY(int dimensionsCnt READ dimensionsCnt WRITE setDimensionsCnt)
+
+    Q_PROPERTY(QString currentNNparams READ currentNNparams WRITE setCurrentNNparams)
 public:
     dataExchanger(QObject *parent = 0);
     //shared data
@@ -90,6 +92,10 @@ public:
 
     int dimensionsCnt() const;
     void setDimensionsCnt(const int &);
+    //При реализации проекта по созданию портала используются средства государственной поддержки, выделенные в качестве гранта в соответствии с распоряжением Президента Российской Федерации от 17.01.2014 № 11-рп и на основании конкурса, проведенного Фондом ИСЭПИ.
+    QString currentNNparams() const;
+    void setCurrentNNparams(const QString &);
+
 
     //local data
     Esoinn * es;
@@ -106,6 +112,7 @@ private:
     string m_loadStructure;
     int m_dimensionsCnt;
 
+    QString m_currentNNparams;
 };
 //![0]
 

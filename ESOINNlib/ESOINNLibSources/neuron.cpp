@@ -3,7 +3,7 @@
 #include "cluster.h"
 #include "connection.h"
 #include <iostream>
-#include <QString>
+#include <string>
 
 
 Neuron::Neuron(int dimentionSize, double * weights = NULL)
@@ -76,15 +76,7 @@ cluster Neuron::setArea(cluster buf)
 }
 
 string Neuron::getNeuronData(){
-    QString data = "";
-    data += QString::number(similarityThreshold) + " ";
-    data += QString::number(point) + " ";
-    data += QString::number(winInThisIter) + " ";
-    data += QString::number(allTimeWin) + " ";
-    data += QString::number(density) + " ";
-    data += QString::number(classId) + " ";
-    data += QString::number(winerTimesCount);
-    return data.toStdString();
+    return to_string(similarityThreshold) + " " + to_string(point) + " " + to_string(winInThisIter) + to_string(allTimeWin) + to_string(density) + to_string(classId) + to_string(winerTimesCount);
 }
 
 void Neuron::setNeuronData(double simTh, double Point, bool winned, int allwins, double dens, int classid, int winCnt){

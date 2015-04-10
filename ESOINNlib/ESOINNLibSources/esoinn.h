@@ -130,6 +130,7 @@ class Esoinn
         //void inputSignal(Neuron * inputVector);
 		/*+*/void writeStructureToFile(string fileName);
 		double ** getStructure();
+        string getCurrentParams();
 		//returns main neuron that represent this input vector
         void clearWinners();
 		//int neuronClassId(double * inputVector);

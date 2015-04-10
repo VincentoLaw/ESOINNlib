@@ -188,8 +188,16 @@ double Esoinn::calcEuclidNorm(double * vector1, double * vector2, int n)
     for(int i = 0; i < n; i++)
 	{
         res += pow(vector1[i] - vector2[i], 2);
+        //if (vector1[i] != 0)
+        //    cout << "v1=" << vector1[i] << " ";
+        //if (vector2[i] != 0)
+        //    cout << "v2=" << vector2[i] << " ";
 	}
+    //if (res != 0)
+    //    cout << "res1=" << res << endl;
 	res = sqrt(res);
+    //if (res != 0)
+    //    cout << "res2=" << res << endl;
 	return res;
 }
 
@@ -547,7 +555,6 @@ void Esoinn::updateClassLabels()
 //TODO: implement this function
 void Esoinn::inputSignal(double* inputVector)
 {
-
 /*-----------------1.Initialize-set-of-2-neurons-with-2-first-weights-taken-from-input*/
     if (neuronsList.size() < 2)//better count of all input signals
     {    
@@ -666,6 +673,11 @@ void Esoinn::writeStructureToFile(string fileName)
         out << "\n";
     }
 }
+
+string Esoinn::getCurrentParams(){
+    return "Neurons count: " + to_string(neuronsList.size()) + ", Connections count: " + to_string(connectionsList.size()) + ", Clusters count: " + to_string(clustersList.size());
+}
+
 double ** Esoinn::getStructure()
 {
     //std::ofstream out(fileName.c_str(),  std::ofstream::out);
