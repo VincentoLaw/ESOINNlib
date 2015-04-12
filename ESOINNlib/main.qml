@@ -126,6 +126,7 @@ Window {
 
                 var time_diff = time_ring(end_time.getMinutes() - beg_time.getMinutes(), "m") + "m. " + time_ring(end_time.getSeconds() - beg_time.getSeconds(), "s") + "." + time_ring(end_time.getMilliseconds() - beg_time.getMilliseconds(), "ms") + "s.";
                 learnResultsText.text = dataEx.currentNNparams + ", Time elapsed: " + time_diff;
+                dataEx.saveMainVectors = "a";
                 dataShowTimer.running = true;
             }
 

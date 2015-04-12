@@ -809,8 +809,26 @@ void Esoinn::loadStateFromFile(string fileName){
     }
 }
 
+bool comparator(cluster a, cluster b){
+    return a->neuronsList.size() > b->neuronsList.size();
+}
 
-
+double ** Esoinn::getTopVectors(int cnt){
+    vector<cluster> cl;
+    for (auto &it: clustersList){
+        cl.push_back(it);
+    }
+    sort(cl.begin(), cl.end(), comparator);
+    double ** result = new double*[cnt];
+    for (int i = 0; i < cnt; i++){
+        result[i] = new double[27*27];
+        if (cl[i]->apex != nullptr)
+            for (int j = 0; j < 27*27; j++)
+                result[i][j] = cl[i]->apex->weights[j];
+        else result[i][0] = -1;
+    }
+    return result;
+}
 
 
 

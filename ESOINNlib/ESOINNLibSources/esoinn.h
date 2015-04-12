@@ -131,6 +131,7 @@ class Esoinn
 		/*+*/void writeStructureToFile(string fileName);
 		double ** getStructure();
         string getCurrentParams();
+        double ** getTopVectors(int cnt);
 		//returns main neuron that represent this input vector
         void clearWinners();
 		//int neuronClassId(double * inputVector);

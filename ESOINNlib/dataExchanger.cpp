@@ -84,6 +84,25 @@ QString dataExchanger::currentNNparams() const
     return m_currentNNparams;
 }
 
+QString dataExchanger::saveMainVectors() const{
+    return "";
+}
+
+void dataExchanger::setSaveMainVectors(const QString & str){
+    double ** vects = es->getTopVectors(100);
+    for (int i = 0; i < 100; i++){
+        uchar * arr = new uchar[28*28*4];
+        if (vects[i][0] != -1){
+            for (int j = 0; j < 28*28*4; j+=4){
+                arr[j + 3] = 255;
+                arr[j + 2] = arr[j + 1] = arr[j] = vects[i][j/4];
+            }
+            QImage * qim = new QImage(arr,28,28,QImage::Format_ARGB32);
+            qim->save("image" + QString::number(i) + ".png");
+        }
+    }
+}
+
 void dataExchanger::setCurrentNNparams(const QString &str){
     m_currentNNparams = str;
 }
@@ -241,6 +260,19 @@ void dataExchanger::setLoadVector(const QUrl &filePath){
     for (auto &it: vects){
         vectors[i++] = it;
     }
+
+
+    /*for (int i = 0; i < 10; i++){
+
+    uchar * arr = new uchar[28*28*4];
+    for (int j = 0; j < 28*28*4; j+=4){
+        arr[j] = 255;
+        arr[j + 2] = arr[j + 1] = arr[j + 3] = vectors[i][j/4];
+    }
+    QImage * qim = new QImage(arr,28,28,QImage::Format_ARGB32);
+    qim->save("/home/vincento/Desktop/image0" + QString::number(i) +".png");
+    }*/
+
     m_dimensionsCnt = dimSize;
 }
 
