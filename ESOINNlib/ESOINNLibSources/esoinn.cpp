@@ -89,25 +89,35 @@ void Esoinn::removeNeuron(vertex neuronToRemove)
 		else ++it;
 	}
 	
-
+    cluster buf;
     for(auto &it : clustersList)
 	{
-        it->neuronsList.remove(neuronToRemove);
-        if (it->getApex() == neuronToRemove)
-        {
-
-            it->setApex(nullptr);
-            if(it->findApex())
+       int size1, size2;
+       size1 = it->neuronsList.size();
+       it->neuronsList.remove(neuronToRemove);
+       size2 = it->neuronsList.size();
+       if(abs(size2 - size1))
+       {
+            buf = it;
+            if (it->getApex() == neuronToRemove)
             {
-                it->setId(it->getApex()->getId());
-            }
-            else
-            {
-                it->setId(-1);
-            }
 
+                it->setApex(nullptr);
+                if(it->findApex())
+                {
+                    it->setId(it->getApex()->getId());
+                }
+                else
+                {
+                    it->setId(-1);
+                }
+
+
+            }
+            break;
         }
-    }
+  }
+    if(!buf->neuronsList.size()) clustersList.remove(buf);
     neuronToRemove->neighboursList.clear();
     neuronToRemove->setCluster(nullptr);
     //cout << neuronToRemove.use_count() << endl;
@@ -548,8 +558,14 @@ void Esoinn::removeNoise()
 void Esoinn::updateClassLabels()
 {
     markClasses();
+
     separateToSubclasses();
     removeNoise();
+
+    for(auto &it : clustersList)
+    {
+        if(!it->neuronsList.size()) qDebug() << "ho" << "\n";
+    }
 }
 
 //TODO: implement this function
@@ -615,11 +631,15 @@ void Esoinn::inputSignal(double* inputVector)
     /*-----------------9.Find-old-edges-and-remove-them---------------------------------*/
     removeOldConnections();
     /*-----------------9.end.-----------------------------------------------------------*/
-
     /*---------------- 10.Separate-all-classes-on--subclasses---------------------------*/
-    if(!(this->LT % this->lambda)) updateClassLabels();
+    if(!(this->LT % this->lambda))
+    {
+        updateClassLabels();
+
+    }
 	/*---------------- 10.end.----------------------------------------------------------*/
-	/*-----------------11.-Delete-nodes-polluted-by-noise-------  ----------------------*/		
+    /*-----------------11.-Delete-nodes-polluted-by-noise-------  ----------------------*/
+
     this->LT++;
     /*-----------------11.end.----------------------------------------------------------*/
 
