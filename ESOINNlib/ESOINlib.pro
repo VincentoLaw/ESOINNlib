@@ -8,7 +8,9 @@ SOURCES +=ESOINNLibSources/cluster.cpp \
     ESOINNLibSources/neuron.cpp \
     main.cpp \
     dataExchanger.cpp \
-    ESOINNLibSources/hasharray.cpp
+    ESOINNLibSources/hasharray.cpp \
+    ESOINNLibSources/simpleam.cpp \
+    ESOINNLibSources/timesensesequenceam.cpp
 
 
 RESOURCES += qml.qrc
@@ -28,5 +30,7 @@ HEADERS += \
     ESOINNLibSources/neuron.h \
     dataExchanger.h \
     hasharray.h \
-    ESOINNLibSources/hasharray.h
+    ESOINNLibSources/hasharray.h \
+    ESOINNLibSources/simpleam.h \
+    ESOINNLibSources/timesensesequenceam.h
 
