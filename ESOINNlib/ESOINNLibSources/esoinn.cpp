@@ -850,6 +850,24 @@ double ** Esoinn::getTopVectors(int cnt){
     return result;
 }
 
+vertex Esoinn::getPattern(double * inputVector){
+    vertex firstWinner = nullptr;
+    vertex secondWinner = nullptr;
+    findWiner(inputVector, firstWinner, secondWinner);
+    if (firstWinner && firstWinner->getCluster())
+        return firstWinner->getCluster()->getApex();
+    else return nullptr;
+}
+
+vertex Esoinn::getNeuronPatern(vertex n){
+    if (n->getCluster()){
+        if (n->getCluster()->getApex() == n)
+            return n;
+        else return n->getCluster()->getApex();
+    }
+    else return nullptr;
+}
+
 
 
 

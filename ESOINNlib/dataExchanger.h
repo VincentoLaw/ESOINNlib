@@ -45,6 +45,7 @@
 #include <QImage>
 #include <string>
 #include "ESOINNLibSources/esoinn.h"
+#include "ESOINNLibSources/simpleam.h"
 //![0]
 
 typedef QUrl imgType;
@@ -109,6 +110,8 @@ public:
     double ** normalizedVectors;
     int dimSize;
     int vectorsCnt;
+
+    SimpleAM am;
 
 private:
     QString m_structureData;

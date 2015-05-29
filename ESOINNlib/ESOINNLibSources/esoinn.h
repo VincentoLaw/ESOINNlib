@@ -139,6 +139,9 @@ class Esoinn
         void saveStateToFile(string fileName);
         void loadStateFromFile(string fileName);
 
+        vertex getPattern(double * inputVector);
+        vertex getNeuronPatern(vertex n);
+
 		//bool saveNetworkData(string fileName);
         //bool loadNetworkData(string fileName);
 
