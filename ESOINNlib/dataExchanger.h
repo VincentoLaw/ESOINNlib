@@ -111,7 +111,7 @@ public:
     int dimSize;
     int vectorsCnt;
 
-    SimpleAM am;
+    //SimpleAM am;
 
 private:
     QString m_structureData;
