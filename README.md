@@ -33,7 +33,7 @@ This Neural network can be used separate from other project for image recognitio
 
 On MNIST data ESOINN found 20 clusters, we marked them and it had 100% recognition rate.
 Each vector had 784 dimmensions. Here is typical neurons of each cluster:
-![alt text](https://github.com/VincentoLaw/ESOINNlib/blob/master/eso3.jpg?raw=true)
+![alt text](https://github.com/VincentoLaw/ESOINNlib/blob/master/eso6.jpg?raw=true)
 
 Examples of 2-dimmensional data clustarization:
 ![alt text](https://github.com/VincentoLaw/ESOINNlib/blob/master/eso3.jpg?raw=true)
