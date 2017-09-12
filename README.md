@@ -30,3 +30,6 @@ This Neural network can be used separate from other project for image recognitio
 
 
 4) Canvas with the current structure of the ESOINN. It represents nodes of ESOINN as points, connections of ESOINN as lines.
+
+Example of work:
+![alt text](https://github.com/VincentoLaw/ESOINNlib/blob/master/eso1.jpg?raw=true)
