@@ -32,7 +32,7 @@ This Neural network can be used separate from other project for image recognitio
 4) Canvas with the current structure of the ESOINN. It represents nodes of ESOINN as points, connections of ESOINN as lines.
 
 On MNIST data ESOINN found 20 clusters, we marked them and it had 100% recognition rate.
-Here is typical neurons of each cluster:
+Each vector had 784 dimmensions. Here is typical neurons of each cluster:
 ![alt text](https://github.com/VincentoLaw/ESOINNlib/blob/master/eso3.jpg?raw=true)
 
 Examples of 2-dimmensional data clustarization:
