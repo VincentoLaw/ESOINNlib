@@ -2,7 +2,7 @@
 #define SIMPLEAM_H
 #include "ESOINNLibSources/neuron.h"
 #include "ESOINNLibSources/esoinn.h"
-
+/*
 class AMConnection{
 public:
     AMConnection();
@@ -30,6 +30,6 @@ public:
     void learn(double ** inputs);
     double ** getAssotiation(double ** inputs);
     list<AMNeuron*> * neurons;
-};
+};*/
 
 #endif // SIMPLEAM_H
