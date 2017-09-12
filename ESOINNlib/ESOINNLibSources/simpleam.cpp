@@ -1,6 +1,6 @@
 #include "simpleam.h"
 
-AMConnection::AMConnection(){}
+/*AMConnection::AMConnection(){}
 
 AMNeuron::AMNeuron(){
     connections = new list<AMConnection>();
@@ -113,7 +113,7 @@ double ** SimpleAM::getAssotiation(double * input, int sense_id){
         }
     }
     else return NULL;
-
+*/
     /*list<AMNeuron *> assotiations = new list<AMNeuron *>();
     for (int i = 0; i < sensesCount; i++){
         vertex new_pattern = senses[i].getPattern(inputs[i]);
@@ -138,4 +138,4 @@ double ** SimpleAM::getAssotiation(double * input, int sense_id){
     for (auto &it : assotiations){
 
     }*/
-}
+/*}*/
