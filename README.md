@@ -35,8 +35,7 @@ On MNIST data ESOINN found 14 clusters, we marked them and it had 100% recogniti
 becouse vector is 784 dimmensional.
 
 Examples of 2-dimmensional data clustarization:
-![alt text](https://github.com/VincentoLaw/ESOINNlib/blob/master/eso1.jpg?raw=true)
-![alt text](https://github.com/VincentoLaw/ESOINNlib/blob/master/eso2.jpg?raw=true)
 ![alt text](https://github.com/VincentoLaw/ESOINNlib/blob/master/eso3.jpg?raw=true)
+![alt text](https://github.com/VincentoLaw/ESOINNlib/blob/master/eso2.jpg?raw=true)
 ![alt text](https://github.com/VincentoLaw/ESOINNlib/blob/master/eso4.jpg?raw=true)
 ![alt text](https://github.com/VincentoLaw/ESOINNlib/blob/master/eso5.jpg?raw=true)
