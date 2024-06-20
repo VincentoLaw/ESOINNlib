@@ -20,6 +20,8 @@ UI Description:
 3. Canvas: Displays the current structure of the ESOINN, representing the nodes as points and the connections as lines.
 
 
+Usage examples:
+
 On MNIST data ESOINN found 20 clusters, we marked them and it had 98.21% recognition rate.
 Each vector had 784 dimmensions. Here is typical neurons of each cluster:
 ![alt text](https://github.com/VincentoLaw/ESOINNlib/blob/master/eso6.jpg?raw=true)
